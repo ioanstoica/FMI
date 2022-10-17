@@ -1,0 +1,11 @@
+squares_sum :: Integer -> Integer -> Integer
+squares_sum x y = x*x + y*y
+
+paritate :: Integer -> String
+paritate x = if ((mod x 2)== 0) then "par" else "impar"
+
+factorial :: Integer -> Integer
+factorial x = if ( x == 0 ) then 1 else x* factorial(x-1) 
+
+check_double :: Integer -> Integer -> Bool  
+check_double x y = if ( x > 2 * y) then True else False
