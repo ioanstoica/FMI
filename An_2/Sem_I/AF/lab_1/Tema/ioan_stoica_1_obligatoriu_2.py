@@ -1,5 +1,5 @@
 # Stoica Ioan, gr. 251
-# 28.10.2022 lab1 prob1
+# 28.10.2022 lab1 prob2
 
 # 2. https://csacademy.com/contest/archive/task/check-dfs
 # In this problem you are given a graph with NN nodes and MM edges 
