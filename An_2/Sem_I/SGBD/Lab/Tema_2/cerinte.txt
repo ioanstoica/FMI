@@ -55,3 +55,17 @@ END;
 a. Încercați să rezolvați problema în SQL fără a folosi structuri ajutătoare.
 b. Definiți tabelul octombrie_*** (id, data). Folosind PL/SQL populați cu date acest tabel. Rezolvați în SQL problema dată.
 
+DECLARE
+    day date := to_date('01/10/2022', 'dd/mm/yyyy');
+    last_day date  := to_date('31/10/2022', 'dd/mm/yyyy');
+BEGIN
+    LOOP
+        IF day > last_day THEN
+            EXIT;
+        END IF;
+        DBMS_OUTPUT.put_line(day);
+        INSERT INTO octombrie_is values (1, day);
+        day := day+1;
+    END LOOP;
+END;
+    

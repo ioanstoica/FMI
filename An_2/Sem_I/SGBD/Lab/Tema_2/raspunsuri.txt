@@ -1,10 +1,49 @@
 Stoica Ioan, grupa 251
 
 1.
-    a) 2
-    b) text 2
-    c) text 3 adaugat in sub-bloc
-    d) 101
-    e) text 1 adaugat un blocul principal
-    f) text 2 adaugat in blocul principal
+a) 2
+b) text 2
+c) text 3 adaugat in sub-bloc
+d) 101
+e) text 1 adaugat un blocul principal
+f) text 2 adaugat in blocul principal
+
 2. 
+a) 
+select book_date, count (book_date)
+from rental
+group by book_date;
+
+b)
+drop table octombrie_is;
+
+create TABLE octombrie_is
+(
+    id int,
+    data DATE
+);
+DECLARE
+    id int := 1;
+    day date := to_date('01/10/2022', 'dd/mm/yyyy');
+    last_day date  := to_date('31/10/2022', 'dd/mm/yyyy');
+BEGIN
+    LOOP
+        IF day > last_day THEN
+            EXIT;
+        END IF;
+        DBMS_OUTPUT.put_line(day);
+        INSERT INTO octombrie_is values (id, day);
+        day := day+1;
+        id := id+1;
+    END LOOP;
+END;
+    
+select * from octombrie_is;
+
+select * 
+from rental 
+inner join octombrie_is 
+on octombrie_is.data = rental.book_date;
+
+
+
