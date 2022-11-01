@@ -1,0 +1,57 @@
+1. Se dă următorul bloc:
+
+DECLARE 
+    numar number(3):=100; 
+    mesaj1 varchar2(255):='text 1'; 
+    mesaj2 varchar2(255):='text 2';
+BEGIN 
+    DECLARE 
+        numar number(3):=1; 
+        mesaj1 varchar2(255):='text 2'; 
+        mesaj2 varchar2(255):='text 3';
+    BEGIN 
+        numar:=numar+1; 
+        mesaj2:=mesaj2 || ' adaugat in sub-bloc'; 
+    END; 
+    numar:=numar+1; 
+    mesaj1:=mesaj1||' adaugat un blocul principal'; 
+    mesaj2:=mesaj2||' adaugat in blocul principal'; 
+END;
+
+a) Valoarea variabilei numar în subbloc este:
+b) Valoarea variabilei mesaj1 în subbloc este:
+c) Valoarea variabilei mesaj2 în subbloc este:
+d) Valoarea variabilei numar în bloc este:
+e) Valoarea variabilei mesaj1 în bloc este:
+f) Valoarea variabilei mesaj2 în bloc este:
+Verificați răspunsul.
+
+Solutie: 
+DECLARE 
+    numar number(3):=100; 
+    mesaj1 varchar2(255):='text 1'; 
+    mesaj2 varchar2(255):='text 2';
+BEGIN 
+    DECLARE 
+        numar number(3):=1; 
+        mesaj1 varchar2(255):='text 2'; 
+        mesaj2 varchar2(255):='text 3';
+    BEGIN 
+        numar:=numar+1; 
+        mesaj2:=mesaj2 || ' adaugat in sub-bloc'; 
+        DBMS_OUTPUT.PUT_LINE('a) ' || numar);
+        DBMS_OUTPUT.PUT_LINE('b) ' || mesaj1);
+        DBMS_OUTPUT.PUT_LINE('c) ' || mesaj2);
+    END; 
+    numar:=numar+1; 
+    mesaj1:=mesaj1||' adaugat un blocul principal'; 
+    mesaj2:=mesaj2||' adaugat in blocul principal';
+    DBMS_OUTPUT.PUT_LINE('d) ' || numar);
+    DBMS_OUTPUT.PUT_LINE('e) ' || mesaj1);
+    DBMS_OUTPUT.PUT_LINE('f) ' || mesaj2);
+END;
+
+2. Se dă următorul enunț: Pentru fiecare zi a lunii octombrie (se vor lua în considerare și zilele din lună în care nu au fost realizate împrumuturi) obțineți numărul de împrumuturi efectuate.
+a. Încercați să rezolvați problema în SQL fără a folosi structuri ajutătoare.
+b. Definiți tabelul octombrie_*** (id, data). Folosind PL/SQL populați cu date acest tabel. Rezolvați în SQL problema dată.
+

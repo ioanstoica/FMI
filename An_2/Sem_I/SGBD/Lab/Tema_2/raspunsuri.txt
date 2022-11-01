@@ -1,0 +1,10 @@
+Stoica Ioan, grupa 251
+
+1.
+    a) 2
+    b) text 2
+    c) text 3 adaugat in sub-bloc
+    d) 101
+    e) text 1 adaugat un blocul principal
+    f) text 2 adaugat in blocul principal
+2. 
