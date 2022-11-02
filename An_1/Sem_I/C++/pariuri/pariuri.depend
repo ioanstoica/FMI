@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1652700102 source:f:\c++\pariuri\main.cpp
+	<iostream>
+	<fstream>
+	<map>
+

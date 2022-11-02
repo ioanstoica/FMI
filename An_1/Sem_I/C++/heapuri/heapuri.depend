@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1652716035 source:f:\c++\heapuri\main.cpp
+	<iostream>
+	<fstream>
+	<map>
+

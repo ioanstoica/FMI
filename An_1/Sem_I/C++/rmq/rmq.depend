@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1652882609 source:f:\c++\rmq\main.cpp
+	<iostream>
+	<fstream>
+	<math.h>
+

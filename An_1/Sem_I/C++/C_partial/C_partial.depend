@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1653913827 source:f:\c++\c_partial\main.c
+	<stdio.h>
+	<stdlib.h>
+

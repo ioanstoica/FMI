@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1652919492 source:f:\c++\codeforce874b\main.cpp
+	<iostream>
+	<list>
+	<vector>
+

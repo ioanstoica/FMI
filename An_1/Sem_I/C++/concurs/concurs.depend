@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1652912824 source:f:\c++\concurs\main.cpp
+	<iostream>
+	<fstream>
+	<list>
+	<math.h>
+

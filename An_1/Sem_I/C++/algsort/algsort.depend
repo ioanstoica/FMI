@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1651666806 source:f:\c++\algsort\main.cpp
+	<iostream>
+	<fstream>
+	<ctime>
+
