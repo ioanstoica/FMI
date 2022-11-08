@@ -4,7 +4,7 @@
 
 # b) Modificați programul de la a) astfel încât să determine (dacă există) un arbore parțial de cost cât mai mic care să conțină 3muchii ale căror extremități se citesc de la tastatură.Se vor afișa muchiile arborelui determinat.
 
-# Minimum cost partial tree with 3 edges from keyboard
+# Minimum spanning tree with 3 edges from keyboard
 
 # read from apm.in n,m and a list with edges and costs
 with open('apm_b.in', 'r') as f:
