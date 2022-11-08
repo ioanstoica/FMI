@@ -40,56 +40,55 @@ def union(x, y):
 # Kruskal's algorithm
 solution1 = []
 cost1 = 0
-for edge in edges:
-    if get_root(edge[0]) != get_root(edge[1]):
-        cost1 += edge[2]
-        union(edge[0], edge[1])
+for edge_to_remove in edges:
+    if get_root(edge_to_remove[0]) != get_root(edge_to_remove[1]):
+        cost1 += edge_to_remove[2]
+        union(edge_to_remove[0], edge_to_remove[1])
         # save the edge in the solution
-        solution1.append(edge)
+        solution1.append(edge_to_remove)
 
 # write to grafpon.out the cost
 with open('grafpond.out', 'w') as f:
     f.write("Primul\n")
     f.write(str(cost1)+'\n' + str(n-1) + '\n')
-    for edge in solution1:
-        f.write(str(edge[0]) + ' ' + str(edge[1]) + '\n')
+    for edge_to_remove in solution1:
+        f.write(str(edge_to_remove[0]) + ' ' + str(edge_to_remove[1]) + '\n')
 
-#  Second best minimum spanning tree
-#  initialize the disjoint set
-parent = [i for i in range(n + 1)]
-rank = [0 for i in range(n + 1)]
+
 
 # var costmin = infinit
 costmin = 1000000000
 solutionmin = []
 
-for edge in solution1:
+for edge_to_remove in solution1:
     # delete edge from edges
-    edges.remove(edge)
+
+    #  Second best minimum spanning tree
+    #  initialize the disjoint set
+    parent = [i for i in range(n + 1)]
+    rank = [0 for i in range(n + 1)]
 
     # Kruskal's algorithm
     solution2 = []
     cost2 = 0
     for edge in edges:
-        if get_root(edge[0]) != get_root(edge[1]):
-            cost2 += edge[2]
-            union(edge[0], edge[1])
-            # save the edge in the solution
-            solution2.append(edge)
+        if edge!= edge_to_remove:
+            if get_root(edge[0]) != get_root(edge[1]):
+                cost2 += edge[2]
+                union(edge[0], edge[1])
+                # save the edge in the solution
+                solution2.append(edge)
 
     # save the best solution
-    if cost2 < costmin:
+    if cost2 < costmin and len(solution2) == n-1:
         costmin = cost2
         solutionmin = solution2
-
-    # add edge to edges
-    edges.append(edge)
 
 # write to grafpon.out the cost
 with open('grafpond.out', 'a') as f:
     f.write("Al doilea\n")
     f.write(str(costmin)+'\n' + str(n-1) + '\n')
-    for edge in solutionmin:
-        f.write(str(edge[0]) + ' ' + str(edge[1]) + '\n')
+    for edge_to_remove in solutionmin:
+        f.write(str(edge_to_remove[0]) + ' ' + str(edge_to_remove[1]) + '\n')
 
 
