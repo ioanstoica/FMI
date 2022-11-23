@@ -1,0 +1,3 @@
+Tema consta in finalizarea exercitiilor care contin cuvantul TEMA​ 
+din prima parte a Laboratorului 3 PLSQL si exercitiile de la 1 la 5 din a doua parte. 
+(pentru exercitiile de la 2 la 5 este suficient sa rezolvati cu un singur tip de cursor)
