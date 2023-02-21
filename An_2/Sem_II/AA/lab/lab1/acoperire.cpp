@@ -2,38 +2,66 @@
 #include <algorithm>
 using namespace std;
 
-// declare a Point structure
-struct Point
+class Point
 {
-    long long x;
-    long long y;
+public:
+    long long x = 0, y = 0;
+    Point() {}
+    Point(long long x, long long y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+
+    bool operator<(const Point &other) const
+    {
+        if (x == other.x)
+            return y < other.y;
+        return x < other.x;
+    }
+
+    bool operator==(const Point &other) const
+    {
+        return x == other.x && y == other.y;
+    }
+
+    // overload the << operator to print a Point
+    friend ostream &operator<<(ostream &os, const Point &p)
+    {
+        os << p.x << " " << p.y << endl;
+        return os;
+    }
+
+    // overload the >> operator to read a Point
+    friend istream &operator>>(istream &is, Point &p)
+    {
+        is >> p.x >> p.y;
+        return is;
+    }
 };
 
-// declare a function that calculates the determinant of a 3x3 matrix
-bool isleft(Point P, Point Q, Point R)
+long long det(Point P, Point Q, Point R)
 {
-    return P.x * Q.y + Q.x * R.y + R.x * P.y - P.y * Q.x - Q.y * R.x - R.y * P.x > 0;
+    return P.x * Q.y + Q.x * R.y + R.x * P.y - P.y * Q.x - Q.y * R.x - R.y * P.x;
 }
-Point P[100002];
-Point Q1[100002];
-Point Q2[100002];
+bool is_in_right(Point P, Point Q, Point R)
+{
+    return det(P, Q, R) > 0;
+}
+
+Point P[100002], Q1[100002], Q2[100002];
 
 int main()
 {
     // read t and t Points
     long long t;
     cin >> t;
-
     for (long long i = 0; i < t; i++)
-        cin >> P[i].x >> P[i].y;
+        cin >> P[i];
 
     // Graham-Andrew
     // sort points by x, then by y, using sort from <algorithm>
-    sort(P, P + t, [](Point a, Point b)
-         {
-        if (a.x == b.x)
-            return a.y < b.y;
-        return a.x < b.x; });
+    sort(P, P + t);
 
     // create a queue of points
     long long q1 = 0;
@@ -46,7 +74,7 @@ int main()
     for (long long i = 2; i < t; i++)
     {
         Q1[q1++] = P[i];
-        while (q1 > 2 && !isleft(Q1[q1 - 3], Q1[q1 - 2], Q1[q1 - 1]))
+        while (q1 > 2 && !is_in_right(Q1[q1 - 3], Q1[q1 - 2], Q1[q1 - 1]))
         {
             Q1[q1 - 2] = Q1[q1 - 1];
             q1--;
@@ -63,22 +91,19 @@ int main()
     for (long long i = t - 2; i >= 0; i--)
     {
         Q2[q2++] = P[i];
-        while (q2 > 2 && !isleft(Q2[q2 - 3], Q2[q2 - 2], Q2[q2 - 1]))
+        while (q2 > 2 && !is_in_right(Q2[q2 - 3], Q2[q2 - 2], Q2[q2 - 1]))
         {
             Q2[q2 - 2] = Q2[q2 - 1];
             q2--;
         }
     }
-    // print the number of points in the queues
+
+    // print results
     cout << q1 + q2 - 2 << endl;
-
-    // print Q1
     for (long long i = 1; i < q1; i++)
-        cout << Q1[i].x << " " << Q1[i].y << endl;
-
-    // print Q2
+        cout << Q1[i];
     for (long long i = 1; i < q2; i++)
-        cout << Q2[i].x << " " << Q2[i].y << endl;
+        cout << Q2[i];
 
     return 0;
 }
