@@ -1,0 +1,38 @@
+https://github.com/cechirita/tehnici-web/tree/main/Laborator%201
+
+2. Folosind parserul de URL https://url-decode.com/tool/url-parser, parsați adresa https://boutique.tintin.com/en/s-1/search/albums-the_crab_with_the_golden_claws?search_query=milou pentru a găsi codul secret format din:
+ultimul caracter din protocol - s
+al treilea caracter din domeniu - n
+al doilea caracter din Tld - o
+penultimul caracter din file name - w
+ultimul caracter al atributului din query. - y
+
+3. https://www.tintin.com/en/characters/snowy#character
+
+4. https://tintin.fandom.com/fr/wiki/Milou
+
+5.
+Robotii sunt permisi? - da
+Is https://tintin.fandom.com/fr/wiki/Milou using HTTP/2? Yes
+Is https://tintin.fandom.com/fr/wiki/Milou using HTTP Compression? Yes
+
+6. n = (a+b)*s + s/(a+2b+c) + c
+s=200
+a=1
+b=1
+c=1
+n=2*s+s/4+1
+n=451 Unavailable For Legal Reasons
+Ray Bradbury
+
+7. Tintin
+https://tintin.mudhalla.net/
+https://www.tintin.mudhalla.net/
+
+8. font-family:Consolas;font-size:12pt;background-color:#000;
+
+
+
+
+
+
