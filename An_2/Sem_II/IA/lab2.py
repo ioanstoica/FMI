@@ -33,7 +33,7 @@ class NodParcurgere:
 
 
 class Graph:  # graful problemei
-    def __init__(self, start, scopuri, n, m):
+    def __init__(self, start, scopuri):
         self.start = start  # informatia nodului de start
         self.scopuri = scopuri  # lista cu informatiile nodurilor scop
 
@@ -114,7 +114,7 @@ with open("lab2.txt", "r") as f:
     Graph.n, Graph.m = [int(x) for x in f.readline().split()]
 
 # create a new Graph
-gr = Graph([Graph.n, Graph.n, 1], [[0, 0, 0]])
+gr = Graph((Graph.n, Graph.n, 1), [(0, 0, 0)])
 
 # print(gr.succesori(start))
 breadth_first(gr)
