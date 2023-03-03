@@ -7,7 +7,7 @@ public class ex2 {
     public static void main(String[] args) throws FileNotFoundException {
         // read n number from user and print the average and the sorted array
         // Scanner in = new Scanner(System.in);
-        Scanner in = new Scanner(new File("input.txt"));
+        Scanner in = new Scanner(new File("ex2.txt"));
         int n = in.nextInt();
         int[] arr = new int[n];
         int sum = 0;
