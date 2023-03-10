@@ -19,7 +19,21 @@ public class animale {
 
         // afisam tratamentele
         for (int i = 0; i < n; i++) {
-            System.out.println(tratamente[i].pret + " " + tratamente[i].descriere);
+            System.out.println(tratamente[i]);
+        }
+
+        // cream un vector de animale
+        animal[] animale = new animal[3];
+        // cream un caine
+        animale[0] = new caine(tratamente);
+        // cream o pisica
+        animale[1] = new pisica(tratamente);
+        // cream un papagal
+        animale[2] = new papagal(tratamente);
+
+        // afisam animalele
+        for (int i = 0; i < 3; i++) {
+            System.out.println(animale[i]);
         }
     }
 }
@@ -36,11 +50,30 @@ abstract class animal {
     String tip;
     tratament[] tratamente;
 
+    // constructorul clasei animal
+    animal() {
+    }
+
+    animal(tratament[] tratamente) {
+        this.tratamente = tratamente;
+    }
+
     abstract int factura();
 }
 
 // clasa caine, extinde clasa animal, si implementeaza metoda factura
 class caine extends animal {
+    // constructorul clasei caine
+    caine() {
+        tip = "caine";
+    }
+
+    caine(tratament[] tratamente) {
+        // call constructor of parent class
+        super(tratamente);
+        tip = "caine";
+    }
+
     int factura() {
         int total = 0;
         for (int i = 0; i < tratamente.length; i++) {
@@ -52,6 +85,17 @@ class caine extends animal {
 
 // clasa pisica, extinde clasa animal, si implementeaza metoda factura
 class pisica extends animal {
+    // cpnstructorul clasei pisica
+    pisica() {
+        tip = "pisica";
+    }
+
+    pisica(tratament[] tratamente) {
+        // call constructor of parent class
+        super(tratamente);
+        tip = "pisica";
+    }
+
     int factura() {
         int total = 0;
         for (int i = 0; i < tratamente.length; i++) {
@@ -63,6 +107,17 @@ class pisica extends animal {
 
 // clasa papagal, extinde clasa animal, si implementeaza metoda factura
 class papagal extends animal {
+    // constructorul clasei papagal
+    papagal() {
+        tip = "papagal";
+    }
+
+    papagal(tratament[] tratamente) {
+        // call constructor of parent class
+        super(tratamente);
+        tip = "papagal";
+    }
+
     int factura() {
         int total = 0;
         for (int i = 0; i < tratamente.length; i++) {
