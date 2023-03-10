@@ -11,9 +11,7 @@ public class animale {
         tratament[] tratamente = new tratament[n];
         // citim tratamentele
         for (int i = 0; i < n; i++) {
-            tratamente[i] = new tratament();
-            tratamente[i].pret = in.nextInt();
-            tratamente[i].descriere = in.next();
+            tratamente[i] = new tratament(in);
         }
         in.close();
 
@@ -22,6 +20,8 @@ public class animale {
         animale[0] = new caine(tratamente);// cream un caine
         animale[1] = new pisica(tratamente);// cream o pisica
         animale[2] = new papagal(tratamente);// cream un papagal
+
+        animale[0].tratamente[0].descriere = "Hymatil";// modificam pretul tratamentului
 
         // afisam animalele
         for (int i = 0; i < 3; i++) {
@@ -34,6 +34,22 @@ public class animale {
 class tratament {
     String descriere;
     int pret;
+
+    // constructorul clasei tratament
+    tratament() {
+    }
+
+    // constructorul de copiere al clasei tratament
+    tratament(tratament t) {
+        this.descriere = t.descriere;
+        this.pret = t.pret;
+    }
+
+    // constructorul clasei tratament cu parametrul Scanner in
+    tratament(Scanner in) {
+        descriere = in.next();
+        pret = in.nextInt();
+    }
 
     // suprascrierea metodei toString
     public String toString() {
@@ -53,7 +69,11 @@ abstract class animal {
     }
 
     animal(tratament[] tratamente) {
-        this.tratamente = tratamente;
+        // clone the array
+        this.tratamente = new tratament[tratamente.length];
+        for (int i = 0; i < tratamente.length; i++) {
+            this.tratamente[i] = new tratament(tratamente[i]);
+        }
     }
 
     abstract int factura();
@@ -64,7 +84,7 @@ abstract class animal {
         for (int i = 0; i < tratamente.length; i++) {
             s += tratamente[i].descriere + " ";
         }
-        s += " si pretul facturii este " + factura();
+        s += "si pretul facturii este " + factura();
         return s;
     }
 }
