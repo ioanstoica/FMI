@@ -17,19 +17,11 @@ public class animale {
         }
         in.close();
 
-        // afisam tratamentele
-        for (int i = 0; i < n; i++) {
-            System.out.println(tratamente[i]);
-        }
-
         // cream un vector de animale
         animal[] animale = new animal[3];
-        // cream un caine
-        animale[0] = new caine(tratamente);
-        // cream o pisica
-        animale[1] = new pisica(tratamente);
-        // cream un papagal
-        animale[2] = new papagal(tratamente);
+        animale[0] = new caine(tratamente);// cream un caine
+        animale[1] = new pisica(tratamente);// cream o pisica
+        animale[2] = new papagal(tratamente);// cream un papagal
 
         // afisam animalele
         for (int i = 0; i < 3; i++) {
@@ -42,6 +34,12 @@ public class animale {
 class tratament {
     String descriere;
     int pret;
+
+    // suprascrierea metodei toString
+    public String toString() {
+        return "Tratamentul " + descriere + " costa " + pret;
+    }
+
 }
 
 // clasa abstracta animal, cu campurile tip, lista tratamente, si o metoda
@@ -59,6 +57,16 @@ abstract class animal {
     }
 
     abstract int factura();
+
+    // suprascrierea metodei toString
+    public String toString() {
+        String s = "Animalul " + tip + " are tratamentele: ";
+        for (int i = 0; i < tratamente.length; i++) {
+            s += tratamente[i].descriere + " ";
+        }
+        s += " si pretul facturii este " + factura();
+        return s;
+    }
 }
 
 // clasa caine, extinde clasa animal, si implementeaza metoda factura
