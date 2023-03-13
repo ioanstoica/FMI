@@ -60,6 +60,20 @@ main h1 {
     text-align: center;
 }
 
+main h2 {
+    text-indent: 2em;
+}
+
+/* schimbați stilul listei ordonate cu un simbol ca o sageata */
+ol {
+    list-style-type: upper-roman;
+}
+
+/* schimbați spațierea elementelor iframe */
+/* iframe {
+    margin: 50px;
+} */
+
 /* colors:
 FEFFFE
 E5FCF5
