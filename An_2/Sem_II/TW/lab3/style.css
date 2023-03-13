@@ -1,0 +1,26 @@
+header,
+footer,
+main {
+    display: block;
+    border: 1px solid #000;
+    padding: 1em;
+    margin: 1em;
+}
+
+header {
+    background-color: #E5FCF5;
+}
+
+main {
+    background-color: #FEFFFE;
+}
+
+footer {
+    background-color: #B3DEC1;
+}
+
+/* colors:
+FEFFFE
+E5FCF5
+B3DEC1
+ */
