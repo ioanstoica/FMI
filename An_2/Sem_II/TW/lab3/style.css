@@ -35,6 +35,26 @@ footer {
     font-weight: normal;
 }
 
+a {
+    color: #2ba233;
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+    font-weight: normal;
+}
+
+nav a {
+    color: #000000;
+    font-size: 20px;
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+/* formatați titlul paginii (heading) */
+
+
+
 /* colors:
 FEFFFE
 E5FCF5
