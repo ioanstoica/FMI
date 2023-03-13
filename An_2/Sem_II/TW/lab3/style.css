@@ -51,9 +51,14 @@ nav a {
     text-decoration: underline;
 }
 
-/* formatați titlul paginii (heading) */
+heading {
+    font-family: 'Verdana', sans-serif;
+    color: #000000;
+}
 
-
+main h1 {
+    text-align: center;
+}
 
 /* colors:
 FEFFFE
