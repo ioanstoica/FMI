@@ -1,3 +1,5 @@
+import copy
+
 # informatii despre un nod din arborele de parcurgere (nu nod din graful initial)
 class NodParcurgere:
    def __init__(self, info,g=0, h=0,  parinte=None):
@@ -44,25 +46,34 @@ class Graph:  # graful problemei
    # va genera succesorii sub forma de noduri in arborele de parcurgere
    def succesori(self, nodCurent):
        listaSuccesori = []
-       for i in range(self.nrNoduri):
-           if self.matrice[nodCurent.info][i] > 0:
-               nodNou = NodParcurgere(info=i,
-                       g=nodCurent.g+self.matrice[nodCurent.info][i],
-                       h=self.estimeaza_h(i),
-                       parinte=nodCurent)
-               if not nodNou.vizitat():
-                   listaSuccesori.append(nodNou)
+       for istiva, stiva in enumerate(nodCurent.info):
+          if not stiva:
+                continue
+          copieStive = copy.deepcopy(nodCurent.info)
+          bloc = copieStive[istiva].pop()
+          for istiva2, stiva2 in enumerate(copieStive):
+              if istiva2 == istiva:
+                  continue
+              stareNoua = copy.deepcopy(copieStive)
+              stareNoua[istiva2].append(bloc)
+              nodNou = NodParcurgere(stareNoua, g=nodCurent.g + 1, h=self.estimeaza_h(stareNoua), parinte=nodCurent)
+              if not nodNou.vizitat():
+                  listaSuccesori.append(nodNou)
+
        return listaSuccesori
 
    def scop(self, infoNod):
        return infoNod in self.scopuri
 
-   def estimeaza_h(self, infoNod):
-       return self.lista_h[infoNod]
+   def estimeaza_h(self, infoNod, euristica="banala"):
+       if self.scop(infoNod):
+           return 0
+       elif euristica == "banala":
+           return 1
    
    def valideaza(self):
        nrStiveStart = len(self.start)
-       cond1 = all([len(scop) == nrStiveStart for scop in self.start])
+       cond1 = all([len(scop) == nrStiveStart for scop in self.scopuri])
        blocuriStart = sorted(sum(self.start, start = []))
        cond2 = all([blocuriStart == sorted(sum(scop, start = [])) for scop in self.scopuri])
        return cond1 and cond2
@@ -85,7 +96,10 @@ gr = Graph(start, scopuri)
 
 if not gr.valideaza():
     print("Datele de intrare nu sunt valide!")
-    exit(0)
+    exit()
+
+print(start)
+print(scopuri)
 
 def bin_search(listaNoduri, nodNou, ls, ld):
    if len(listaNoduri)==0:
