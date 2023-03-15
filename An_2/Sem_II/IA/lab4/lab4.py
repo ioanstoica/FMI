@@ -37,12 +37,9 @@ class NodParcurgere:
 
 class Graph:  # graful problemei
 
-   def __init__(self, matrice, start, scopuri, lista_h):
-       self.matrice = matrice
-       self.nrNoduri = len(matrice)
+   def __init__(self, start, scopuri):
        self.start = start  # informatia nodului de start
        self.scopuri = scopuri  # lista cu informatiile nodurilor scop
-       self.lista_h=lista_h
 
    # va genera succesorii sub forma de noduri in arborele de parcurgere
    def succesori(self, nodCurent):
@@ -62,17 +59,33 @@ class Graph:  # graful problemei
 
    def estimeaza_h(self, infoNod):
        return self.lista_h[infoNod]
-
+   
+   def valideaza(self):
+       nrStiveStart = len(self.start)
+       cond1 = all([len(scop) == nrStiveStart for scop in self.start])
+       blocuriStart = sorted(sum(self.start, start = []))
+       cond2 = all([blocuriStart == sorted(sum(scop, start = [])) for scop in self.scopuri])
+       return cond1 and cond2
 
 
 ##############################################################################################
 #                                 Initializare problema                                      #
 ##############################################################################################
 
+def calculeazaStiva(sirStiva):
+    return [st.strip().split() if st!="#" else [] for st in sirStiva.strip().split("\n")]
+
 f = open("input.txt", "r")
 sirStart, sirScopuri = f.read().split("=========")
 
-gr = Graph(m, start, scopuri, lista_h)
+start = calculeazaStiva(sirStart)
+scopuri = [calculeazaStiva(scop) for scop in sirScopuri.strip().split("---")]
+
+gr = Graph(start, scopuri)
+
+if not gr.valideaza():
+    print("Datele de intrare nu sunt valide!")
+    exit(0)
 
 def bin_search(listaNoduri, nodNou, ls, ld):
    if len(listaNoduri)==0:
