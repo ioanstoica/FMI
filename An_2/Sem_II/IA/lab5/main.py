@@ -1,3 +1,5 @@
+import copy
+
 # informatii despre un nod din arborele de parcurgere (nu nod din graful initial)
 class NodParcurgere:
    def __init__(self, info,g=0, h=0,  parinte=None):
@@ -37,53 +39,78 @@ class NodParcurgere:
 
 class Graph:  # graful problemei
 
-   def __init__(self, matrice, start, scopuri, lista_h):
-       self.matrice = matrice
-       self.nrNoduri = len(matrice)
+   def __init__(self, start, scopuri):
        self.start = start  # informatia nodului de start
        self.scopuri = scopuri  # lista cu informatiile nodurilor scop
-       self.lista_h=lista_h
 
    # va genera succesorii sub forma de noduri in arborele de parcurgere
    def succesori(self, nodCurent):
        listaSuccesori = []
-       for i in range(self.nrNoduri):
-           if self.matrice[nodCurent.info][i] > 0:
-               nodNou = NodParcurgere(info=i,
-                       g=nodCurent.g+self.matrice[nodCurent.info][i],
-                       h=self.estimeaza_h(i),
-                       parinte=nodCurent)
-               if not nodNou.vizitat():
-                   listaSuccesori.append(nodNou)
+       gasit = False
+       for lGol in range(3):
+              for cGol in range(3):
+                if nodCurent.info[lGol][cGol] == 0:
+                     gasit = True
+                     break
+              if gasit:
+                break
+       directii = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+       for d in directii:
+              lPlacuta = lGol + d[0]
+              cPlacuta = cGol + d[1]
+              if lPlacuta >= 0 and lPlacuta < 3 and cPlacuta >= 0 and cPlacuta < 3:
+                    stareNoua = copy.deepcopy(nodCurent.info)
+                    stareNoua[lGol][cGol] = stareNoua[lPlacuta][cPlacuta]
+                    stareNoua[lPlacuta][cPlacuta] = 0
+                    nodNou = NodParcurgere(stareNoua, nodCurent.g + 1, self.estimeaza_h(), nodCurent)
+                    if not nodNou.vizitat():
+                            listaSuccesori.append(nodNou)
        return listaSuccesori
-
+   
    def scop(self, infoNod):
        return infoNod in self.scopuri
 
-   def estimeaza_h(self, infoNod):
-       return self.lista_h[infoNod]
+   def estimeaza_h(self):
+       return 0
+   
+   def valideaza(self):
+       if len(self.start) != 3:
+           return False
+       if any([len(linie) != 3 for linie in self.start]):
+           return False
+       matriceDesfasurata = sum(self.start, start=[])
+       if sorted(matriceDesfasurata) != list(range(9)):
+            return False
+       nrInversiuni = 0
+       for i in range(len(matriceDesfasurata)):
+              if matriceDesfasurata[i] == 0:
+                continue
+              for j in range(i+1, len(matriceDesfasurata)):
+                  if matriceDesfasurata[j] == 0:
+                    continue
+                  if matriceDesfasurata[i] > matriceDesfasurata[j]:
+                    nrInversiuni += 1
+       if nrInversiuni % 2 == 1:
+            return False
 
+       return True
 
 
 ##############################################################################################
 #                                 Initializare problema                                      #
 ##############################################################################################
-m = [
-[0, 3, 5, 10, 0, 0, 100],
-[0, 0, 0, 4, 0, 0, 0],
-[0, 0, 0, 4, 9, 3, 0],
-[0, 3, 0, 0, 2, 0, 0],
-[0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 4, 0, 5],
-[0, 0, 3, 0, 0, 0, 0],
-]
+f = open("input.txt", "r")
+start = [ [ int(x) for x in linie.strip().split() ]for linie in f.readlines() ]
 
-start = 0
-scopuri = [4,6]
 
-lista_h=[0,1,6, 2, 0, 3, 0]
+scopuri = [[ [1,2,3], [4,5,6], [7,8,0] ]]
+gr = Graph(start, scopuri)
 
-gr = Graph(m, start, scopuri, lista_h)
+print(start)
+
+if not gr.valideaza():
+    print("Matricea de start nu este valida!")
+    exit(0)
 
 def bin_search(listaNoduri, nodNou, ls, ld):
    if len(listaNoduri)==0:
