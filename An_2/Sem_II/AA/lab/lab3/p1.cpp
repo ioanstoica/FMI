@@ -9,25 +9,22 @@ ll determinant(ll matrix[4][4], ll n)
     ll submatrix[4][4];
     if (n == 2)
         return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
-    else
+    for (ll x = 0; x < n; x++)
     {
-        for (ll x = 0; x < n; x++)
+        ll subi = 0;
+        for (ll i = 1; i < n; i++)
         {
-            ll subi = 0;
-            for (ll i = 1; i < n; i++)
+            ll subj = 0;
+            for (ll j = 0; j < n; j++)
             {
-                ll subj = 0;
-                for (ll j = 0; j < n; j++)
-                {
-                    if (j == x)
-                        continue;
-                    submatrix[subi][subj] = matrix[i][j];
-                    subj++;
-                }
-                subi++;
+                if (j == x)
+                    continue;
+                submatrix[subi][subj] = matrix[i][j];
+                subj++;
             }
-            det = det + (pow(-1, x) * matrix[0][x] * determinant(submatrix, n - 1));
+            subi++;
         }
+        det = det + (pow(-1, x) * matrix[0][x] * determinant(submatrix, n - 1));
     }
     return det;
 }
@@ -96,8 +93,7 @@ public:
                            {C.x, C.y, C.x * C.x + C.y * C.y, 1},
                            {p.x, p.y, p.x * p.x + p.y * p.y, 1}};
 
-        ll det = determinant(matrix, 4);
-        return det;
+        return determinant(matrix, 4);
     }
 };
 
