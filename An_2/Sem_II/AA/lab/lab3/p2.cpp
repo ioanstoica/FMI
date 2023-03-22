@@ -1,4 +1,4 @@
-// https://cms.fmi.unibuc.ro/problem/l3p1/submit
+// https://cms.fmi.unibuc.ro/problem/l3p2
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -100,30 +100,24 @@ public:
 
 int main()
 {
-    // ifstream in("p1.in");
+    // ifstream cin("input.txt");
     // Read a triangle
     Triangle t;
     cin >> t;
-    ll m;
-    cin >> m;
-    while (m--)
-    {
-        // Read a point
-        Point p;
-        cin >> p;
-        // Check if the point is inside the circle determined by the triangle
-        // If it is, print "INSIDE"
-        // If in not, print "OUTSIDE"
-        // If is on border, print "BOUNDARY"
+    Point p;
+    cin >> p;
 
-        ll pos = t.inside_circle(p);
-        if (pos == 0)
-            cout << "BOUNDARY" << endl;
-        else if (pos < 0)
-            cout << "OUTSIDE" << endl;
-        else
-            cout << "INSIDE" << endl;
-    };
+    ll pos = t.inside_circle(p);
+
+    if (pos == 0)
+        cout << "AC: LEGAL" << endl
+             << "BD: LEGAL" << endl;
+    else if (pos < 0)
+        cout << "AC: LEGAL" << endl
+             << "BD: ILLEGAL" << endl;
+    else
+        cout << "AC: ILLEGAL" << endl
+             << "BD: LEGAL" << endl;
 
     return 0;
 }
