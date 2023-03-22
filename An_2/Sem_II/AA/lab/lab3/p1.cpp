@@ -1,14 +1,43 @@
-#include <iostream>
-#include <fstream>
+#include <bits/stdc++.h>
 
 using namespace std;
+using ll = long long;
+
+ll determinant(ll matrix[4][4], ll n)
+{
+    ll det = 0;
+    ll submatrix[4][4];
+    if (n == 2)
+        return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
+    else
+    {
+        for (ll x = 0; x < n; x++)
+        {
+            ll subi = 0;
+            for (ll i = 1; i < n; i++)
+            {
+                ll subj = 0;
+                for (ll j = 0; j < n; j++)
+                {
+                    if (j == x)
+                        continue;
+                    submatrix[subi][subj] = matrix[i][j];
+                    subj++;
+                }
+                subi++;
+            }
+            det = det + (pow(-1, x) * matrix[0][x] * determinant(submatrix, n - 1));
+        }
+    }
+    return det;
+}
 
 class Point
 {
 public:
-    long long x = 0, y = 0;
+    ll x = 0, y = 0;
     Point() {}
-    Point(long long x, long long y)
+    Point(ll x, ll y)
     {
         this->x = x;
         this->y = y;
@@ -58,29 +87,45 @@ public:
         os << t.A << t.B << t.C;
         return os;
     }
+
+    // Check if a point is inside a circle determined by the triangle
+    ll inside_circle(Point p)
+    {
+        ll matrix[4][4] = {{A.x, A.y, A.x * A.x + A.y * A.y, 1},
+                           {B.x, B.y, B.x * B.x + B.y * B.y, 1},
+                           {C.x, C.y, C.x * C.x + C.y * C.y, 1},
+                           {p.x, p.y, p.x * p.x + p.y * p.y, 1}};
+
+        ll det = determinant(matrix, 4);
+        return det;
+    }
 };
 
 int main()
 {
-    cout << "Hello world!" << endl;
-    ifstream in("p1.in");
+    // ifstream in("p1.in");
     // Read a triangle
     Triangle t;
-    in >> t;
-    int m;
-    in >> m;
+    cin >> t;
+    ll m;
+    cin >> m;
     while (m--)
     {
         // Read a point
         Point p;
-        in >> p;
+        cin >> p;
         // Check if the point is inside the circle determined by the triangle
         // If it is, print "INSIDE"
         // If in not, print "OUTSIDE"
         // If is on border, print "BOUNDARY"
-        int matrix[3][3] = {{t.A.x, t.A.y, 1},
-                            {t.B.x, t.B.y, 1},
-                            {t.C.x, t.C.y, 1}};
+
+        ll pos = t.inside_circle(p);
+        if (pos == 0)
+            cout << "BOUNDARY" << endl;
+        else if (pos < 0)
+            cout << "OUTSIDE" << endl;
+        else
+            cout << "INSIDE" << endl;
     };
 
     return 0;
