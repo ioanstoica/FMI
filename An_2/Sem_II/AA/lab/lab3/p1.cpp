@@ -1,4 +1,4 @@
-// https://cms.fmi.unibuc.ro/problem/l3p1/submit
+// https://cms.fmi.unibuc.ro/problem/l3p1
 #include <bits/stdc++.h>
 
 using namespace std;
