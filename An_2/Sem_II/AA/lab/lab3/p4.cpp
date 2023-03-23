@@ -28,10 +28,11 @@ public:
    }
 };
 
+// Semiplanul este definit prin dreapta ax + by + c = 0
 class Semiplan
 {
 public:
-   // a*x + b*y + c < 0
+   // a*x + b*y + c < 0 => punctul (x,y) apartine semiplanului
    double a, b, c;
 
    friend istream &operator>>(istream &in, Semiplan &d)
@@ -52,25 +53,36 @@ public:
          return -c / b;
       return -c / a;
    }
+
+   bool contain(Point &p)
+   {
+      return a * p.x + b * p.y + c < 0;
+   }
 };
 
+// Semiplane paralele cu axa Ox sau Oy
 class IntersectieSemiplane
 {
 public:
    double stanga = -INF, dreapta = INF, jos = -INF, sus = INF;
 
-   void actualizare_limite(Semiplan &d)
+   void intersectare(Semiplan &d)
    {
-      if (d.a > 0 && d.b == 0) // a*x + c < 0 =>pt a pozitiv: x < -c/a => dreapta = min(-c/a, dreapta)
-         dreapta = min(dreapta, d.lim());
-      else if (d.a < 0 && d.b == 0) // a*x + c < 0 =>pt a negativ: x > -c/a => dreapta = max(-c/a, dreapta)
-         stanga = max(stanga, d.lim());
-      else if (d.a == 0 && d.b > 0) // b*y + c < 0 =>pt b pozitiv: y < -c/b => jos = min(-c/b, jos)
-         sus = min(sus, d.lim());
-      else if (d.a == 0 && d.b < 0) // b*y + c < 0 =>pt b negativ: y > -c/b => jos = max(-c/b, jos)
-         jos = max(jos, d.lim());
-      else
-         cout << "Semiplanul nu este valid" << endl;
+      if (d.a) // d.b == 0
+      {
+         if (d.a > 0)
+            dreapta = min(dreapta, d.lim());
+         else
+            stanga = max(stanga, d.lim());
+      }
+      else // d.a == 0
+      {
+
+         if (d.b > 0)
+            sus = min(sus, d.lim());
+         else
+            jos = max(jos, d.lim());
+      }
    }
 
    string tip()
@@ -83,52 +95,51 @@ public:
 
       return "BOUNDED";
    }
+
+   double arie()
+   {
+      return (dreapta - stanga) * (sus - jos);
+   }
 };
 
 unsigned int n, m;
 vector<Semiplan> semiplane;
-vector<Point> puncte;
+Point punct;
 
-void read_input()
-{
-   // ifstream cin("p4.in");
-
-   // citire n semiplane
-   cin >> n;
-   semiplane.resize(n);
-   for (unsigned int i = 0; i < n; ++i)
-      cin >> semiplane[i];
-
-   // citire m puncte
-   cin >> m;
-   puncte.resize(m);
-   for (unsigned int i = 0; i < m; ++i)
-      cin >> puncte[i];
-};
-
-void solve(vector<Semiplan> &semiplane, Point &p)
+void get_dreptunghi(vector<Semiplan> &semiplane, Point &point)
 {
    IntersectieSemiplane intersectie;
-   for (unsigned int i = 0; i < semiplane.size(); ++i)
-      if (semiplane[i].a * p.x + semiplane[i].b * p.y + semiplane[i].c < 0)
-         intersectie.actualizare_limite(semiplane[i]);
+   for (auto &semiplan : semiplane)
+      if (semiplan.contain(point))
+         intersectie.intersectare(semiplan);
 
    if (intersectie.tip() != "BOUNDED")
    {
       cout << "NO" << endl;
       return;
    }
+
    cout << "YES" << endl;
-   double aria = (intersectie.dreapta - intersectie.stanga) * (intersectie.sus - intersectie.jos);
-   cout << setprecision(6) << fixed << aria << endl;
+   cout << setprecision(6) << fixed << intersectie.arie() << endl;
 }
 
 int main()
 {
-   read_input();
+   // ifstream cin("p4.in");
 
-   for (unsigned int i = 0; i < m; ++i)
-      solve(semiplane, puncte[i]);
+   // citire n semiplane
+   cin >> n;
+   semiplane.resize(n);
+   for (auto &semiplan : semiplane)
+      cin >> semiplan;
+
+   // citire m puncte
+   cin >> m;
+   while (m--)
+   {
+      cin >> punct;
+      get_dreptunghi(semiplane, punct);
+   }
 
    return 0;
 }
