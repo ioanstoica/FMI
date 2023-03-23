@@ -2,31 +2,29 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using ll = long long;
-const double INF = 1e20;
-const double EPS = 1e-20;
+const double INF = 1e13;
 
 class Point
 {
 public:
    double x = 0, y = 0;
    Point() {}
-   Point(ll x, ll y)
+   Point(double x, double y)
    {
       this->x = x;
       this->y = y;
    }
 
-   friend ostream &operator<<(ostream &os, const Point &p)
+   friend ostream &operator<<(ostream &out, const Point &p)
    {
-      os << "(" << p.x << "," << p.y << ")";
-      return os;
+      out << "(" << p.x << "," << p.y << ")";
+      return out;
    }
 
-   friend istream &operator>>(istream &is, Point &p)
+   friend istream &operator>>(istream &in, Point &p)
    {
-      is >> p.x >> p.y;
-      return is;
+      in >> p.x >> p.y;
+      return in;
    }
 };
 
@@ -34,7 +32,7 @@ class Semiplan
 {
 public:
    // a*x + b*y + c < 0
-   ll a, b, c;
+   double a, b, c;
 
    friend istream &operator>>(istream &in, Semiplan &d)
    {
@@ -51,8 +49,8 @@ public:
    double lim() // pentru drepte verticale si orizontale
    {
       if (a == 0)
-         return (-1) * double(c) / double(b);
-      return (-1) * double(c) / double(a);
+         return -c / b;
+      return -c / a;
    }
 };
 
@@ -69,8 +67,10 @@ public:
          stanga = max(stanga, d.lim());
       else if (d.a == 0 && d.b > 0) // b*y + c < 0 =>pt b pozitiv: y < -c/b => jos = min(-c/b, jos)
          sus = min(sus, d.lim());
-      else
+      else if (d.a == 0 && d.b < 0) // b*y + c < 0 =>pt b negativ: y > -c/b => jos = max(-c/b, jos)
          jos = max(jos, d.lim());
+      else
+         cout << "Semiplanul nu este valid" << endl;
    }
 
    string tip()
@@ -104,34 +104,23 @@ void read_input()
    puncte.resize(m);
    for (unsigned int i = 0; i < m; ++i)
       cin >> puncte[i];
-
-   // cin.close();
 };
 
-void intern(vector<Semiplan> &semiplane, Point &p)
+void solve(vector<Semiplan> &semiplane, Point &p)
 {
    IntersectieSemiplane intersectie;
    for (unsigned int i = 0; i < semiplane.size(); ++i)
-      if (double(semiplane[i].a) * p.x + double(semiplane[i].b) * p.y + double(semiplane[i].c) < 0)
+      if (semiplane[i].a * p.x + semiplane[i].b * p.y + semiplane[i].c < 0)
          intersectie.actualizare_limite(semiplane[i]);
 
    if (intersectie.tip() != "BOUNDED")
+   {
       cout << "NO" << endl;
-   else
-      cout << "YES" << endl;
-}
-
-void dreptunghi_interesant_minim(vector<Semiplan> &semiplane, Point &p)
-{
-   IntersectieSemiplane intersectie;
-   for (unsigned int i = 0; i < semiplane.size(); ++i)
-      if (double(semiplane[i].a) * p.x + double(semiplane[i].b) * p.y + double(semiplane[i].c) < 0)
-         intersectie.actualizare_limite(semiplane[i]);
-
-   if (intersectie.tip() != "BOUNDED")
       return;
+   }
+   cout << "YES" << endl;
    double aria = (intersectie.dreapta - intersectie.stanga) * (intersectie.sus - intersectie.jos);
-   cout << setprecision(6) << aria << endl;
+   cout << setprecision(6) << fixed << aria << endl;
 }
 
 int main()
@@ -139,10 +128,7 @@ int main()
    read_input();
 
    for (unsigned int i = 0; i < m; ++i)
-      intern(semiplane, puncte[i]);
-
-   for (unsigned int i = 0; i < m; ++i)
-      dreptunghi_interesant_minim(semiplane, puncte[i]);
+      solve(semiplane, puncte[i]);
 
    return 0;
 }
