@@ -25,7 +25,7 @@ ll determinant(ll matrix[4][4], ll n)
             }
             subi++;
         }
-        det = det + (pow(-1, x) * matrix[0][x] * determinant(submatrix, n - 1));
+        det = det + (ll(pow(-1, x)) * matrix[0][x] * determinant(submatrix, n - 1));
     }
     return det;
 }
