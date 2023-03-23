@@ -47,6 +47,7 @@ public:
       return out;
    }
 
+   // calculeaza limita dreptei semiplanului
    double lim() // pentru drepte verticale si orizontale
    {
       if (a == 0)
@@ -54,6 +55,7 @@ public:
       return -c / a;
    }
 
+   // verifica daca un punct apartine semiplanului
    bool contain(Point &p)
    {
       return a * p.x + b * p.y + c < 0;
@@ -66,6 +68,7 @@ class IntersectieSemiplane
 public:
    double stanga = -INF, dreapta = INF, jos = -INF, sus = INF;
 
+   // daca semiplanul d intersecteaza dreptunghiul curent, actualizeaza dreptunghiul
    void intersectare(Semiplan &d)
    {
       if (d.a) // d.b == 0
@@ -77,7 +80,6 @@ public:
       }
       else // d.a == 0
       {
-
          if (d.b > 0)
             sus = min(sus, d.lim());
          else
@@ -85,6 +87,7 @@ public:
       }
    }
 
+   // tipul intersectiei
    string tip()
    {
       if (stanga > dreapta || jos > sus)
@@ -101,10 +104,6 @@ public:
       return (dreapta - stanga) * (sus - jos);
    }
 };
-
-unsigned int n, m;
-vector<Semiplan> semiplane;
-Point punct;
 
 void get_dreptunghi(vector<Semiplan> &semiplane, Point &point)
 {
@@ -123,9 +122,13 @@ void get_dreptunghi(vector<Semiplan> &semiplane, Point &point)
    cout << setprecision(6) << fixed << intersectie.arie() << endl;
 }
 
+vector<Semiplan> semiplane;
+
 int main()
 {
    // ifstream cin("p4.in");
+   int n, m;
+   Point punct;
 
    // citire n semiplane
    cin >> n;
