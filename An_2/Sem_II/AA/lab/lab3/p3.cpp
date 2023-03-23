@@ -8,21 +8,22 @@ const double INF = 1e9;
 class Semiplan
 {
 public:
+   // a*x + b*y + c < 0
    ll a, b, c;
+
    // Overload the >> operator
    friend istream &operator>>(istream &in, Semiplan &d)
    {
       in >> d.a >> d.b >> d.c;
       return in;
    }
-
    // Overload the << operator
    friend ostream &operator<<(ostream &out, Semiplan &d)
    {
       out << d.a << " " << d.b << " " << d.c;
       return out;
    }
-   double lim()
+   double lim() // pentru drepte verticale si orizontale
    {
       if (a == 0)
          return (-1) * double(c) / double(b);
@@ -34,13 +35,6 @@ class IntersectieSemiplane
 {
 public:
    double stanga = -INF, dreapta = INF, jos = -INF, sus = INF;
-   // void reset_limits()
-   // {
-   //    stanga = -INF;
-   //    dreapta = INF;
-   //    jos = -INF;
-   //    sus = INF;
-   // }
 
    void actualizare_limite(Semiplan &d)
    {
@@ -54,7 +48,7 @@ public:
          jos = max(jos, d.lim());
    }
 
-   string tip_intersectie()
+   string tip()
    {
       if (stanga > dreapta || jos > sus)
          return "VOID";
@@ -74,7 +68,6 @@ int main()
    IntersectieSemiplane intersectie;
 
    cin >> n;
-   // intersectie.reset_limits();
 
    for (ll i = 0; i < n; ++i)
    {
@@ -82,7 +75,7 @@ int main()
       intersectie.actualizare_limite(semiplan);
    }
 
-   cout << intersectie.tip_intersectie();
+   cout << intersectie.tip();
 
    return 0;
 }
