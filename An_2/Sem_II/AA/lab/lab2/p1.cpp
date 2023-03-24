@@ -1,70 +1,115 @@
 // https://cms.fmi.unibuc.ro/problem/l2p1
-#include <iostream>
-#include <fstream>
+#include <bits/stdc++.h>
 
 using namespace std;
+
 class Point
 {
 public:
-    long long x = 0, y = 0;
+    double x = 0, y = 0;
     Point() {}
-    Point(long long x, long long y)
+    Point(double x, double y)
     {
         this->x = x;
         this->y = y;
     }
 
-    bool operator<(const Point &other) const
+    friend ostream &operator<<(ostream &out, const Point &p)
     {
-        if (x == other.x)
-            return y < other.y;
-        return x < other.x;
+        out << "(" << p.x << "," << p.y << ")";
+        return out;
     }
 
-    bool operator==(const Point &other) const
+    friend istream &operator>>(istream &in, Point &p)
     {
-        return x == other.x && y == other.y;
+        in >> p.x >> p.y;
+        return in;
+    }
+};
+
+class Segment
+{
+public:
+    Point A, B;
+    Segment(Point A, Point B)
+    {
+        this->A = A;
+        this->B = B;
     }
 
-    // overload the << operator to print a Point
-    friend ostream &operator<<(ostream &os, const Point &p)
+    double pozition(Point P)
     {
-        os << p.x << " " << p.y << endl;
-        return os;
+        return A.x * B.y + B.x * P.y + P.x * A.y - A.y * B.x - B.y * P.x - P.y * A.x;
     }
 
-    // overload the >> operator to read a Point
-    friend istream &operator>>(istream &is, Point &p)
+    bool in_line(Point P)
     {
-        is >> p.x >> p.y;
-        return is;
+        return pozition(P) == 0;
+    }
+
+    bool inside(Point P)
+    {
+        return in_line(P) && min(A.x, B.x) <= P.x && P.x <= max(A.x, B.x) && min(A.y, B.y) <= P.y && P.y <= max(A.y, B.y);
+    }
+
+    bool in_left(Point P)
+    {
+        return pozition(P) > 0;
+    }
+
+    bool in_right(Point P)
+    {
+        return pozition(P) < 0;
     }
 };
 
 int main()
 {
-    // Se consideră un poligon convex cu
-    // n vârfuri date în ordine trigonometrică (p1, p2, p3, ...pn) și
-    // m puncte în plan (r1, r2, r3, ... rm).
-    // Pentru fiecare dintre cele puncte să se stabilească dacă se află în interiorul, în exteriorul sau pe una dintre laturile poligonului.
+    // ifstream cin("p1.in");
 
-    // read n from p1.in
-    ifstream fin("p1.in");
+    // read n points
     int n;
-    fin >> n;
-    // read n points from p1.in
-    Point *p = new Point[n];
+    cin >> n;
+    vector<Point> poligon(n);
+    for (auto &point : poligon)
+        cin >> point;
+
+    // create a vector of segments
+    vector<Segment> segments;
     for (int i = 0; i < n; i++)
-        fin >> p[i];
+        segments.push_back(Segment(poligon[i], poligon[(i + 1) % n]));
 
-    // read m from p1.in
+    // read m points
     int m;
-    fin >> m;
-    // read m points from p1.in
-    Point *r = new Point[m];
-    for (int i = 0; i < m; i++)
-        fin >> r[i];
+    cin >> m;
+    vector<Point> points(m);
+    for (auto &point : points)
+        cin >> point;
 
-    // close p1.in
-    fin.close();
+    // for each point, check if it is in the convex hull
+    for (auto &point : points)
+    {
+        bool ok = true;
+        for (auto &segment : segments)
+        {
+            if (segment.inside(point))
+            {
+                ok = false;
+                cout << "BOUNDARY" << endl;
+                break;
+            }
+
+            if (segment.in_right(point))
+            {
+                ok = false;
+                cout << "OUTSIDE" << endl;
+                break;
+            }
+        }
+
+        if (ok)
+            cout << "INSIDE" << endl;
+    }
+
+    return 0;
 }
