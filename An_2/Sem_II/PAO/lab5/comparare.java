@@ -1,4 +1,4 @@
-class masina implements Comparable<masina> {
+class masina implements Comparable<masina>, Vehicul {
    public String marca;
    public int an;
    public int pret;
@@ -16,6 +16,40 @@ class masina implements Comparable<masina> {
       } else {
          return m.emisii - emisii;
       }
+   }
+
+   public void accelerare() {
+      System.out.println("Masina accelereaza");
+   }
+
+   public void franare() {
+      System.out.println("Masina franeaza");
+   }
+
+   public void activeazaAlarma() {
+      System.out.println("Alarma custom a fost activata");
+   }
+
+   public static void pozitie() {
+   System.out.println("Pozitia custom a fost setata");
+   }
+}
+
+interface Vehicul {
+   void accelerare();
+
+   void franare();
+
+   default void activeazaAlarma() {
+      System.out.println("Alarma default a fost activata");
+   }
+
+   default void dezactiveazaAlarma() {
+      System.out.println("Alarma default a fost dezactivata");
+   }
+
+   static void pozitie() {
+      System.out.println("Pozitia default a fost setata");
    }
 }
 
@@ -51,6 +85,18 @@ public class comparare {
       for (int i = 0; i < masini.length; i++) {
          System.out.println(masini[i].marca + " " + masini[i].an + " "
                + masini[i].pret + " " + masini[i].emisii);
+
       }
+
+      // call default methods
+      masini[0].activeazaAlarma();
+      masini[0].dezactiveazaAlarma();
+
+      // call interface methods
+      masini[0].accelerare();
+      masini[0].franare();
+
+      // call static method
+      masina.pozitie();
    };
-}
+};
