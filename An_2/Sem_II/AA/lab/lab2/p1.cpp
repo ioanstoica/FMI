@@ -63,21 +63,63 @@ public:
     }
 };
 
+// Convex Polygon with points in trigonometric order
+class ConvexPolygon
+{
+public:
+    int n;
+    vector<Point> points;
+    vector<Segment> segments;
+
+    // override the >> operator to read a ConvexPolygon
+    friend istream &operator>>(istream &in, ConvexPolygon &convex_polygon)
+    {
+        in >> convex_polygon.n;
+        convex_polygon.points.resize(convex_polygon.n);
+        for (auto &point : convex_polygon.points)
+            in >> point;
+        return in;
+    }
+
+    // override the << operator to print a ConvexPolygon
+    friend ostream &operator<<(ostream &out, const ConvexPolygon &convex_polygon)
+    {
+        out << convex_polygon.n << endl;
+        for (auto &point : convex_polygon.points)
+            out << point << endl;
+        return out;
+    }
+
+    string position(Point P)
+    {
+        for (auto &segment : segments)
+        {
+            if (segment.inside(P))
+                return "BOUNDARY";
+            if (segment.in_right(P))
+                return "OUTSIDE";
+        }
+        return "INSIDE";
+    }
+
+    void create_segments()
+    {
+        for (int i = 0; i < n; i++)
+            segments.push_back(Segment(points[i], points[(i + 1) % n]));
+    }
+};
+
 int main()
 {
     // ifstream cin("p1.in");
+    // ofstream cout("p1.out");
 
-    // read n points
-    int n;
-    cin >> n;
-    vector<Point> poligon(n);
-    for (auto &point : poligon)
-        cin >> point;
+    // read a convex polygon
+    ConvexPolygon convex_polygon;
+    cin >> convex_polygon;
 
-    // create a vector of segments
-    vector<Segment> segments;
-    for (int i = 0; i < n; i++)
-        segments.push_back(Segment(poligon[i], poligon[(i + 1) % n]));
+    // create the segments
+    convex_polygon.create_segments();
 
     // read m points
     int m;
@@ -88,28 +130,7 @@ int main()
 
     // for each point, check if it is in the convex hull
     for (auto &point : points)
-    {
-        bool ok = true;
-        for (auto &segment : segments)
-        {
-            if (segment.inside(point))
-            {
-                ok = false;
-                cout << "BOUNDARY" << endl;
-                break;
-            }
-
-            if (segment.in_right(point))
-            {
-                ok = false;
-                cout << "OUTSIDE" << endl;
-                break;
-            }
-        }
-
-        if (ok)
-            cout << "INSIDE" << endl;
-    }
+        cout << convex_polygon.position(point) << endl;
 
     return 0;
 }
