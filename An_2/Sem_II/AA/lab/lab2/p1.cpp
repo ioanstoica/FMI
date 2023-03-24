@@ -112,25 +112,22 @@ public:
 int main()
 {
     // ifstream cin("p1.in");
-    // ofstream cout("p1.out");
+    ConvexPolygon convex_polygon;
+    int m;
+    Point point;
 
     // read a convex polygon
-    ConvexPolygon convex_polygon;
     cin >> convex_polygon;
-
     // create the segments
     convex_polygon.create_segments();
 
-    // read m points
-    int m;
+    // read and solve for m points
     cin >> m;
-    vector<Point> points(m);
-    for (auto &point : points)
+    while (m--)
+    {
         cin >> point;
-
-    // for each point, check if it is in the convex hull
-    for (auto &point : points)
         cout << convex_polygon.position(point) << endl;
+    }
 
     return 0;
 }
