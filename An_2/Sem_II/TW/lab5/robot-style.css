@@ -89,18 +89,16 @@ body {
    background: black;
    animation-name: topEyelid;
 
-   /* #robot_eye: hover {
-      background-color: pink;
-   } */
-
-
    /* Adăugați reguli css aici pentru 
    a defini o animație cu durata de 5s,
    care să înceapă cu 1s întârziere,
    să fie rulată în buclă, 
    cu viteză mai mică la început și final.
    */
-
+   animation-duration: 5s;
+   animation-delay: 1s;
+   animation-iteration-count: infinite;
+   animation-timing-function: ease-in-out;
 
 }
 
@@ -118,6 +116,10 @@ body {
    să fie rulată în buclă, 
    cu viteză mai mică la început și final
    */
+   animation-duration: 5s;
+   animation-delay: 1s;
+   animation-iteration-count: infinite;
+   animation-timing-function: ease-in-out;
 }
 
 /* 
@@ -132,38 +134,39 @@ body {
 
    /* închide pleoapele */
    0% {
-      transform: translateX(0%);
+      transform: translateY(0);
    }
 
    /* ține pleoapele închise */
    20% {
-      transform: translateX(20%);
+      transform: translateY(50px);
+
    }
 
    80% {
-      transform: translateX(80%);
+      transform: translateY(50px);
    }
 
    /* deschide pleoapele */
    100% {
-      transform: translateX(100%);
+      ttransform: translateY(0);
    }
 }
 
 @keyframes bottomEyelid {
    0% {
-      transform: translateX(0%);
+      transform: translateY(0);
    }
 
    20% {
-      transform: translateX(20%);
+      transform: translateY(-50px);
    }
 
    80% {
-      transform: translateX(80%);
+      transform: translateX(-50px);
    }
 
    100% {
-      transform: translateX(100%);
+      transform: translateX(0);
    }
 }
