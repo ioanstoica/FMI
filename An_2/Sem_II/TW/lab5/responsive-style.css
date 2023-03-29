@@ -111,7 +111,7 @@ main {
 @media (min-width: 80em) {
    main {
       display: grid;
-      grid-column: 3fr 1fr;
-      margin: 1em;
+      grid-template-columns: 3fr 1fr;
+      grid-gap: 1em;
    }
 }
