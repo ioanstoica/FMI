@@ -111,7 +111,7 @@ main {
 @media (min-width: 80em) {
    main {
       display: grid;
-      justify-content: space-between;
+      grid-column: 3fr 1fr;
       margin: 1em;
    }
 }
