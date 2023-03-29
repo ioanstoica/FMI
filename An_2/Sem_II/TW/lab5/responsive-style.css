@@ -79,37 +79,39 @@ main {
     ecrane de dimensiune medie și mare.
  */
 
-/*
- .cards {
-     display: ?; 
-     grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
-     grid-gap: ?;
-     margin-bottom: 1em;
- */
+
+.cards {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(16em, 1fr));
+   grid-gap: 1em;
+   margin-bottom: 1em;
+}
+
 
 /* code for medium screens */
-/*@media ? {
-     header {
-         display: ?;
-         justify-content: ?;
-         align-items: ?;
-         margin: 1em;
-     }
-     header ul {
-         display: ?;
-     }
-     header li a {
-         ?: 0;
-     }
- }
- */
+@media (min-width: 40em) {
+   header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1em;
+   }
+
+   header ul {
+      display: flex;
+   }
+
+   /* header li a {
+      padding: 0;
+   } */
+}
+
 
 /* code for large screens */
-/*@media ? {
-     main {
-         display: ?;
-         ?: ?;
-         ?: 1em;
-     }
- }
- */
+@media (min-width: 80em) {
+   main {
+      display: grid;
+      justify-content: space-between;
+      margin: 1em;
+   }
+}
