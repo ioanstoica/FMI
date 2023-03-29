@@ -66,26 +66,64 @@ class InfoJoc:
     @classmethod
     def jucator_opus(cls, jucator):
         return 'x' if jucator=='0' else '0'
-
-
+    
     def final(self):
-        pass
+        rez= elem_identice(self.matr[0]) \
+            or elem_identice(self.matr[1]) \
+            or elem_identice(self.matr[2]) \
+            or elem_identice([self.matr[0][0],self.matr[1][0], self.matr[2][0] ]) \
+            or elem_identice([self.matr[0][1],self.matr[1][1], self.matr[2][1] ]) \
+            or elem_identice([self.matr[0][2],self.matr[1][2], self.matr[2][2] ]) \
+            or elem_identice([self.matr[0][0],self.matr[1][1], self.matr[2][2] ]) \
+            or elem_identice([self.matr[0][2],self.matr[1][1], self.matr[2][0] ])
+        if rez:
+            return rez
+        remiza=True
+        for linie in self.matr:
+            for elem in linie:
+                if elem==InfoJoc.GOL:
+                    remiza= False
+        if remiza:
+            return "remiza"
+        return False
 
     def mutari(self, jucator):#jucator = simbolul jucatorului care muta
-        pass
+        listaMutari = []
+        for linie in range(InfoJoc.NR_COLOANE):
+            for coloana in range(InfoJoc.NR_COLOANE):
+                if self.matr[linie][coloana] == InfoJoc.GOL:
+                    copieTabla = copy.deepcopy(self.matr) #copieTabla in loc de matrNou
+                    copieTabla[linie][coloana] = jucator
+                    listaMutari.append(InfoJoc(copieTabla))
+        return listaMutari
     
 
     #linie deschisa inseamna linie pe care jucatorul mai poate forma o configuratie castigatoare
     #practic e o linie care nu conține simbolul jucatorului opus
     def linie_deschisa(self,lista, jucator):
-        pass
+        return not InfoJoc.jucator_opus(jucator) in lista
             
-    def linii_deschise(self, jucator):
-        pass 
+    def  linii_deschise(self, jucator):
+        return self.linie_deschisa(self.matr[0], jucator) \
+              + self.linie_deschisa(self.matr[1], jucator) \
+              + self.linie_deschisa(self.matr[2], jucator) \
+              + self.linie_deschisa([self.matr[0][0], self.matr[1][0], self.matr[2][0]], jucator) \
+              + self.linie_deschisa([self.matr[0][1], self.matr[1][1], self.matr[2][1]], jucator) \
+              + self.linie_deschisa([self.matr[0][2], self.matr[1][2], self.matr[2][2]], jucator) \
+              + self.linie_deschisa([self.matr[0][0], self.matr[1][1], self.matr[2][2]], jucator) \
+              + self.linie_deschisa([self.matr[0][2], self.matr[1][1], self.matr[2][0]], jucator)
             
     #restAdancime = cat mai are pana ajunge la adancimea maxima    
     def estimeaza_scor(self, restAdancime):
-
+        rezFinal = self.final()
+        if rezFinal == InfoJoc.JMAX:
+            return 100 + restAdancime
+        elif rezFinal == InfoJoc.JMIN:
+            return -100 - restAdancime
+        elif rezFinal == "remiza":
+            return 0
+        else:
+            return self.linii_deschise(InfoJoc.JMAX) - self.linii_deschise(InfoJoc.JMIN)
         pass
 
     def sirAfisare(self):
