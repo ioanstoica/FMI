@@ -1,18 +1,17 @@
-
 module Lab2 where
 
 import Control.Applicative
 import Data.Char
 
-newtype Parser a = Parser { apply :: String -> [(a, String)] }
+newtype Parser a = Parser {apply :: String -> [(a, String)]}
 
 satisfy :: (Char -> Bool) -> Parser Char
 satisfy p = Parser go
   where
-    go [] = []   -- imposibil de parsat șirul vid
-    go (c:input)
-      | p c = [(c, input)]   -- dacă predicatul ține, întoarce c și restul șirului de intrare
-      | otherwise = []       -- în caz contrar, imposibil de parsat
+    go [] = [] -- imposibil de parsat șirul vid
+    go (c : input)
+      | p c = [(c, input)] -- dacă predicatul ține, întoarce c și restul șirului de intrare
+      | otherwise = [] -- în caz contrar, imposibil de parsat
 
 -- | satisfy
 -- >>> apply (satisfy isAlphaNum) "abc"
@@ -20,13 +19,11 @@ satisfy p = Parser go
 -- >>> apply (satisfy isAlphaNum) "2bc"
 -- [('2',"bc")]
 -- >>> apply (satisfy isAlphaNum) "@bc"
--- [] 
+-- []
 
 --- | Acceptă orice caracter
 anychar :: Parser Char
 anychar = satisfy (const True)
-
-
 
 -- | anychar
 -- >>> apply anychar "&ab"
@@ -34,7 +31,6 @@ anychar = satisfy (const True)
 -- CallStack (from HasCallStack):
 --   error, called at libraries/base/GHC/Err.hs:74:14 in base:GHC.Err
 --   undefined, called at /home/mihai/flp-251/lab/lab2/Lab2.hs:27:11 in main:Lab2
---
 
 --- | acceptă doar caracterul dat ca argument
 char :: Char -> Parser Char
@@ -60,7 +56,7 @@ digit = satisfy isDigit
 
 --- | acceptă un spațiu (sau tab, sau sfârșit de linie -- vedeți funcția din Data.Char )
 space :: Parser Char
-space = undefined
+space = satisfy isSpace
 
 -- | space
 -- >>> apply space " "
@@ -70,25 +66,27 @@ space = undefined
 -- >>> apply space "\na"
 -- [('\n',"a")]
 
---- | succes doar dacă am șirul de intrare este vid 
+--- | succes doar dacă am șirul de intrare este vid
 endOfInput :: Parser ()
-endOfInput  = Parser go
+endOfInput = Parser go
   where
     go "" = [((), "")]
     go _ = []
 
 instance Functor Parser where
-    fmap f pa = Parser (\input -> [(f a, rest) | (a, rest) <- apply pa input])
+  fmap f pa = Parser (\input -> [(f a, rest) | (a, rest) <- apply pa input])
 
 -- | fmap
 -- >>> apply (digitToInt <$> digit) "7ab"
--- [(7,"ab")]
+-- WAS [(7,"ab")]
+-- NOW [(7,"ab")]
 
 instance Applicative Parser where
-    pure a = Parser (\input -> [(a, input)])
-    pf <*> pa = Parser (\input -> [(f a, resta) | (f, restf) <- apply pf input, (a, resta) <- apply pa restf])
+  pure a = Parser (\input -> [(a, input)])
+  pf <*> pa = Parser (\input -> [(f a, resta) | (f, restf) <- apply pf input, (a, resta) <- apply pa restf])
 
 parseCifra = digitToInt <$> digit
+
 douaCifre c1 c2 = 10 * c1 + c2
 
 -- | parseCifra
@@ -108,7 +106,6 @@ douaCifre c1 c2 = 10 * c1 + c2
 -- []
 -- >>> apply (digit <* endOfInput) "1"
 -- [('1',"")]
-
 parse :: Parser a -> String -> Either String a
 parse = undefined
 
@@ -117,13 +114,12 @@ parse = undefined
 -- Right '1'
 -- >>> parse digit "12"
 -- Left "Sirul de intrare nu a fost complet consumat sau parsare ambigua"
-
 instance Monad Parser where
-    pa >>= k = Parser (\input -> [(b, restb) | (a, resta) <- apply pa input, (b, restb) <- apply (k a) resta])
+  pa >>= k = Parser (\input -> [(b, restb) | (a, resta) <- apply pa input, (b, restb) <- apply (k a) resta])
 
 cifraIntreParanteze :: Parser Int
-cifraIntreParanteze 
-  = do
+cifraIntreParanteze =
+  do
     char '('
     d <- digit
     char ')'
@@ -154,10 +150,9 @@ string = undefined
 -- [("Hi","Hi")]
 -- >>> apply (string "March") "March"
 -- [("March","")]
-
 instance Alternative Parser where
-    empty = Parser (const [])
-    p <|> p' = Parser (\input -> apply p input ++ apply p' input)
+  empty = Parser (const [])
+  p <|> p' = Parser (\input -> apply p input ++ apply p' input)
 
 naiveNatural :: Parser Int
 naiveNatural = undefined
@@ -252,4 +247,3 @@ identifier start letter = lexeme (ident start letter)
 -- | identifier
 -- >>> apply (identifier (satisfy isAlpha) (satisfy isAlphaNum)) "ij1 + 3"
 -- [("ij1","+ 3"),("ij1"," + 3"),("ij","1 + 3"),("i","j1 + 3")]
-
