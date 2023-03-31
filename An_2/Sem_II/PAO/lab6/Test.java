@@ -1,14 +1,10 @@
-
 final class Secretar extends Angajat {
-
 }
 
-final class DirectorGeneral extends Angajat {
-
+final class DirectorGeneral extends Angajat implements Director {
 }
 
-sealed class Angajat
-      implements Cloneable permits Secretar, DirectorGeneral {
+sealed class Angajat implements Cloneable permits Secretar, DirectorGeneral {
    String nume;
    String prenume;
    String marca;
@@ -40,6 +36,20 @@ sealed class Angajat
             '}';
    }
 }
+
+sealed interface Director permits DirectorEchipa, Programator, DirectorGeneral {
+}
+
+non-sealed interface Programator extends Director {
+}
+
+non-sealed interface DirectorEchipa extends Director {
+}
+
+interface Manager extends DirectorEchipa {
+}
+
+
 
 // print "Hello world"
 public class Test {
