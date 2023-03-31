@@ -80,7 +80,6 @@ instance Functor Parser where
 -- >>> apply (digitToInt <$> digit) "7ab"
 -- WAS [(7,"ab")]
 -- NOW [(7,"ab")]
-
 instance Applicative Parser where
   pure a = Parser (\input -> [(a, input)])
   pf <*> pa = Parser (\input -> [(f a, resta) | (f, restf) <- apply pf input, (a, resta) <- apply pa restf])
@@ -92,10 +91,14 @@ douaCifre c1 c2 = 10 * c1 + c2
 -- | parseCifra
 -- >>> apply parseCifra "7ab"
 -- [(7,"ab")]
+
 -- >>> douaCifre 2 3
 -- 23
+
+
 -- >>> apply (pure douaCifre <*> parseCifra <*> parseCifra) "23c"
 -- [(23,"c")]
+
 
 -- | parse-brackets
 -- >>> apply (char '(' *> digit  <* char ')') "(1)23"
