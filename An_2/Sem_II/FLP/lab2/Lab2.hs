@@ -107,8 +107,10 @@ douaCifre c1 c2 = 10 * c1 + c2
 -- | endOfInput
 -- >>> apply (digit <* endOfInput) "123"
 -- []
+
 -- >>> apply (digit <* endOfInput) "1"
 -- [('1',"")]
+
 parse :: Parser a -> String -> Either String a
 parse = undefined
 
