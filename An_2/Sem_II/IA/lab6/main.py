@@ -177,14 +177,23 @@ class Stare:
     def __str__(self):
         sir= str(self.tabla_joc) + "(Juc curent:"+self.j_curent+")\n"
         return sir
-    
 
-            
 """ Algoritmul MinMax """
 
 def min_max(stare):
-    
-    pass
+    if stare.adancime==0 or stare.tabla_joc.final():
+        stare.estimare=stare.tabla_joc.estimeaza_scor(stare.adancime)
+        return stare
+
+    #calculeaza toate mutarile posibile din starea curenta
+    stare.mutari_posibile=[min_max(m) for m in stare.mutari()]
+    if stare.j_curent==InfoJoc.JMAX:
+        #daca e randul jucatorului MAX, alege starea-fiica cu estimare maxima
+        stare.stare_aleasa=max(stare.mutari_posibile, key=lambda x:x.estimare)
+    else:
+        #daca e randul jucatorului MIN, alege starea-fiica cu estimare minima
+        stare.stare_aleasa=min(stare.mutari_posibile, key=lambda x:x.estimare)
+    stare.estimare=stare.stare_aleasa.estimare
     return stare
     
 
