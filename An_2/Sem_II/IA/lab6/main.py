@@ -198,9 +198,43 @@ def min_max(stare):
     
 
 def alpha_beta(alpha, beta, stare):
-    pass
+    if stare.adancime==0 or stare.tabla_joc.final():
+        stare.estimare=stare.tabla_joc.estimeaza_scor(stare.adancime)
+        return stare
+    if alpha > beta:
+        return stare
+    
+    #calculeaza toate mutarile posibile din starea curenta
+    stare.mutari_posibile=stare.mutari()
+    if stare.j_curent==InfoJoc.JMAX:
+        scorOptim = float("-inf")
+        for mutare in stare.mutari_posibile:
+            mutareCuSubarbore = alpha_beta(alpha, beta, mutare)
+            if scorOptim < mutareCuSubarbore.estimare :
+                scorOptim = mutareCuSubarbore.estimare
+                stare.stare_aleasa = mutareCuSubarbore
+            if mutareCuSubarbore.estimare > alpha:
+                alpha = mutareCuSubarbore.estimare
+                if alpha > beta:
+                    stare.estimare=stare.stare_aleasa.estimare
+                    return stare
+    else:
+        scorOptim = float("inf")
+        for mutare in stare.mutari_posibile:
+            mutareCuSubarbore = alpha_beta(alpha, beta, mutare)
+            if scorOptim > mutareCuSubarbore.estimare :
+                scorOptim = mutareCuSubarbore.estimare
+                stare.stare_aleasa = mutareCuSubarbore
+            if mutareCuSubarbore.estimare < beta:
+                beta = mutareCuSubarbore.estimare
+                if alpha > beta:
+                    stare.estimare=stare.stare_aleasa.estimare
+                    return stare
 
+            
+    stare.estimare=stare.stare_aleasa.estimare
     return stare
+    
     
 
 
