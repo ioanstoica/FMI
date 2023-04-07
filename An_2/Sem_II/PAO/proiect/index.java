@@ -238,5 +238,13 @@ class Main {
          System.out.println(e);
       }
 
+      System.out.println(cont0);
+
+      cont0.addAsset(asset);
+      System.out.println(cont0);
+
+      cont0.addTranzactie(new Tranzactie(new Pereche(activ0, activ2), 100));
+      System.out.println(cont0);
+
    }
 }
