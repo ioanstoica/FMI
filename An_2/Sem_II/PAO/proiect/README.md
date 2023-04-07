@@ -32,4 +32,6 @@ Actiuni:
 - calculare valoare totala active
 - calculare valoare totala active per Client
 - calculare valoare totala active per cont
+- aplicare tranzaactie pe cont
+
 
