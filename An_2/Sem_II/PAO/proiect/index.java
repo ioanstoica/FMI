@@ -5,17 +5,18 @@ class Cont {
    IstoricTranzactii istoric = new IstoricTranzactii();
 
    void addAsset(Asset asset) {
-      if (asset.cantitate <= 0)
-         throw new IllegalArgumentException("Cantitatea nu poate fi negativa sau nula");
-
-      // daca activul exista deja, actualizam cantitatea
       for (Asset a : active) {
          if (a.activ.nume.equals(asset.activ.nume)) {
+            if (a.cantitate + asset.cantitate < 0)
+               throw new IllegalArgumentException(
+                     "Asset-ul " + asset + " nu poate fi adaugat in cont, in cantitate negativa");
             a.cantitate += asset.cantitate;
             return;
          }
       }
-
+      if (asset.cantitate < 0)
+         throw new IllegalArgumentException(
+               "Asset-ul " + asset + " nu poate fi adaugat in cont, in cantitate negativa");
       active.add(asset);
    }
 
@@ -28,7 +29,7 @@ class Cont {
    }
 
    public String toString() {
-      return "Cont: " + active;
+      return "Cont: {" + active + "}";
    }
 
    double valoare() {
@@ -47,31 +48,14 @@ class Cont {
    }
 
    void addTranzactie(Tranzactie tranzactie) {
-      // verificare daca tranzactia este valida
-      // daca unul dintre activele tranzacitiei nu exista in cont, aruncam exceptie
-      // daca valoarea tranzactiei este mai mare decat valoarea contului, aruncam
-      // exceptie
-      // daca valoarea tranzactiei este mai mica decat valoarea contului, adaugam
-      // tranzactia
-      // si actualizam activele contului
-
-      if (tranzactie.pereche == null || tranzactie.pereche.first == null || tranzactie.pereche.second == null)
-         throw new IllegalArgumentException("Perechea nu este definita complet");
-
       Activ first = tranzactie.pereche.first;
+      Activ second = tranzactie.pereche.second;
       if (!enough(new Asset(first, tranzactie.valoare)))
          throw new IllegalArgumentException("Asset-ul " + first + " nu exista in cont, in cantitate suficienta");
 
       istoric.addTranzactie(tranzactie);
-
-      // actualizare active
-      for (Asset asset : active) {
-         if (asset.activ.nume.equals(first.nume)) {
-            asset.cantitate -= tranzactie.valoare;
-         } else if (asset.activ.nume.equals(tranzactie.pereche.second.nume)) {
-            asset.cantitate += tranzactie.valoare * tranzactie.pereche.raport;
-         }
-      }
+      this.addAsset(new Asset(first, -tranzactie.valoare));
+      this.addAsset(new Asset(second, tranzactie.valoare * tranzactie.pereche.raport));
    }
 }
 
@@ -87,7 +71,7 @@ class Client {
    }
 
    public String toString() {
-      return "Client: " + nume + "\n" + conturi;
+      return "Client: {nume: " + nume + ", conturi: " + conturi + "}";
    }
 
    void addCont(Cont cont) {
@@ -117,7 +101,7 @@ class Activ {
    }
 
    public String toString() {
-      return "Activ: " + nume + " " + pret;
+      return "Activ: {nume: " + nume + ", pret: " + pret + "}";
    }
 
 }
@@ -135,7 +119,7 @@ class Asset {
    }
 
    public String toString() {
-      return "Asset: " + cantitate + " " + activ;
+      return "Asset: {" + activ + ", cantitate: " + cantitate + "}";
    }
 
    double valoare() {
@@ -157,7 +141,7 @@ class Pereche {
    }
 
    public String toString() {
-      return "Pereche: (" + first + ", " + second + ") raport: " + raport;
+      return "Pereche: {first: " + first + ", second: " + second + ", raport: " + raport + "}";
    }
 }
 
@@ -174,7 +158,7 @@ class Tranzactie {
    }
 
    public String toString() {
-      return "Tranzactie: " + pereche + " valoare: " + valoare;
+      return "Tranzactie: {pereche: " + pereche + ", valoare: " + valoare + "}";
    }
 }
 
@@ -194,7 +178,7 @@ class IstoricTranzactii {
    }
 
    public String toString() {
-      return "IstoricTranzactii: " + tranzactii;
+      return "IstoricTranzactii: {" + tranzactii + "}";
    }
 }
 
