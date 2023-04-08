@@ -60,8 +60,16 @@ class Cont {
 }
 
 class Client {
-   String nume = "";
+   private String nume = "";
    ArrayList<Cont> conturi = new ArrayList<Cont>();
+
+   public String getNume() {
+      return nume;
+   }
+
+   public void setNume(String nume) {
+      this.nume = nume;
+   }
 
    Client() {
    }
@@ -124,6 +132,22 @@ class Asset {
 
    double valoare() {
       return cantitate * activ.pret;
+   }
+}
+
+class Crypto extends Asset {
+   // block chain
+   String blockchain;
+
+   Crypto(Activ activ, double cantitate) {
+      super(activ, cantitate);
+   }
+
+   Crypto() {
+   }
+
+   public String toString() {
+      return "Crypto: {" + activ + ", cantitate: " + cantitate + "}";
    }
 }
 
