@@ -20,10 +20,10 @@
     <meta name="msapplication-config" content="resurse/ico/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" href="resurse/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="resurse/css/nav.css" type="text/css" />
+    <link rel="stylesheet" href="resurse/css/layout.css" type="text/css">
+    <link rel="stylesheet" href="resurse/css/nav.css" type="text/css">
     <!-- Etapa 3.12.2 -->
-    <link rel="stylesheet" media="print" href="resurse/css/print.css" type="text/css" />
+    <link rel="stylesheet" media="print" href="resurse/css/print.css" type="text/css">
 
     <meta name="description" content="Piese de calculator">
     <meta name="keywords" content="calculator, sistem de calcul">
@@ -67,7 +67,8 @@
                 </li>
                 <li> <a href="despre.html">
                         <div>Despre</div>
-                </li> </a>
+                    </a>
+                </li>
                 <li>
                     <div> Produse</div>
                     <ul>
@@ -120,15 +121,15 @@
                     <q> Calculatorul: noua maşină a timpului. </q>
                 </p>
                 <section id="video">
+                    <h4> Video </h4>
                     <!-- Etapa 1.11.c -->
                     <div class="taburi-iframe">
                         <a href="https://www.youtube.com/embed/ExxFxD4OSZ0" target="ifr-video">Computer parts</a>
                         <a href="https://www.youtube.com/embed/GLSPub4ydiM" target="ifr-video">Core i 3-5-7</a>
                         <a href="https://www.youtube.com/embed/ItxwyMR0SnY" target="ifr-video">Different Personal
-                            Computer</a><br />
+                            Computer</a><br>
                     </div>
                     <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/ExxFxD4OSZ0"
-                        frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </section>
@@ -147,13 +148,11 @@
                 <figure>
                     <picture>
                         <!-- de modificat -->
-                        <source srcset="resurse/imagini/circuite.JPG" media="(max-width: 700 px)">
-                        <source srcset="resurse/imagini/circuite.JPG" media="(max-width: 1200 px)">
+                        <source srcset="resurse/imagini/circuite.JPG">
                         <img src="resurse/imagini/circuit.JPG" alt="Circuit" style="width:20%">
                     </picture>
                     <figcaption>Un circuit integrat văzut la microscop</figcaption>
                 </figure>
-                </a>
                 <h3>Istoric</h3>
                 <p>
                     Cel mai vechi mecanism cunoscut care se pare că putea funcționa ca o mașină de calculat se
@@ -298,10 +297,6 @@
                 </details>
             </section>
 
-            <!-- Etapa 1.10.c -->
-            <section id="ip"> Date utilizator site-IP: <strong>
-                    <%- locals.ip %>
-                </strong> </section>
         </div>
     </main>
 
