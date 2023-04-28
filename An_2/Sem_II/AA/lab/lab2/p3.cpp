@@ -72,6 +72,17 @@ public:
    }
 };
 
+int monoton(Point *a, Point *b)
+{
+   if (is_sorted(a, b, [](Point a, Point b)
+                 { return a.x < b.x; }))
+      return 1;
+   if (is_sorted(a, b, [](Point a, Point b)
+                 { return a.x > b.x; }))
+      return -1;
+   return 0;
+}
+
 class Polygon
 {
 public:
@@ -139,6 +150,62 @@ public:
             y_max = &point;
       }
    }
+
+   string x_monoton()
+   {
+      if (x_min < x_max)
+      {
+         if (!is_sorted(x_min, x_max, [](Point a, Point b)
+                        { return a.x < b.x; })) // nu creste pe x
+            return "NO";
+         if (!is_sorted(&points[0], x_min, [](Point a, Point b)
+                        { return a.x > b.x; })) // nu scade pe x
+            return "NO";
+         if (!is_sorted(x_max, &points[points.size() - 1], [](Point a, Point b)
+                        { return a.x > b.x; })) // nu scade pe x
+            return "NO";
+         return "YES";
+      }
+
+      if (!is_sorted(x_max, x_min, [](Point a, Point b)
+                     { return a.x > b.x; })) // nu scade pe x
+         return "NO";
+      if (!is_sorted(&points[0], x_max, [](Point a, Point b)
+                     { return a.x < b.x; })) // nu creste pe x
+         return "NO";
+      if (!is_sorted(x_min, &points[points.size() - 1], [](Point a, Point b)
+                     { return a.x < b.x; })) // nu creste pe x
+         return "NO";
+      return "YES";
+   }
+
+   string y_monoton()
+   {
+      if (y_min < y_max)
+      {
+         if (!is_sorted(y_min, y_max, [](Point a, Point b)
+                        { return a.y < b.y; })) // nu creste pe y
+            return "NO";
+         if (!is_sorted(&points[0], y_min, [](Point a, Point b)
+                        { return a.y > b.y; })) // nu scade pe y
+            return "NO";
+         if (!is_sorted(y_max, &points[points.size() - 1], [](Point a, Point b)
+                        { return a.y > b.y; })) // nu scade pe y
+            return "NO";
+         return "YES";
+      }
+
+      if (!is_sorted(y_max, y_min, [](Point a, Point b)
+                     { return a.y > b.y; })) // nu scade pe y
+         return "NO";
+      if (!is_sorted(&points[0], y_max, [](Point a, Point b)
+                     { return a.y < b.y; })) // nu creste pe y
+         return "NO";
+      if (!is_sorted(y_min, &points[points.size() - 1], [](Point a, Point b)
+                     { return a.y < b.y; })) // nu creste pe y
+         return "NO";
+      return "YES";
+   }
 };
 
 int main()
@@ -154,66 +221,8 @@ int main()
    cin >> polygon;
 
    polygon.set_min_max();
-
-   // x-monoton
-   if (polygon.x_min < polygon.x_max)
-   {
-      bool a1 = is_sorted(polygon.x_min, polygon.x_max,
-                          [](Point a, Point b)
-                          { return a.x < b.x; }); // creste pe x
-      bool a2 = is_sorted(&polygon.points[0], polygon.x_min, [](Point a, Point b)
-                          { return a.x > b.x; }); // scade pe x
-      bool a3 = is_sorted(polygon.x_max, &polygon.points[polygon.points.size() - 1], [](Point a, Point b)
-                          { return a.x > b.x; });
-      if (a1 && a2 && a3)
-         cout << "YES\n";
-      else
-         cout << "NO\n";
-   }
-   else
-   {
-      bool a1 = is_sorted(polygon.x_max, polygon.x_min,
-                          [](Point a, Point b)
-                          { return a.x > b.x; }); // scade pe x
-      bool a2 = is_sorted(&polygon.points[0], polygon.x_max, [](Point a, Point b)
-                          { return a.x < b.x; }); // creste pe x
-      bool a3 = is_sorted(polygon.x_min, &polygon.points[polygon.points.size() - 1], [](Point a, Point b)
-                          { return a.x < b.x; }); // creste pe x
-      if (a1 && a2 && a3)
-         cout << "YES\n";
-      else
-         cout << "NO\n";
-   }
-
-   // y-monoton
-   if (polygon.y_min < polygon.y_max)
-   {
-      bool a1 = is_sorted(polygon.y_min, polygon.y_max,
-                          [](Point a, Point b)
-                          { return a.y < b.y; });
-      bool a2 = is_sorted(&polygon.points[0], polygon.y_min, [](Point a, Point b)
-                          { return a.y > b.y; });
-      bool a3 = is_sorted(polygon.y_max, &polygon.points[polygon.points.size() - 1], [](Point a, Point b)
-                          { return a.y > b.y; });
-      if (a1 && a2 && a3)
-         cout << "YES\n";
-      else
-         cout << "NO\n";
-   }
-   else
-   {
-      bool a1 = is_sorted(polygon.y_max, polygon.y_min,
-                          [](Point a, Point b)
-                          { return a.y > b.y; });
-      bool a2 = is_sorted(&polygon.points[0], polygon.y_max, [](Point a, Point b)
-                          { return a.y < b.y; });
-      bool a3 = is_sorted(polygon.y_min, &polygon.points[polygon.points.size() - 1], [](Point a, Point b)
-                          { return a.y < b.y; });
-      if (a1 && a2 && a3)
-         cout << "YES\n";
-      else
-         cout << "NO\n";
-   }
+   cout << polygon.x_monoton() << '\n';
+   cout << polygon.y_monoton() << '\n';
 
    return 0;
 }
