@@ -29,7 +29,6 @@ public:
       return in;
    }
 
-   // override the < operator to compare two points
    bool operator<(const Point &p) const
    {
       return y < p.y || (y == p.y && x < p.x);
@@ -86,6 +85,39 @@ public:
          in >> point;
       return in;
    }
+
+   bool onBoundery(Point Q)
+   {
+      for (unsigned int i = 0; i < points.size(); i++)
+      {
+         Point A = points[i];
+         Point B = points[(i + 1) % points.size()];
+         Segment s(A, B);
+         if (s.inside(Q))
+            return true;
+      }
+      return false;
+   }
+
+   string position(Point Q)
+   {
+      int poz = 0;
+      for (unsigned int i = 0; i < points.size(); i++)
+      {
+         Point A = points[i];
+         Point B = points[(i + 1) % points.size()];
+         Segment s(A, B);
+         if (s.inside(Q))
+            return "BOUNDARY";
+         if (A.y <= Q.y && Q.y < B.y && (B.x - A.x) * (Q.y - A.y) - (B.y - A.y) * (Q.x - A.x) > 0)
+            poz++;
+         if (B.y <= Q.y && Q.y < A.y && (B.x - A.x) * (Q.y - A.y) - (B.y - A.y) * (Q.x - A.x) < 0)
+            poz--;
+      }
+      if (poz == 0)
+         return "OUTSIDE";
+      return "INSIDE";
+   }
 };
 
 int main()
@@ -102,43 +134,6 @@ int main()
    while (m--)
    {
       cin >> Q;
-      // check if is on BOUNDARY
-      bool isOnBoundary = false;
-      for (int i = 0; i < polygon.points.size(); i++)
-      {
-         Point A = polygon.points[i];
-         Point B = polygon.points[(i + 1) % polygon.points.size()];
-         // if (A.y <= Q.y && Q.y <= B.y && abs((B.x - A.x) * (Q.y - A.y) - (B.y - A.y) * (Q.x - A.x)) < 1e-9)
-         // {
-         //    isOnBoundary = true;
-         //    break;
-         // }
-         Segment s(A, B);
-         if (s.inside(Q))
-         {
-            isOnBoundary = true;
-            break;
-         }
-      }
-      if (isOnBoundary)
-      {
-         cout << "BOUNDARY\n";
-         continue;
-      }
-
-      int poz = 0;
-      for (int i = 0; i < polygon.points.size(); i++)
-      {
-         Point A = polygon.points[i];
-         Point B = polygon.points[(i + 1) % polygon.points.size()];
-         if (A.y <= Q.y && Q.y < B.y && (B.x - A.x) * (Q.y - A.y) - (B.y - A.y) * (Q.x - A.x) > 0)
-            poz++;
-         if (B.y <= Q.y && Q.y < A.y && (B.x - A.x) * (Q.y - A.y) - (B.y - A.y) * (Q.x - A.x) < 0)
-            poz--;
-      }
-      if (poz == 0)
-         cout << "OUTSIDE\n";
-      else
-         cout << "INSIDE\n";
+      cout << polygon.position(Q) << '\n';
    }
 }
