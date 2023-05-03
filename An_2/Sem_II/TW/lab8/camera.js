@@ -51,9 +51,11 @@ function handleKeyPress(event) {
       clone.style.clip = "rect(0px," + vizor.offsetWidth + "px," + vizor.offsetHeight + "px,0px)";
       document.body.appendChild(clone);
 
+      // Redăm sunetul de declanșare a camerei
       const audio = new Audio('camera-shutter-click.mp3');
       audio.play();
 
+      // Animăm clip-ul pentru a simula un efect de obturator
       image.style.filter = "blur(5px)";
       vizor.style.clip = "rect(0px,0px,0px,0px)";
       vizor.style.transition = "clip 0.5s ease-in-out";
@@ -62,6 +64,12 @@ function handleKeyPress(event) {
          vizor.style.transition = "clip 0.5s ease-in-out";
          image.style.filter = "none";
       }, 500);
+
+      // Adăugăm imaginea la galerie
+      const galerie = document.getElementById("galerie");
+      const img = document.createElement("img");
+      img.src = clone.getElementsByTagName("img")[0].src;
+      galerie.insertBefore(img, galerie.firstChild);
 
       return clone;
    }

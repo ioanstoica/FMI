@@ -19,3 +19,29 @@ body {
 .crop img {
    margin: -30px 0 0 -20px;
 }
+
+#vizor {
+   width: 500px;
+   height: 500px;
+   overflow: hidden;
+   position: relative;
+}
+
+#vizor img {
+   width: 100%;
+   height: auto;
+}
+
+#galerie {
+   display: flex;
+   flex-wrap: wrap;
+   margin-top: 20px;
+}
+
+#galerie img {
+   width: 100px;
+   height: 100px;
+   object-fit: cover;
+   margin-right: 10px;
+   margin-bottom: 10px;
+}
