@@ -1,0 +1,31 @@
+Create a form in html with next format: 
+title: FORMULAR PENTRU INTRAREA ÎN SISTEMUL SOLAR
+Fields set 1 -Date personale
+string: Nume complet:
+int: ID unic:
+Options list: Rasă: Martian/Neptunian/Plutonian
+Date picker: Data nașterii: 05/07/2023
+Cursor: Credit social: from 10 to 500
+Upload file option: Fotografie: Button: Browse... No file selected.
+Fields set 2: Contact
+String: Galaxie proveniență:
+String: Planetă proveniență:
+String: Adresa:
+String type email: Email:
+int: Telefon: (Format intergalactic)
+String web url: Web URL: https://example.com
+Fields set 3: Semnalmente fizice.
+Int: Înălţime (10-300cm):
+Int: Greutate (1-500kg):
+Int: Nr. membre:
+Int: Nr. ochi:
+
+Create a form in html with next format: 
+Collor picker: Culoare:
+Fields set 4 -Vizită
+Data picker: ată sosire: 05/07/2023
+Time picker: Timp estimat sosire:
+Radio buttons options:  Ședere: Temporară / Permanentă
+Square select multiple options: Scopul vizitei: Afaceri / Turism / Social (familie & prieteni) / Invazie / Altul
+String: Comentarii: 
+Send button: Trimite cerere

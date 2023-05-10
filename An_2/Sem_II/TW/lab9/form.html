@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Formular pentru intrarea în Sistemul Solar</title>
+   <meta charset="utf-8">
+   <link rel="stylesheet" href="style.css" type="text/css">
+   <script type="text/javascript" src="form.js"></script>
+</head>
+
+<body>
+   <h3>FORMULAR PENTRU INTRAREA ÎN SISTEMUL SOLAR</h3>
+
+   <div id="container">
+      <form action="submit-form.php" method="post">
+         <fieldset>
+            <legend>Date personale</legend>
+            <label for="nume">Nume complet:</label>
+            <input type="text" id="nume" name="nume"><br><br>
+
+            <label for="id">ID unic:</label>
+            <input type="number" id="id" name="id"><br><br>
+
+            <label for="rasa">Rasă:</label>
+            <select id="rasa" name="rasa">
+               <option value="unset">--Please choose an option-- </option>
+               <option value="martian">Martian</option>
+               <option value="neptunian">Neptunian</option>
+               <option value="plutonian">Plutonian</option>
+            </select><br><br>
+
+            <label for="data">Data nașterii:</label>
+            <input type="date" id="data" name="data"><br><br>
+
+            <label for="credit">Credit social:</label>
+            <input type="range" id="credit" name="credit" min="0" max="500" step="20"><span>500</span>
+            <br><br>
+
+            <label for="foto">Fotografie:</label>
+            <input type="file" id="foto" name="foto"><br><br>
+         </fieldset>
+         <fieldset>
+            <legend>Contact</legend>
+            <label for="galaxie">Galaxie proveniență:</label>
+            <input type="text" id="galaxie" name="galaxie"><br><br>
+
+            <label for="planeta">Planetă proveniență:</label>
+            <input type="text" id="planeta" name="planeta"><br><br>
+
+            <label for="adresa">Adresa:</label><br>
+            <textarea type="text" id="adresa" name="adresa" rows="4" cols="50"></textarea><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+
+            <label for="telefon">Telefon:</label>
+            <input type="tel" id="telefon" name="telefon"><br>
+            <small> (Format intergalactic)</small><br><br>
+
+            <label for="url">Web URL:</label>
+            <input type="url" id="url" name="url" placeholder="http://example.com"><br><br>
+         </fieldset>
+         <fieldset>
+            <legend>Semnalmente fizice</legend>
+            <label for="inaltime">Înălţime:</label>
+            <input type="number" id="inaltime" name="inaltime" min="10" max="300"><br><br>
+
+            <label for="greutate">Greutate:</label>
+            <input type="number" id="greutate" name="greutate" min="1" max="500"><br><br>
+
+            <label for="membre">Nr. membre:</label>
+            <input type="number" id="membre" name="membre" min="0"><br><br>
+
+            <label for="ochi">Nr. ochi:</label>
+            <input type="number" id="ochi" name="ochi" min="0"><br><br>
+
+            <label for="colorPicker">Culoare:</label>
+            <input type="color" id="colorPicker" name="colorPicker"><br><br>
+         </fieldset>
+         <fieldset>
+            <legend>Vizită</legend>
+            <label for="arrivalDate">Data sosire:</label>
+            <input type="date" id="arrivalDate" name="arrivalDate"><br><br>
+
+            <label for="estimatedArrivalTime">Timp estimat sosire:</label>
+            <input type="time" id="estimatedArrivalTime" name="estimatedArrivalTime"><br><br>
+
+            <label>Ședere:</label>
+            <input type="radio" id="temporary" name="stayType" value="temporara">
+            <label for="temporary">Temporară</label>
+            <input type="radio" id="permanent" name="stayType" value="permanent">
+            <label for="permanent">Permanentă</label><br><br>
+
+            <label for="visitPurpose">Scopul vizitei:</label><br>
+            <label for="business"><input type="checkbox" id="business" name="purpose" value="business">
+               Afaceri</label><br>
+            <label for="tourism"><input type="checkbox" id="tourism" name="purpose" value="tourism"> Turism</label><br>
+            <label for="social"><input type="checkbox" id="social" name="purpose" value="social"> Social (familie &amp;
+               prieteni)</label><br>
+            <label for="invasion"><input type="checkbox" id="invasion" name="purpose" value="invasion">
+               Invazie</label><br>
+            <label for="other"><input type="checkbox" id="other" name="purpose" value="other"> Altul</label><br>
+
+
+            <label for="comments">Comentarii:</label><br>
+            <textarea id="comments" name="comments" rows="4" cols="50"></textarea><br><br>
+
+         </fieldset>
+         <button type="submit">Trimite cerere</button>
+      </form>
+   </div>
+</body>
+
+</html>
