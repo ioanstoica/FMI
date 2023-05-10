@@ -61,7 +61,7 @@ class BagOfWords:
                     features[id_sen, self.vocabulary[word]] += 1
         return features
     
-l = [['ana', 'are', 'mere'], 'add', 'ss', 'sssssss', []]
+# l = [['ana', 'are', 'mere'], 'add', 'ss', 'sssssss', []]
 
 train_sentences = np.load("data/training_sentences.npy", allow_pickle=True)
 train_labels = np.load("data/training_labels.npy", allow_pickle=True)
@@ -85,34 +85,34 @@ train_features_norm, test_features_norm = normalize_data(train_features, test_fe
 # Exercitiul 6
 from sklearn import svm
 
-svm_model = svm.SVC(C=1, kernel='linear')
+svm_model = svm.SVC(C=1, kernel='rbf')
 
 svm_model.fit(train_features_norm, train_labels)
 
 print("Acuratete: " )
 print(svm_model.score(test_features_norm, test_labels))
 
-def get_most_positive_negative_words(svm_model, vectorizer, n=10):
-    coeficients = svm_model.coef_[0]
-    feature_names = vectorizer.get_feature_names()
-    coeficients_dict = dict(zip(feature_names, coeficients))
-    sorted_coeficients = sorted(coeficients_dict.items(), key=lambda x: x[1], reverse=True)
-    most_positive_words = sorted_coeficients[:n]
-    most_negative_words = sorted_coeficients[-n:]
-    return most_positive_words, most_negative_words
+# def get_most_positive_negative_words(svm_model, vectorizer, n=10):
+#     coeficients = svm_model.coef_[0]
+#     feature_names = vectorizer.get_feature_names()
+#     coeficients_dict = dict(zip(feature_names, coeficients))
+#     sorted_coeficients = sorted(coeficients_dict.items(), key=lambda x: x[1], reverse=True)
+#     most_positive_words = sorted_coeficients[:n]
+#     most_negative_words = sorted_coeficients[-n:]
+#     return most_positive_words, most_negative_words
 
 # most_positive_words, most_negative_words = get_most_positive_negative_words(svm_model, vectorizer, n=10)
-from sklearn.feature_extraction.text import CountVectorizer
+# from sklearn.feature_extraction.text import CountVectorizer
 
-vectorizer = CountVectorizer()
+# vectorizer = CountVectorizer()
 # train_features = vectorizer.fit_transform(train_data)
 # train_features_norm = normalize_data(train_features, None, 'l2')
 
-most_positive_words, most_negative_words = get_most_positive_negative_words(svm_model, vectorizer, n=10)
+# most_positive_words, most_negative_words = get_most_positive_negative_words(svm_model, vectorizer, n=10)
 
-print("Cele mai pozitive cuvinte: ", [x[0] for x in most_positive_words])
-print("Cele mai negative cuvinte: ", [x[0] for x in most_negative_words])
+# print("Cele mai pozitive cuvinte: ", [x[0] for x in most_positive_words])
+# print("Cele mai negative cuvinte: ", [x[0] for x in most_negative_words])
 
 
-print("Cele mai pozitive cuvinte: ", [x[0] for x in most_positive_words])
-print("Cele mai negative cuvinte: ", [x[0] for x in most_negative_words])
+# print("Cele mai pozitive cuvinte: ", [x[0] for x in most_positive_words])
+# print("Cele mai negative cuvinte: ", [x[0] for x in most_negative_words])
