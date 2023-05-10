@@ -20,14 +20,14 @@ def normalize_data(train_data, test_data, type_=None):
     elif type_ == 'l2':
         norm_train = np.sqrt(np.sum(train_data ** 2, axis=1, keepdims=True)) + 10 ** -8
         scaled_train_data = train_data / norm_train
-        norm_test = np.sum(np.abs(test_data ** 2), axis=1, keepdims=True) + 10 ** -8
+        norm_test = np.sqrt(np.sum(test_data ** 2, axis=1, keepdims=True) )+ 10 ** -8
         scaled_test_data = test_data / norm_test
     else:
         raise Exception("Type not found")
     
     return scaled_train_data, scaled_test_data
 
-    
+
 
 # load toy data
 # training_data = np.load('data/svm_train_data.npy')
@@ -85,12 +85,14 @@ train_features_norm, test_features_norm = normalize_data(train_features, test_fe
 # Exercitiul 6
 from sklearn import svm
 
-svm_model = svm.SVC(C=1, kernel='rbf')
+svm_model = svm.SVC(C=1, kernel='linear')
 
 svm_model.fit(train_features_norm, train_labels)
 
 print("Acuratete: " )
 print(svm_model.score(test_features_norm, test_labels))
+
+# nr de substringuri comune de lungime 3, dintre 2 exemple
 
 # def get_most_positive_negative_words(svm_model, vectorizer, n=10):
 #     coeficients = svm_model.coef_[0]
