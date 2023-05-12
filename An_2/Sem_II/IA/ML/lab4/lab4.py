@@ -85,14 +85,93 @@ train_features_norm, test_features_norm = normalize_data(train_features, test_fe
 # Exercitiul 6
 from sklearn import svm
 
-svm_model = svm.SVC(C=1, kernel='linear')
+# svm_model = svm.SVC(C=1, kernel='linear')
 
-svm_model.fit(train_features_norm, train_labels)
+# svm_model.fit(train_features_norm, train_labels)
+
+# print("Acuratete: " )
+# print(svm_model.score(test_features_norm, test_labels))
+
+
+# Exercitiul 7
+# nr de substringuri comune de lungime 2, dintre 2 exemple
+svm_model_2 = svm.SVC(C=1, kernel='precomputed')
+
+# svm_model_2.fit(train_features_norm, train_labels, )
+# print(train_sentences)
+# print(train_labels)
+# print(test_sentences)
+# print(test_labels)
+
+# def get_common_substrings(data):
+#     common_substrings = []
+#     for sentence in data:
+#         substrings = []
+#         for word in sentence:
+#             for i in range(len(word) - 1):
+#                 substrings.append(word[i:i+2])
+#         common_substrings.append(substrings)
+#     return common_substrings
+
+# train_substrings = get_common_substrings(train_sentences)
+# test_substrings = get_common_substrings(test_sentences)
+
+# train_substrings = bag_of_words.get_features(train_substrings)
+# test_substrings = bag_of_words.get_features(test_substrings)
+
+# train_substrings_norm, test_substrings_norm = normalize_data(train_substrings, test_substrings, type_='l2')
+
+# svm_model_2.fit(train_substrings_norm, train_labels)
 
 print("Acuratete: " )
-print(svm_model.score(test_features_norm, test_labels))
+# print(svm_model_2.score(test_substrings_norm, test_labels))
 
-# nr de substringuri comune de lungime 3, dintre 2 exemple
+import numpy as np
+from sklearn import svm, metrics
+
+# Generam un set de date aleatorii
+X = train_sentences
+y = train_labels
+
+def count_common_substrings(list1, list2):
+    count = 0
+    for string1 in list1:
+        for i in range(len(string1) - 3):
+            sustring1=string1[i:i+3]
+            for string2 in list2:
+                for j in range(len(string2) - 3):
+                    sustring2=string2[j:j+3]
+                    if sustring1==sustring2:
+                        count+=1
+                        break
+            
+    return count
+
+# Calculam matricea de similaritate
+K = np.zeros((len(X), len(X)))
+for i in range(len(X)):
+    for j in range(len(X)):
+        K[i, j] = count_common_substrings(X[i], X[j])
+
+# Definim si antrenam SVM-ul folosind matricea precalculata
+svm_model = svm.SVC(C=1, kernel='precomputed')
+svm_model.fit(K, y)
+
+X_test = test_sentences
+y_test = test_labels
+K_test = np.zeros((len(X_test), len(X)))
+for i in range(len(X_test)):
+    for j in range(len(X)):
+        K_test[i, j] = count_common_substrings(X_test[i], X[j])
+
+# y_pred = svm_model.predict(K_test)
+
+# print(y_pred)
+
+# print score of the model
+print("Accuracy: ", svm_model.score(K_test, y_test))
+
+
 
 # def get_most_positive_negative_words(svm_model, vectorizer, n=10):
 #     coeficients = svm_model.coef_[0]
