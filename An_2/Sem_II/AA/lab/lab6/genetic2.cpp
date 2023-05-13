@@ -51,7 +51,7 @@ public:
    void intialize()
    {
       nr_bits = ceil(log2((right - left) * pow(10, precision)));
-      step = (right - left) / (1 << nr_bits);
+      step = (right - left) / pow(2, nr_bits);
    }
 
    double chromosome_to_value(string chromosome)
@@ -66,20 +66,14 @@ public:
 class Individual
 {
 public:
-   double value = 0;
+   // double value = 0;
    double fitness = 0;
    double probability = 0;
    double left = 0, right = 0; // intervalul in care se afla cromozomul
    string chromosome = "";
+   static Fitness fit;
 
    Individual() {}
-
-   // overload >>
-   friend istream &operator>>(istream &in, Individual &individual)
-   {
-      in >> individual.value;
-      return in;
-   }
 
    void computeFitness(Fitness &fitness)
    {
@@ -91,7 +85,6 @@ public:
    {
       if (this == &other)
          return *this;
-      value = other.value;
       fitness = other.fitness;
       probability = other.probability;
       left = other.left;
@@ -109,13 +102,20 @@ public:
       other.chromosome = s2;
    }
 
+   double value()
+   {
+      return fit.chromosome_to_value(chromosome);
+   }
+
    // overload <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << fixed << setprecision(6) << individual.chromosome << " " << individual.value << " " << individual.fitness << " " << individual.probability;
+      out << individual.chromosome << " " << individual.value() << " " << individual.fitness << " " << individual.probability;
       return out;
    }
 };
+
+Fitness Individual::fit;
 
 class Population
 {
@@ -129,17 +129,6 @@ public:
    int number_of_steps = 0;
 
    Population(){};
-
-   friend istream &operator>>(istream &in, Population &Population)
-   {
-      int n;
-      in >> Population.fitness;
-      in >> n;
-      Population.individuals.resize(n);
-      for (auto &individual : Population.individuals)
-         in >> individual;
-      return in;
-   }
 
    void computeFitness()
    {
@@ -183,17 +172,14 @@ public:
    {
       individuals.resize(size);
       for (auto &individual : individuals)
-      {
-         individual.value = fitness.randomValue();
-         individual.chromosome = fitness.value_to_chromosome(individual.value);
-      }
+         individual.chromosome = fitness.value_to_chromosome(fitness.randomValue());
    }
 
    // overloading <<
-   friend ostream &operator<<(ostream &out, Population &Population)
+   friend ostream &operator<<(ostream &out, Population &population)
    {
-      for (auto individual : Population.individuals)
-         out << individual << endl;
+      for (auto individual : population.individuals)
+         out << fixed << setprecision(population.fitness.precision) << individual << endl;
       return out;
    }
 
@@ -293,7 +279,7 @@ void menu(Population &population, Fitness &fitness)
    cout << "3. Citire din fisier: f \n";
 
    char option = 's';
-   cin >> option;
+   // cin >> option;
 
    if (option == 't')
    {
@@ -377,10 +363,15 @@ int main()
    srand(time(NULL));
    ofstream cout("genetic.out");
 
+   // 0.6441 0.6721
+   // 0.509751
+   // 0.6973479
+   // -0.04232917
+
    Fitness fit(-1, 1, 2); // a, b, c - parametri functiei de fitness
    fit.left = -1;         // capatul din stanga al intervalului de cautare
    fit.right = 2;         // capatul din dreapta al intervalului de cautare
-   fit.precision = 6;     // 6
+   fit.precision = 4;     // 6 - nr de cifre dupa virgula
 
    Population population;
    population.crossover_probability = 0.25;
@@ -391,8 +382,8 @@ int main()
    menu(population, fit);
 
    fit.intialize();
+   Individual::fit = fit;
    population.fitness = fit;
-
    population.randomInit();
 
    cout << "Initial population:\n"
