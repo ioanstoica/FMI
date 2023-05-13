@@ -2,266 +2,402 @@
 
 using namespace std;
 
-class Cromozom
+class Fitness
 {
 public:
-   string gena;
+   double a = 0, b = 0, c = 0;
+   double left = 0, right = 0;
+   double precision = 0;
+   int nr_bits = 0;
+   double step = 0;
+
+   Fitness() {}
+   Fitness(double a, double b, double c)
+   {
+      this->a = a;
+      this->b = b;
+      this->c = c;
+   }
+
+   double compute(double x)
+   {
+      return a * x * x + b * x + c;
+   }
+
+   friend istream &operator>>(istream &in, Fitness &fitness)
+   {
+      in >> fitness.a >> fitness.b >> fitness.c;
+      return in;
+   }
+
+   double randomValue()
+   {
+      return (double)rand() / RAND_MAX * (right - left) + left;
+   }
+
+   string value_to_chromosome(double value)
+   {
+      string s;
+      long long n = (value - left) / step;
+      for (int i = 0; i < nr_bits; i++)
+      {
+         s += (n % 2) + '0';
+         n /= 2;
+      }
+      reverse(s.begin(), s.end());
+      return s;
+   }
+
+   void intialize()
+   {
+      nr_bits = ceil(log2((right - left) * pow(10, precision)));
+      step = (right - left) / pow(2, nr_bits);
+   }
+
+   double chromosome_to_value(string chromosome)
+   {
+      double value = 0;
+      for (int i = 0; i < nr_bits; i++)
+         value = 2 * value + (chromosome[i] - '0');
+      return value * step + left;
+   }
 };
 
-void incrucisare(Cromozom &x, Cromozom &y, int p)
+class Individual
 {
-   string x_aux = x.gena.substr(0, p) + y.gena.substr(p);
-   string y_aux = y.gena.substr(0, p) + x.gena.substr(p);
-   x.gena = x_aux;
-   y.gena = y_aux;
-}
+public:
+   // double value = 0;
+   double fitness = 0;
+   double probability = 0;
+   double left = 0, right = 0; // intervalul in care se afla cromozomul
+   string chromosome = "";
+   static Fitness fit;
 
-double fitness(double x, double a, double b, double c)
-{
-   return a * x * x + b * x + c;
-}
+   Individual() {}
 
-string TO(double x, double a, double d, int l)
-{
-   string s;
-   int n = (x - a) / d;
-   for (int i = 0; i < l; i++)
+   void computeFitness(Fitness &fitness)
    {
-      s += (n % 2) + '0';
-      n /= 2;
+      this->fitness = fitness.compute(fitness.chromosome_to_value(chromosome));
    }
-   reverse(s.begin(), s.end());
-   return s;
-}
 
-double FROM(string s, double a, double d, int l)
+   // overloading =
+   Individual &operator=(const Individual &other)
+   {
+      if (this == &other)
+         return *this;
+      fitness = other.fitness;
+      probability = other.probability;
+      left = other.left;
+      right = other.right;
+      chromosome = other.chromosome;
+      return *this;
+   }
+
+   void crossover(Individual &other)
+   {
+      int index = rand() % chromosome.size();
+      string s1 = chromosome.substr(0, index) + other.chromosome.substr(index);
+      string s2 = other.chromosome.substr(0, index) + chromosome.substr(index);
+      chromosome = s1;
+      other.chromosome = s2;
+   }
+
+   double value()
+   {
+      return fit.chromosome_to_value(chromosome);
+   }
+
+   // overload <<
+   friend ostream &operator<<(ostream &out, Individual &individual)
+   {
+      out << individual.chromosome << " " << individual.value() << " " << individual.fitness << " " << individual.probability;
+      return out;
+   }
+};
+
+Fitness Individual::fit;
+
+class Population
 {
-   int n = 0;
-   for (int i = 0; i < l; i++)
-      n = n * 2 + (s[i] - '0');
-   return a + n * d;
+public:
+   vector<Individual> individuals;
+   Fitness fitness;
+   double sum = 0;
+   int size = 0;
+   double crossover_probability = 0;
+   double mutation_probability = 0;
+   int number_of_steps = 0;
+
+   Population(){};
+
+   void computeFitness()
+   {
+      for (auto &individual : individuals)
+         individual.computeFitness(fitness);
+   }
+
+   void computeSum()
+   {
+      sum = 0;
+      for (auto individual : individuals)
+         sum += individual.fitness;
+   }
+
+   void computeProbabilitys()
+   {
+      for (auto &individual : individuals)
+         individual.probability = individual.fitness / sum;
+   }
+
+   void computeIntervals()
+   {
+      double left = 0;
+      for (auto &individual : individuals)
+      {
+         individual.left = left;
+         individual.right = left + individual.probability;
+         left = individual.right;
+      }
+   }
+
+   void computeSelectie()
+   {
+      computeFitness();
+      computeSum();
+      computeProbabilitys();
+      computeIntervals();
+   }
+
+   void randomInit()
+   {
+      individuals.resize(size);
+      for (auto &individual : individuals)
+         individual.chromosome = fitness.value_to_chromosome(fitness.randomValue());
+   }
+
+   // overloading <<
+   friend ostream &operator<<(ostream &out, Population &population)
+   {
+      for (auto individual : population.individuals)
+         out << fixed << setprecision(population.fitness.precision) << individual << endl;
+      return out;
+   }
+
+   void crossover()
+   {
+      bool pereche = false;
+      Individual *first;
+      for (auto &individual : individuals)
+      {
+         double p = (double)rand() / RAND_MAX;
+         if (p > crossover_probability)
+            continue;
+
+         if (pereche)
+         {
+            individual.crossover(*first);
+            pereche = false;
+         }
+         else
+         {
+            first = &individual;
+            pereche = true;
+         }
+      }
+   }
+
+   // selectie de indivizi, prin ruleta, in functie de probabilitatiile calculate deja
+   void naturalSelection()
+   {
+      vector<Individual> new_individuals;
+      Individual best = individuals[0];
+      for (auto individual : individuals)
+         if (individual.fitness > best.fitness)
+            best = individual;
+      new_individuals.push_back(best);
+      for (int i = 1; i < size; i++)
+      {
+         double p = (double)rand() / RAND_MAX;
+         int index = 0;
+         while (individuals[index].right < p)
+            index++;
+         new_individuals.push_back(individuals[index]);
+      }
+
+      for (int i = 0; i < size; i++)
+         individuals[i] = new_individuals[i];
+   }
+
+   void randomSelect(Population old_population, double select_probability)
+   {
+      for (auto individual : old_population.individuals)
+      {
+         double p = (double)rand() / RAND_MAX;
+         if (p < select_probability)
+            individuals.push_back(individual);
+      }
+   }
+
+   void rareMutation()
+   {
+      for (auto &individual : individuals)
+      {
+         double p = (double)rand() / RAND_MAX;
+         if (p > mutation_probability)
+            continue;
+         int index = rand() % individual.chromosome.size();
+         if (individual.chromosome[index] == '0')
+            individual.chromosome[index] = '1';
+         else
+            individual.chromosome[index] = '0';
+      }
+   }
+
+   void normalMutation()
+   {
+      for (auto &individual : individuals)
+      {
+         for (int i = 0; i < individual.chromosome.size(); i++)
+         {
+            double p = (double)rand() / RAND_MAX;
+            if (p > mutation_probability)
+               continue;
+            if (individual.chromosome[i] == '0')
+               individual.chromosome[i] = '1';
+            else
+               individual.chromosome[i] = '0';
+         }
+      }
+   }
+};
+
+void menu(Population &population, Fitness &fitness)
+{
+   cout << "Alegeti una dintre optiunile pentru datele de intrare:\n";
+   cout << "1. Folosirea datelor standard: s\n";
+   cout << "2. Citire de la tastatura: t\n";
+   cout << "3. Citire din fisier: f \n";
+
+   char option = 's';
+   // cin >> option;
+
+   if (option == 't')
+   {
+      cout << "a = ";
+      cin >> fitness.a;
+      cout << "b = ";
+      cin >> fitness.b;
+      cout << "c = ";
+      cin >> fitness.c;
+      cout << "Capatul din stanga al intervalului de cautare: ";
+      cin >> fitness.left;
+      cout << "Capatul din dreapta al intervalului de cautare: ";
+      cin >> fitness.right;
+      cout << "Precizia: ";
+      cin >> fitness.precision;
+      cout << "Probabilitatea de crossover: ";
+      cin >> population.crossover_probability;
+      cout << "Probabilitatea de mutatie: ";
+      cin >> population.mutation_probability;
+      cout << "Numarul de pasi: ";
+      cin >> population.number_of_steps;
+      cout << "Dimensiunea populatiei: ";
+      cin >> population.size;
+      return;
+   }
+
+   if (option == 'f')
+   {
+      cout << "Dati numele fisierului: ";
+      string file_name;
+      cin >> file_name;
+      ifstream cin(file_name);
+      cin >> fitness.a;
+      cin >> fitness.b;
+      cin >> fitness.c;
+      cin >> fitness.left;
+      cin >> fitness.right;
+      cin >> fitness.precision;
+      cin >> population.crossover_probability;
+      cin >> population.mutation_probability;
+      cin >> population.number_of_steps;
+      cin >> population.size;
+      return;
+   }
+
+   if (option == 's')
+   {
+      cout << "Datele standard sunt:\n";
+      cout << "a = " << fitness.a << endl;
+      cout << "b = " << fitness.b << endl;
+      cout << "c = " << fitness.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
+      cout << "Precizia: " << fitness.precision << endl;
+      cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
+      cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
+      cout << "Numarul de pasi: " << population.number_of_steps << endl;
+      cout << "Dimensiunea populatiei: " << population.size << endl;
+      return;
+   }
+
+   if (option == 's')
+   {
+      cout << "Datele standard sunt:\n";
+      cout << "a = " << fitness.a << endl;
+      cout << "b = " << fitness.b << endl;
+      cout << "c = " << fitness.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
+      cout << "Precizia: " << fitness.precision << endl;
+      cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
+      cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
+      cout << "Numarul de pasi: " << population.number_of_steps << endl;
+      cout << "Dimensiunea populatiei: " << population.size << endl;
+      return;
+   }
 }
 
 int main()
 {
+   srand(time(NULL));
    ofstream cout("genetic.out");
 
-   /*
-   Date de intrare
-   • Dimensiunea populației (numărul de cromozomi)
-   • Domeniul de definiție al funcției (capetele unui interval închis)
-   • Parametrii pentru funcția de maximizat (coeficienții polinomului
-   de grad 2)
-   • Precizia cu care se lucrează (cu care se discretizează intervalul)
-   • Probabilitatea de recombinare (crossover, încrucișare)
-   • Probabilitatea de mutație
-   • Numărul de etape al algoritmului
-   */
+   // 0.6441 0.6721
+   // 0.509751
+   // 0.6973479
+   // -0.04232917
 
-   int population_size = 20;
-   double domain_start_a = -1, domain_end_b = 2;
-   double a = -1, b = 1, c = 2;
-   double precision = 6; // 6
-   double crossover_probability = 0.25;
-   double mutation_probability = 0.01;
-   int number_of_steps = 50; // 50
+   Fitness fit(-1, 1, 2); // a, b, c - parametri functiei de fitness
+   fit.left = -1;         // capatul din stanga al intervalului de cautare
+   fit.right = 2;         // capatul din dreapta al intervalului de cautare
+   fit.precision = 4;     // 6 - nr de cifre dupa virgula
 
-   // l = ceil(log2((b - a) * pow(10, p))); // numarul de biti necesari pentru a codifica un numar
-   double l = ceil(log2((domain_end_b - domain_start_a) * pow(10, precision)));
-   // d = (b - a) / pow(2, l);              // pasul de discretizare
-   double d = (domain_end_b - domain_start_a) / pow(2, l);
+   Population population;
+   population.crossover_probability = 0.25;
+   population.mutation_probability = 0.01;
+   population.number_of_steps = 50;
+   population.size = 20;
 
-   // 1. Initializeaza populatia
-   vector<double> population;
-   srand(time(NULL));
-   for (int i = 0; i < population_size; i++)
+   menu(population, fit);
+
+   fit.intialize();
+   Individual::fit = fit;
+   population.fitness = fit;
+   population.randomInit();
+
+   cout << "Initial population:\n"
+        << population << endl;
+
+   for (int i = 0; i < population.number_of_steps; i++)
    {
-      double random = (double)rand() / RAND_MAX;
-      double value = domain_start_a + random * (domain_end_b - domain_start_a);
-      population.push_back(value);
-   }
+      population.computeSelectie();
+      population.naturalSelection();
+      population.crossover();
+      population.normalMutation();
+      population.rareMutation();
 
-   // print population
-   cout << "1. Initial population: " << endl;
-   for (int i = 0; i < population.size(); i++)
-   {
-      cout << population[i] << " ";
-   }
-
-   // 2. Reprezinta fiecare individ din populatie ca un cromozom
-   // 3. Calculeaza fitness-ul pentru fiecare cromozom
-   vector<double> fitness_values;
-   for (int i = 0; i < population.size(); i++)
-   {
-      double value = fitness(population[i], a, b, c);
-      fitness_values.push_back(value);
-   }
-
-   // print fitness values
-   cout << endl
-        << "2. Fitness values: " << endl;
-   for (int i = 0; i < fitness_values.size(); i++)
-   {
-      cout << fitness_values[i] << " ";
-   }
-   cout << endl;
-
-   for (int i = 0; i < number_of_steps; i++)
-   {
-      cout << "Step " << i << ": " << endl;
-
-      // 4. Selecteaza cei mai buni indivizi
-      // sort population by fitness
-      for (int i = 0; i < population.size(); i++)
-      {
-         for (int j = i + 1; j < population.size(); j++)
-         {
-            if (fitness_values[i] < fitness_values[j])
-            {
-               swap(fitness_values[i], fitness_values[j]);
-               swap(population[i], population[j]);
-            }
-         }
-      }
-
-      // print population
-      cout << "3. Sorted population: " << endl;
-      for (int i = 0; i < population.size(); i++)
-      {
-         cout << fitness_values[i] << " - " << population[i] << " " << endl;
-      }
-
-      // *  criteriul elitist: elementul (sau elementele, dupa caz) cel mai bun va trece direct (si nemodificat) in generatia urmatoare. Garantează ca individul cel mai bun de la o anumita generatie este mai bun de cat oricare element din oricare generatie precedenta.
-      vector<double> new_population;
-      new_population.push_back(population[0]);
-
-      vector<double> new_fitness_values;
-      new_fitness_values.push_back(fitness_values[0]);
-
-      // * raman n-1 locuri disponibile.
-      // * selectam n-1 indivizi din generatia curenta, folosind metoda ruletei
-
-      // Calculăm suma fitness-urilor (sf) pentru toți indivizii din populație
-      double sum_fitness = 0;
-      for (int i = 0; i < fitness_values.size(); i++)
-      {
-         sum_fitness += fitness_values[i];
-      }
-
-      // Calculăm probabilitatea de selecție (ps) pentru fiecare individ
-      vector<double> selection_probability;
-      for (int i = 0; i < fitness_values.size(); i++)
-      {
-         double value = fitness_values[i] / sum_fitness;
-         selection_probability.push_back(value);
-      }
-
-      // calculam intervalele de selecție (is) pentru fiecare individ
-      vector<double> selection_intervals;
-      double sum = 0;
-      for (int i = 0; i < selection_probability.size(); i++)
-      {
-         sum += selection_probability[i];
-         selection_intervals.push_back(sum);
-      }
-
-      // selectam n-1 indivizi din generatia curenta, folosind metoda ruletei
-      for (int i = 0; i < population.size() - 1; i++)
-      {
-         double random = (double)rand() / RAND_MAX;
-         for (int j = 0; j < selection_intervals.size(); j++)
-         {
-            if (random < selection_intervals[j])
-            {
-               new_population.push_back(population[j]);
-               new_fitness_values.push_back(fitness_values[j]);
-               break;
-            }
-         }
-      }
-
-      // print new population
-      cout << "4. New population: " << endl; // populatia intermediara
-      for (int i = 0; i < new_population.size(); i++)
-      {
-         cout << new_fitness_values[i] << " - " << new_population[i] << " " << endl;
-      }
-
-      // Pe aceasta populatie intermediara aplicam operatorul genetic de crossing over (încrucișare)​
-      // Avem o probabilitate de crossing over (data ca parametru de intrare) ex: crossover_probability=0.25
-      // Pentru fiecare individ din populatie, generam un numar aleator (random) între 0 si 1. Daca acest numar este mai mic decat probabilitatea de crossing over, atunci individul respectiv va fi supus încrucișarii.
-      // În cazul în care individul este supus încrucișarii, se alege aleator un alt individ din populatie si se realizeaza încrucișarea între cei doi indivizi.
-      // Încrucișarea se realizeaza prin interschimbarea unui numar aleator de gene între cei doi indivizi.
-      // În urma încrucișarii se obtin doi indivizi noi, care vor fi introdusi în populatia intermediara.
-      // Daca individul nu este supus încrucișarii, atunci acesta va fi introdus în populatia intermediara nemodificat.
-
-      vector<double> crossover_population;
-      vector<int> crossover_used;
-
-      for (int i = 0; i < new_population.size(); i++)
-      {
-         double random = (double)rand() / RAND_MAX;
-         if (random < crossover_probability)
-         {
-            crossover_population.push_back(new_population[i]);
-            crossover_used.push_back(i);
-         }
-      }
-
-      // print crossover population
-      cout << "5. Crossover population: " << endl;
-      for (int i = 0; i < crossover_population.size(); i++)
-      {
-         cout << crossover_used[i] << " " << crossover_population[i] << " ";
-      }
-      cout << endl;
-
-      // Odata ce avem multimea de indivizi selectati pt incrucisare, eventual dam un shuffle si ii luam perechi de 2 cate 2 (eventual in caz de numar impar ii luam pe ultimii 3 la un loc)
-      // si facem incrucisarea intre ei.
-      // Dupa ce am facut incrucisarea, adaugam indivizii rezultati in populatia intermediara.
-      // Daca numarul de indivizi selectati pt incrucisare este impar, atunci ultimul individ va fi adaugat nemodificat in populatia intermediara.
-
-      // 5. Reproducerea prin incrucisare
-      for (int j = 0; j < crossover_population.size() - 1; j += 2)
-      {
-         // crossover intre j si j+1
-         string s1 = TO(crossover_population[j], domain_start_a, d, l);
-         string s2 = TO(crossover_population[j + 1], domain_start_a, d, l);
-         // print
-         cout << "6. Crossover between " << crossover_population[j] << " and " << crossover_population[j + 1] << endl;
-         cout << "   " << s1 << endl;
-         cout << "   " << s2 << endl;
-
-         // crossover
-         Cromozom c1;
-         c1.gena = s1;
-         Cromozom c2;
-         c2.gena = s2;
-
-         int size = c1.gena.size();
-         int random = rand() % size;
-
-         incrucisare(c1, c2, random);
-         // Aceste 2 elemente se vor alătura celor care nu au fost selectate pentru încrucișare​
-
-         double x1 = FROM(c1.gena, domain_start_a, d, l);
-         double x2 = FROM(c2.gena, domain_start_a, d, l);
-
-         // move new elements to his position
-         new_population[crossover_used[j]] = x1;
-         new_population[crossover_used[j + 1]] = x2;
-      }
-      // print new population
-      cout << "7. New population: " << endl; // populatia intermediara
-      for (int i = 0; i < new_population.size(); i++)
-      {
-         cout << new_fitness_values[i] << " - " << new_population[i] << " " << endl;
-      }
-
-      // 6. Mutatie
-      // 7. Repetarea
-      // populatia intermediara devine populatia curenta
-      population = new_population;
-      fitness_values = new_fitness_values;
+      cout << "Step " << i << ":\n"
+           << population << endl;
    }
 }
