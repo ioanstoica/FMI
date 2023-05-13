@@ -66,8 +66,6 @@ public:
 class Individual
 {
 public:
-   // double value = 0;
-   double fitness = 0;
    double probability = 0;
    double left = 0, right = 0; // intervalul in care se afla cromozomul
    string chromosome = "";
@@ -75,17 +73,11 @@ public:
 
    Individual() {}
 
-   void computeFitness(Fitness &fitness)
-   {
-      this->fitness = fitness.compute(fitness.chromosome_to_value(chromosome));
-   }
-
    // overloading =
    Individual &operator=(const Individual &other)
    {
       if (this == &other)
          return *this;
-      fitness = other.fitness;
       probability = other.probability;
       left = other.left;
       right = other.right;
@@ -107,10 +99,15 @@ public:
       return fit.chromosome_to_value(chromosome);
    }
 
+   double fitness()
+   {
+      return fit.compute(value());
+   }
+
    // overload <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << individual.chromosome << " " << individual.value() << " " << individual.fitness << " " << individual.probability;
+      out << individual.chromosome << " " << individual.value() << " " << individual.fitness() << " " << individual.probability;
       return out;
    }
 };
@@ -130,23 +127,17 @@ public:
 
    Population(){};
 
-   void computeFitness()
-   {
-      for (auto &individual : individuals)
-         individual.computeFitness(fitness);
-   }
-
    void computeSum()
    {
       sum = 0;
       for (auto individual : individuals)
-         sum += individual.fitness;
+         sum += individual.fitness();
    }
 
    void computeProbabilitys()
    {
       for (auto &individual : individuals)
-         individual.probability = individual.fitness / sum;
+         individual.probability = individual.fitness() / sum;
    }
 
    void computeIntervals()
@@ -162,7 +153,6 @@ public:
 
    void computeSelectie()
    {
-      computeFitness();
       computeSum();
       computeProbabilitys();
       computeIntervals();
@@ -212,7 +202,7 @@ public:
       vector<Individual> new_individuals;
       Individual best = individuals[0];
       for (auto individual : individuals)
-         if (individual.fitness > best.fitness)
+         if (individual.fitness() > best.fitness())
             best = individual;
       new_individuals.push_back(best);
       for (int i = 1; i < size; i++)
