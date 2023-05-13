@@ -228,7 +228,7 @@ public:
       for (auto individual : individuals)
          if (individual.fitness > best.fitness)
             best = individual;
-      new_individuals.push_back(best); // aici ar trebuii adaugat cel mai bun individ
+      new_individuals.push_back(best);
       for (int i = 1; i < size; i++)
       {
          double p = (double)rand() / RAND_MAX;
@@ -249,6 +249,38 @@ public:
          double p = (double)rand() / RAND_MAX;
          if (p < select_probability)
             individuals.push_back(individual);
+      }
+   }
+
+   void rareMutation()
+   {
+      for (auto &individual : individuals)
+      {
+         double p = (double)rand() / RAND_MAX;
+         if (p > mutation_probability)
+            continue;
+         int index = rand() % individual.chromosome.size();
+         if (individual.chromosome[index] == '0')
+            individual.chromosome[index] = '1';
+         else
+            individual.chromosome[index] = '0';
+      }
+   }
+
+   void normalMutation()
+   {
+      for (auto &individual : individuals)
+      {
+         for (int i = 0; i < individual.chromosome.size(); i++)
+         {
+            double p = (double)rand() / RAND_MAX;
+            if (p > mutation_probability)
+               continue;
+            if (individual.chromosome[i] == '0')
+               individual.chromosome[i] = '1';
+            else
+               individual.chromosome[i] = '0';
+         }
       }
    }
 };
@@ -281,9 +313,10 @@ int main()
       population.computeSelectie();
       population.naturalSelection();
       population.crossover();
+      population.normalMutation();
+      population.rareMutation();
 
-      cout << "Step " << i << ":\n";
-      cout << "Populatia dupa crossover:\n"
+      cout << "Step " << i << ":\n"
            << population << endl;
    }
 }
