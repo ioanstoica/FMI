@@ -112,7 +112,7 @@ public:
    // overloading <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << individual.chromosome << " " << individual.value << " " << individual.fitness << " " << individual.probability;
+      out << fixed << setprecision(8) << individual.chromosome << " " << individual.value << " " << individual.fitness << " " << individual.probability;
       return out;
    }
 };
