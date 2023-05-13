@@ -2,7 +2,7 @@
 
 using namespace std;
 
-class Fitness
+class Species
 {
 public:
    double a = 0, b = 0, c = 0;
@@ -11,8 +11,8 @@ public:
    int nr_bits = 0;
    double step = 0;
 
-   Fitness() {}
-   Fitness(double a, double b, double c)
+   Species() {}
+   Species(double a, double b, double c)
    {
       this->a = a;
       this->b = b;
@@ -24,9 +24,9 @@ public:
       return a * x * x + b * x + c;
    }
 
-   friend istream &operator>>(istream &in, Fitness &fitness)
+   friend istream &operator>>(istream &in, Species &species)
    {
-      in >> fitness.a >> fitness.b >> fitness.c;
+      in >> species.a >> species.b >> species.c;
       return in;
    }
 
@@ -69,7 +69,7 @@ public:
    double probability = 0;
    double left = 0, right = 0; // intervalul in care se afla cromozomul
    string chromosome = "";
-   static Fitness fit;
+   static Species species;
 
    Individual() {}
 
@@ -96,12 +96,12 @@ public:
 
    double value()
    {
-      return fit.chromosome_to_value(chromosome);
+      return species.chromosome_to_value(chromosome);
    }
 
    double fitness()
    {
-      return fit.compute(value());
+      return species.compute(value());
    }
 
    // overload <<
@@ -112,13 +112,13 @@ public:
    }
 };
 
-Fitness Individual::fit;
+Species Individual::species;
 
 class Population
 {
 public:
    vector<Individual> individuals;
-   Fitness fitness;
+   Species species;
    double sum = 0;
    int size = 0;
    double crossover_probability = 0;
@@ -162,14 +162,14 @@ public:
    {
       individuals.resize(size);
       for (auto &individual : individuals)
-         individual.chromosome = fitness.value_to_chromosome(fitness.randomValue());
+         individual.chromosome = species.value_to_chromosome(species.randomValue());
    }
 
    // overloading <<
    friend ostream &operator<<(ostream &out, Population &population)
    {
       for (auto individual : population.individuals)
-         out << fixed << setprecision(population.fitness.precision) << individual << endl;
+         out << fixed << setprecision(population.species.precision) << individual << endl;
       return out;
    }
 
@@ -261,7 +261,7 @@ public:
    }
 };
 
-void menu(Population &population, Fitness &fitness)
+void menu(Population &population, Species &species)
 {
    cout << "Alegeti una dintre optiunile pentru datele de intrare:\n";
    cout << "1. Folosirea datelor standard: s\n";
@@ -274,17 +274,17 @@ void menu(Population &population, Fitness &fitness)
    if (option == 't')
    {
       cout << "a = ";
-      cin >> fitness.a;
+      cin >> species.a;
       cout << "b = ";
-      cin >> fitness.b;
+      cin >> species.b;
       cout << "c = ";
-      cin >> fitness.c;
+      cin >> species.c;
       cout << "Capatul din stanga al intervalului de cautare: ";
-      cin >> fitness.left;
+      cin >> species.left;
       cout << "Capatul din dreapta al intervalului de cautare: ";
-      cin >> fitness.right;
+      cin >> species.right;
       cout << "Precizia: ";
-      cin >> fitness.precision;
+      cin >> species.precision;
       cout << "Probabilitatea de crossover: ";
       cin >> population.crossover_probability;
       cout << "Probabilitatea de mutatie: ";
@@ -302,12 +302,12 @@ void menu(Population &population, Fitness &fitness)
       string file_name;
       cin >> file_name;
       ifstream cin(file_name);
-      cin >> fitness.a;
-      cin >> fitness.b;
-      cin >> fitness.c;
-      cin >> fitness.left;
-      cin >> fitness.right;
-      cin >> fitness.precision;
+      cin >> species.a;
+      cin >> species.b;
+      cin >> species.c;
+      cin >> species.left;
+      cin >> species.right;
+      cin >> species.precision;
       cin >> population.crossover_probability;
       cin >> population.mutation_probability;
       cin >> population.number_of_steps;
@@ -318,12 +318,12 @@ void menu(Population &population, Fitness &fitness)
    if (option == 's')
    {
       cout << "Datele standard sunt:\n";
-      cout << "a = " << fitness.a << endl;
-      cout << "b = " << fitness.b << endl;
-      cout << "c = " << fitness.c << endl;
-      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
-      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
-      cout << "Precizia: " << fitness.precision << endl;
+      cout << "a = " << species.a << endl;
+      cout << "b = " << species.b << endl;
+      cout << "c = " << species.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << species.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << species.right << endl;
+      cout << "Precizia: " << species.precision << endl;
       cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
       cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
       cout << "Numarul de pasi: " << population.number_of_steps << endl;
@@ -334,12 +334,12 @@ void menu(Population &population, Fitness &fitness)
    if (option == 's')
    {
       cout << "Datele standard sunt:\n";
-      cout << "a = " << fitness.a << endl;
-      cout << "b = " << fitness.b << endl;
-      cout << "c = " << fitness.c << endl;
-      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
-      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
-      cout << "Precizia: " << fitness.precision << endl;
+      cout << "a = " << species.a << endl;
+      cout << "b = " << species.b << endl;
+      cout << "c = " << species.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << species.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << species.right << endl;
+      cout << "Precizia: " << species.precision << endl;
       cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
       cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
       cout << "Numarul de pasi: " << population.number_of_steps << endl;
@@ -353,15 +353,10 @@ int main()
    srand(time(NULL));
    ofstream cout("genetic.out");
 
-   // 0.6441 0.6721
-   // 0.509751
-   // 0.6973479
-   // -0.04232917
-
-   Fitness fit(-1, 1, 2); // a, b, c - parametri functiei de fitness
-   fit.left = -1;         // capatul din stanga al intervalului de cautare
-   fit.right = 2;         // capatul din dreapta al intervalului de cautare
-   fit.precision = 4;     // 6 - nr de cifre dupa virgula
+   Species species(-1, 1, 2); // a, b, c - parametri functiei de species
+   species.left = -1;         // capatul din stanga al intervalului de cautare
+   species.right = 2;         // capatul din dreapta al intervalului de cautare
+   species.precision = 6;     // 6 - nr de cifre dupa virgula
 
    Population population;
    population.crossover_probability = 0.25;
@@ -369,11 +364,11 @@ int main()
    population.number_of_steps = 50;
    population.size = 20;
 
-   menu(population, fit);
+   menu(population, species);
 
-   fit.intialize();
-   Individual::fit = fit;
-   population.fitness = fit;
+   species.intialize();
+   Individual::species = species;
+   population.species = species;
    population.randomInit();
 
    cout << "Initial population:\n"
