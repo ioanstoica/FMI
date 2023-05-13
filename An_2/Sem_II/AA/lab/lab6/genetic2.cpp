@@ -38,7 +38,7 @@ public:
    string value_to_chromosome(double value)
    {
       string s;
-      int n = (value - left) / step;
+      long long n = (value - left) / step;
       for (int i = 0; i < nr_bits; i++)
       {
          s += (n % 2) + '0';
@@ -109,10 +109,10 @@ public:
       other.chromosome = s2;
    }
 
-   // overloading <<
+   // overload <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << fixed << setprecision(8) << individual.chromosome << " " << individual.value << " " << individual.fitness << " " << individual.probability;
+      out << fixed << setprecision(6) << individual.chromosome << " " << individual.value << " " << individual.fitness << " " << individual.probability;
       return out;
    }
 };
@@ -220,7 +220,7 @@ public:
       }
    }
 
-   // selectie ne indivizi, prin ruleta, in functie de probabilitatiile calculate deja
+   // selectie de indivizi, prin ruleta, in functie de probabilitatiile calculate deja
    void naturalSelection()
    {
       vector<Individual> new_individuals;
@@ -285,6 +285,93 @@ public:
    }
 };
 
+void menu(Population &population, Fitness &fitness)
+{
+   cout << "Alegeti una dintre optiunile pentru datele de intrare:\n";
+   cout << "1. Folosirea datelor standard: s\n";
+   cout << "2. Citire de la tastatura: t\n";
+   cout << "3. Citire din fisier: f \n";
+
+   char option = 's';
+   cin >> option;
+
+   if (option == 't')
+   {
+      cout << "a = ";
+      cin >> fitness.a;
+      cout << "b = ";
+      cin >> fitness.b;
+      cout << "c = ";
+      cin >> fitness.c;
+      cout << "Capatul din stanga al intervalului de cautare: ";
+      cin >> fitness.left;
+      cout << "Capatul din dreapta al intervalului de cautare: ";
+      cin >> fitness.right;
+      cout << "Precizia: ";
+      cin >> fitness.precision;
+      cout << "Probabilitatea de crossover: ";
+      cin >> population.crossover_probability;
+      cout << "Probabilitatea de mutatie: ";
+      cin >> population.mutation_probability;
+      cout << "Numarul de pasi: ";
+      cin >> population.number_of_steps;
+      cout << "Dimensiunea populatiei: ";
+      cin >> population.size;
+      return;
+   }
+
+   if (option == 'f')
+   {
+      cout << "Dati numele fisierului: ";
+      string file_name;
+      cin >> file_name;
+      ifstream cin(file_name);
+      cin >> fitness.a;
+      cin >> fitness.b;
+      cin >> fitness.c;
+      cin >> fitness.left;
+      cin >> fitness.right;
+      cin >> fitness.precision;
+      cin >> population.crossover_probability;
+      cin >> population.mutation_probability;
+      cin >> population.number_of_steps;
+      cin >> population.size;
+      return;
+   }
+
+   if (option == 's')
+   {
+      cout << "Datele standard sunt:\n";
+      cout << "a = " << fitness.a << endl;
+      cout << "b = " << fitness.b << endl;
+      cout << "c = " << fitness.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
+      cout << "Precizia: " << fitness.precision << endl;
+      cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
+      cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
+      cout << "Numarul de pasi: " << population.number_of_steps << endl;
+      cout << "Dimensiunea populatiei: " << population.size << endl;
+      return;
+   }
+
+   if (option == 's')
+   {
+      cout << "Datele standard sunt:\n";
+      cout << "a = " << fitness.a << endl;
+      cout << "b = " << fitness.b << endl;
+      cout << "c = " << fitness.c << endl;
+      cout << "Capatul din stanga al intervalului de cautare: " << fitness.left << endl;
+      cout << "Capatul din dreapta al intervalului de cautare: " << fitness.right << endl;
+      cout << "Precizia: " << fitness.precision << endl;
+      cout << "Probabilitatea de crossover: " << population.crossover_probability << endl;
+      cout << "Probabilitatea de mutatie: " << population.mutation_probability << endl;
+      cout << "Numarul de pasi: " << population.number_of_steps << endl;
+      cout << "Dimensiunea populatiei: " << population.size << endl;
+      return;
+   }
+}
+
 int main()
 {
    srand(time(NULL));
@@ -294,14 +381,17 @@ int main()
    fit.left = -1;         // capatul din stanga al intervalului de cautare
    fit.right = 2;         // capatul din dreapta al intervalului de cautare
    fit.precision = 6;     // 6
-   fit.intialize();
 
    Population population;
-   population.fitness = fit;
    population.crossover_probability = 0.25;
    population.mutation_probability = 0.01;
    population.number_of_steps = 50;
    population.size = 20;
+
+   menu(population, fit);
+
+   fit.intialize();
+   population.fitness = fit;
 
    population.randomInit();
 
