@@ -196,9 +196,10 @@ public:
       }
    }
 
-   // selectie de indivizi, prin ruleta, in functie de probabilitatiile calculate deja
+   // selectie de noi indivizi, prin ruleta, in functie de probabilitatiile calculate deja
    void naturalSelection()
    {
+      computeSelectie();
       vector<Individual> new_individuals;
       Individual best = individuals[0];
       for (auto individual : individuals)
@@ -231,33 +232,35 @@ public:
    void rareMutation()
    {
       for (auto &individual : individuals)
-      {
-         double p = (double)rand() / RAND_MAX;
-         if (p > mutation_probability)
-            continue;
-         int index = rand() % individual.chromosome.size();
-         if (individual.chromosome[index] == '0')
-            individual.chromosome[index] = '1';
-         else
-            individual.chromosome[index] = '0';
-      }
+         if (&individual != &individuals[0]) // nu mutam cel mai bun individ
+         {
+            double p = (double)rand() / RAND_MAX;
+            if (p > mutation_probability)
+               continue;
+            int index = rand() % individual.chromosome.size();
+            if (individual.chromosome[index] == '0')
+               individual.chromosome[index] = '1';
+            else
+               individual.chromosome[index] = '0';
+         }
    }
 
    void normalMutation()
    {
       for (auto &individual : individuals)
-      {
-         for (int i = 0; i < individual.chromosome.size(); i++)
+         if (&individual != &individuals[0]) // nu mutam cel mai bun individ
          {
-            double p = (double)rand() / RAND_MAX;
-            if (p > mutation_probability)
-               continue;
-            if (individual.chromosome[i] == '0')
-               individual.chromosome[i] = '1';
-            else
-               individual.chromosome[i] = '0';
+            for (int i = 0; i < individual.chromosome.size(); i++)
+            {
+               double p = (double)rand() / RAND_MAX;
+               if (p > mutation_probability)
+                  continue;
+               if (individual.chromosome[i] == '0')
+                  individual.chromosome[i] = '1';
+               else
+                  individual.chromosome[i] = '0';
+            }
          }
-      }
    }
 };
 
@@ -353,10 +356,10 @@ int main()
    srand(time(NULL));
    ofstream cout("genetic.out");
 
-   Species species(-1, 1, 2); // a, b, c - parametri functiei de species
-   species.left = -1;         // capatul din stanga al intervalului de cautare
-   species.right = 2;         // capatul din dreapta al intervalului de cautare
-   species.precision = 6;     // 6 - nr de cifre dupa virgula
+   Species species(-4, 100, 1); // a, b, c - parametri functiei de species ex; -x^2 + 2x + 1
+   species.left = 0;            // capatul din stanga al intervalului de cautare -1
+   species.right = 20;          // capatul din dreapta al intervalului de cautare 2
+   species.precision = 6;       // 6 - nr de cifre dupa virgula
 
    Population population;
    population.crossover_probability = 0.25;
@@ -376,7 +379,6 @@ int main()
 
    for (int i = 0; i < population.number_of_steps; i++)
    {
-      population.computeSelectie();
       population.naturalSelection();
       population.crossover();
       population.normalMutation();
