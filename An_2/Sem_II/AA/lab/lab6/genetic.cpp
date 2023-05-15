@@ -21,7 +21,11 @@ public:
 
    double compute(double x)
    {
-      return a * x * x + b * x + c;
+      double fitness = a * x * x + b * x + c;
+      if (fitness > 0)
+         return fitness;
+      string error = "Fitness-ul trebuie sa fie strict pozitiv: pentru a=" + to_string(a) + ", b=" + to_string(b) + ", c=" + to_string(c) + ", x=" + to_string(x) + ", fitness = a * x * x + b * x + c =" + to_string(fitness) + "\n";
+      throw error;
    }
 
    friend istream &operator>>(istream &in, Species &species)
@@ -404,20 +408,20 @@ void menu(Population &population, Species &species)
    }
 }
 
-int main()
+void solve()
 {
    srand(time(NULL));
    ofstream cout("genetic.out");
 
-   Species species(-4, 100, 1); // a, b, c - parametri functiei de species ex; -x^2 + 2x + 1
-   species.left = 0;            // capatul din stanga al intervalului de cautare -1
-   species.right = 20;          // capatul din dreapta al intervalului de cautare 2
-   species.precision = 6;       // 6 - nr de cifre dupa virgula
+   Species species(-3, 7, 1); // a, b, c - parametri functiei de species ex; -x^2 + 2x + 1
+   species.left = 0;          // capatul din stanga al intervalului de cautare -1
+   species.right = 2;         // capatul din dreapta al intervalului de cautare 2
+   species.precision = 10;    // 6 - nr de cifre dupa virgula
 
    Population population;
    population.crossover_probability = 0.25;
    population.mutation_probability = 0.01;
-   population.number_of_steps = 50;
+   population.number_of_steps = 200; // 50
    population.size = 20;
 
    menu(population, species);
@@ -441,6 +445,19 @@ int main()
       if (!i)
          cout << "Populatie initiala:\n"
               << out;
-      cout << "Pas " << i << ": max f(x)=" << population.maxFitness() << ", mean f(x)=" << population.meanFitness() << endl;
+
+      cout << setprecision(population.species.precision) << fixed << "Pas " << i + 1 << ": max f(x)=" << population.maxFitness() << ", mean f(x)=" << population.meanFitness() << endl;
+   }
+}
+
+int main()
+{
+   try
+   {
+      solve();
+   }
+   catch (const string msg)
+   {
+      cout << "EROARE: " << msg << endl;
    }
 }
