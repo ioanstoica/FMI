@@ -85,13 +85,19 @@ public:
       return *this;
    }
 
-   void crossover(Individual &other)
+   void crossover(Individual &other, string &out)
    {
       int index = rand() % chromosome.size();
+
+      out += "Cromozomii care se incruciseaza sunt: \n" + chromosome + "\n" + other.chromosome + "\n";
+      out += "Punctul de incrucisare este bit-ul: " + to_string(index) + "\n";
+
       string s1 = chromosome.substr(0, index) + other.chromosome.substr(index);
       string s2 = other.chromosome.substr(0, index) + chromosome.substr(index);
       chromosome = s1;
       other.chromosome = s2;
+
+      out += "Rezultatul este: \n" + chromosome + "\n" + other.chromosome + "\n";
    }
 
    double value()
@@ -107,13 +113,18 @@ public:
    // overload <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << "biti=" << individual.chromosome << ", x=" << individual.value() << ", f(x)=" << individual.fitness();
+      out << individual.toString();
       return out;
    }
 
    string toString()
    {
-      return "biti=" + chromosome + ", x=" + to_string(value()) + ", f(x)=" + to_string(fitness()) + ", prob=" + to_string(probability) + ", left=" + to_string(left) + ", right=" + to_string(right);
+      return "biti=" + chromosome + ", x=" + to_string(value()) + ", f(x)=" + to_string(fitness()) + ", prob=" + to_string(probability) + ", interval selectie=(" + to_string(left) + ", " + to_string(right) + ")";
+   }
+
+   bool operator<(Individual &other)
+   {
+      return fitness() < other.fitness();
    }
 };
 
@@ -188,8 +199,10 @@ public:
       return out;
    }
 
-   void crossover()
+   void crossover(string &out)
    {
+      out += "Folosind metoda incrucisarii, obtinem urmatoarea generatie de indivizi\n";
+
       bool pereche = false;
       Individual *first;
       for (auto &individual : individuals)
@@ -200,7 +213,7 @@ public:
 
          if (pereche)
          {
-            individual.crossover(*first);
+            individual.crossover(*first, out);
             pereche = false;
          }
          else
@@ -209,31 +222,40 @@ public:
             pereche = true;
          }
       }
+      out += "\n";
    }
 
    // selectie de noi indivizi, prin ruleta, in functie de probabilitatiile calculate deja
-   string naturalSelection()
+   void naturalSelection(string &out)
    {
-      string out = computeSelectie();
+      out += computeSelectie() + "\n";
+
       vector<Individual> new_individuals;
-      Individual best = individuals[0];
-      for (auto individual : individuals)
-         if (individual.fitness() > best.fitness())
-            best = individual;
-      new_individuals.push_back(best);
-      for (int i = 1; i < size; i++)
+      new_individuals.push_back(max_element(individuals.begin(), individuals.end())[0]);
+
+      out += "Folosind metoda ruletei, alegem urmatoarea generatie de indivizi\n";
+      out += "1. Il pastram pe cel mai bun: " + new_individuals[0].toString() + "\n";
+      out += "Alegem inca " + to_string(size - 1) + " indivizi: \n";
+
+      for (int i = 2; i <= size; i++)
       {
          double p = (double)rand() / RAND_MAX;
-         int index = 0;
-         while (individuals[index].right < p)
-            index++;
-         new_individuals.push_back(individuals[index]);
+         out += to_string(i) + ". Random= " + to_string(p);
+
+         Individual target;
+         target.right = p;
+         auto it = upper_bound(individuals.begin(), individuals.end(), target,
+                               [](const Individual &a, const Individual &b)
+                               { return a.right < b.right; });
+         new_individuals.push_back(*it);
+
+         out += " -> alegem individul " + to_string(it - individuals.begin() + 1) + ". " + (*it).toString() + "\n";
       }
+
+      out += '\n';
 
       for (int i = 0; i < size; i++)
          individuals[i] = new_individuals[i];
-
-      return out;
    }
 
    void randomSelect(Population old_population, double select_probability)
@@ -278,6 +300,19 @@ public:
                   individual.chromosome[i] = '0';
             }
          }
+   }
+
+   double meanFitness()
+   {
+      double sum = 0;
+      for (auto individual : individuals)
+         sum += individual.fitness();
+      return sum / individuals.size();
+   }
+
+   double maxFitness()
+   {
+      return max_element(individuals.begin(), individuals.end())[0].fitness();
    }
 };
 
@@ -394,15 +429,16 @@ int main()
    for (int i = 0; i < population.number_of_steps; i++)
    {
       string out = "";
-      out += population.naturalSelection();
-      population.crossover();
+      population.naturalSelection(out);
+      population.crossover(out);
+      out += "Populația rezultată după recombinare:\n" + population.toString() + "\n";
       population.normalMutation();
       population.rareMutation();
-
-      cout << "Step " << i << ":" << population.individuals[0].fitness() << endl;
+      out += "Populatia rezultata dupa mutatie:\n" + population.toString() + "\n";
 
       if (!i)
-         cout << "Initial population:\n"
+         cout << "Populatie initiala:\n"
               << out;
+      cout << "Pas " << i << ": max f(x)=" << population.maxFitness() << ", mean f(x)=" << population.meanFitness() << endl;
    }
 }
