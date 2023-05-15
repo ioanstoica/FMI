@@ -210,22 +210,23 @@ public:
       bool pereche = false;
       Individual *first;
       for (auto &individual : individuals)
-      {
-         double p = (double)rand() / RAND_MAX;
-         if (p > crossover_probability)
-            continue;
+         if (&individual != &individuals[0])
+         {
+            double p = (double)rand() / RAND_MAX;
+            if (p > crossover_probability)
+               continue;
 
-         if (pereche)
-         {
-            individual.crossover(*first, out);
-            pereche = false;
+            if (pereche)
+            {
+               individual.crossover(*first, out);
+               pereche = false;
+            }
+            else
+            {
+               first = &individual;
+               pereche = true;
+            }
          }
-         else
-         {
-            first = &individual;
-            pereche = true;
-         }
-      }
       out += "\n";
    }
 
@@ -416,12 +417,12 @@ void solve()
    Species species(-3, 7, 1); // a, b, c - parametri functiei de species ex; -x^2 + 2x + 1
    species.left = 0;          // capatul din stanga al intervalului de cautare -1
    species.right = 2;         // capatul din dreapta al intervalului de cautare 2
-   species.precision = 10;    // 6 - nr de cifre dupa virgula
+   species.precision = 6;     // 6 - nr de cifre dupa virgula
 
    Population population;
    population.crossover_probability = 0.25;
    population.mutation_probability = 0.01;
-   population.number_of_steps = 200; // 50
+   population.number_of_steps = 50; // 50
    population.size = 20;
 
    menu(population, species);
