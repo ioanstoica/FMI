@@ -107,8 +107,13 @@ public:
    // overload <<
    friend ostream &operator<<(ostream &out, Individual &individual)
    {
-      out << individual.chromosome << " " << individual.value() << " " << individual.fitness() << " " << individual.probability;
+      out << "biti=" << individual.chromosome << ", x=" << individual.value() << ", f(x)=" << individual.fitness();
       return out;
+   }
+
+   string toString()
+   {
+      return "biti=" + chromosome + ", x=" + to_string(value()) + ", f(x)=" + to_string(fitness()) + ", prob=" + to_string(probability) + ", left=" + to_string(left) + ", right=" + to_string(right);
    }
 };
 
@@ -151,11 +156,21 @@ public:
       }
    }
 
-   void computeSelectie()
+   string toString()
+   {
+      string out;
+      int i = 0;
+      for (auto individual : individuals)
+         out += to_string(++i) + ". " + individual.toString() + "\n";
+      return out;
+   }
+
+   string computeSelectie()
    {
       computeSum();
       computeProbabilitys();
       computeIntervals();
+      return toString();
    }
 
    void randomInit()
@@ -197,9 +212,9 @@ public:
    }
 
    // selectie de noi indivizi, prin ruleta, in functie de probabilitatiile calculate deja
-   void naturalSelection()
+   string naturalSelection()
    {
-      computeSelectie();
+      string out = computeSelectie();
       vector<Individual> new_individuals;
       Individual best = individuals[0];
       for (auto individual : individuals)
@@ -217,6 +232,8 @@ public:
 
       for (int i = 0; i < size; i++)
          individuals[i] = new_individuals[i];
+
+      return out;
    }
 
    void randomSelect(Population old_population, double select_probability)
@@ -374,17 +391,18 @@ int main()
    population.species = species;
    population.randomInit();
 
-   cout << "Initial population:\n"
-        << population << endl;
-
    for (int i = 0; i < population.number_of_steps; i++)
    {
-      population.naturalSelection();
+      string out = "";
+      out += population.naturalSelection();
       population.crossover();
       population.normalMutation();
       population.rareMutation();
 
-      cout << "Step " << i << ":\n"
-           << population << endl;
+      cout << "Step " << i << ":" << population.individuals[0].fitness() << endl;
+
+      if (!i)
+         cout << "Initial population:\n"
+              << out;
    }
 }
