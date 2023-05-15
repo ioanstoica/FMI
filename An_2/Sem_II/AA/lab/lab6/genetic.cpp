@@ -134,7 +134,7 @@ class Population
 {
 public:
    vector<Individual> individuals;
-   Species species;
+   static Species species;
    double sum = 0;
    int size = 0;
    double crossover_probability = 0;
@@ -315,6 +315,7 @@ public:
       return max_element(individuals.begin(), individuals.end())[0].fitness();
    }
 };
+Species Population::species;
 
 void menu(Population &population, Species &species)
 {
@@ -423,7 +424,7 @@ int main()
 
    species.intialize();
    Individual::species = species;
-   population.species = species;
+   Population::species = species;
    population.randomInit();
 
    for (int i = 0; i < population.number_of_steps; i++)
@@ -432,6 +433,7 @@ int main()
       population.naturalSelection(out);
       population.crossover(out);
       out += "Populația rezultată după recombinare:\n" + population.toString() + "\n";
+
       population.normalMutation();
       population.rareMutation();
       out += "Populatia rezultata dupa mutatie:\n" + population.toString() + "\n";
