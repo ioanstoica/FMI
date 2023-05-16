@@ -35,6 +35,15 @@ def extract_domain(data):
     
     return domain_parts
 
+# Get the IP address of a hostname
+def get_ip_address(hostname):
+    try:
+        # Send a DNS request to 8.8.8.8 and retrieve the IP address
+        ip_address = socket.gethostbyname(hostname)
+        return ip_address
+    except socket.gaierror:
+        return None
+
 print("DNS server started at host:", host, "port:", port)
 while True:
     # Asteptam o cerere de tip DNS
@@ -46,11 +55,22 @@ while True:
 
     # Extragem domeniul interogat
     domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
+    domain_parts = domain_parts[:-1] # domain_parts = ['api', 'github', 'com']
+    print("domain_parts: ", domain_parts)
+    domain = '.'.join(domain_parts) # domain = 'api.github.com'
+    print("domain: ", domain)
 
-    response_ip = '0.0.0.0'
-    if 'github' == domain_parts[0]:
-        response_ip = '140.82.121.3' # 140.82.121.3 - github.com
-    
+    # Obtinem IP-ul pentru domeniul interogat
+    response_ip = get_ip_address(domain)
+    print("response_ip: ", response_ip)
+
+    # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
+    errorcode = 0
+    if response_ip is None:
+        print("Failed to retrieve the IP address of", domain)
+        response_ip = '0.0.0.0'
+        errorcode = 3 # NXDOMAIN - Non-Existent Domain
+  
     if dns is not None and dns.opcode == 0:  # dns QUERY
         print("got: ")
         print(packet.summary())
@@ -67,7 +87,7 @@ while True:
             id=packet[DNS].id,  # DNS replies must have the same ID as requests
             qr=1,  # 1 for response, 0 for query
             aa=0,  # Authoritative Answer
-            rcode=0,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
+            rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
             qd=packet.qd,  # request-ul original
             an=dns_answer,
         )  # obiectul de reply
