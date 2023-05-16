@@ -48,7 +48,12 @@ while True:
     # converitm payload-ul in pachet scapy
     packet = DNS(request)
     dns = packet.getlayer(DNS)
-    print("dns: ", adresa_cautata(request))
+    domain =  adresa_cautata(request)
+    print("dns: ", domain) # domain = a list like  ['api', 'github', 'com', '']
+
+    response_ip = '0.0.0.0'
+    if 'github' == domain[0]:
+        response_ip = '140.82.121.3'
 
     # 140.82.121.3 - github.com
     if dns is not None and dns.opcode == 0:  # dns QUERY
@@ -60,7 +65,7 @@ while True:
             ttl=330,  # DNS entry Time to Live
             type="A",
             rclass="IN",
-            rdata="",
+            rdata=response_ip,
         )  # found at IP: 1.1.1.1 :)
         dns_response = DNS(
             id=packet[DNS].id,  # DNS replies must have the same ID as requests
