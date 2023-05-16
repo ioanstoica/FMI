@@ -83,7 +83,8 @@ def getzone(domain):
     global zonedata
 
     zone_name = '.'.join(domain)
-    return zonedata[zone_name]
+    print("zonedata", zonedata)
+    return zonedata['howcode.org.']
 
 def getrecs(data):
     domain, questiontype = getquestiondomain(data)
