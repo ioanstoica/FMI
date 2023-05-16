@@ -1,72 +1,68 @@
 import socket
 from scapy.all import DNS, DNSQR, DNSRR
 
-simple_udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
-simple_udp.bind(("127.0.0.1", 53))
+host = "127.0.0.1"
+port = 53
 
+# Create a socket object and bind it to a port
+socket_udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
+socket_udp.bind((host, port))
 
-def getquestiondomain(data):
-
+# Extrage domeniul targetat din request-ul DNS
+def extract_domain(data):
+    data = data[12:]
     state = 0
-    expectedlength = 0
-    domainstring = ''
-    domainparts = []
+    expected_length = 0
+    domain_string = ''
+    domain_parts = []
     x = 0
-    y = 0
     for byte in data:
         if state == 1:
             if byte != 0:
-                domainstring += chr(byte)
+                domain_string += chr(byte)
             x += 1
-            if x == expectedlength:
-                domainparts.append(domainstring)
-                domainstring = ''
+            if x == expected_length:
+                domain_parts.append(domain_string)
+                domain_string = ''
                 state = 0
                 x = 0
             if byte == 0:
-                domainparts.append(domainstring)
+                domain_parts.append(domain_string)
                 break
         else:
             state = 1
-            expectedlength = byte
-        y += 1
+            expected_length = byte
+    
+    return domain_parts
 
-    questiontype = data[y:y+2]
-
-    return (domainparts, questiontype)
-
-def getrecs(data):
-    domain, questiontype = getquestiondomain(data)
-    return domain
-
-def adresa_cautata(data):
-    return getrecs(data[12:])
-
-print("DNS server started!")
+print("DNS server started at host:", host, "port:", port)
 while True:
-    request, adresa_sursa = simple_udp.recvfrom(65535)
+    # Asteptam o cerere de tip DNS
+    request, source_address = socket_udp.recvfrom(65535)
+    
     # converitm payload-ul in pachet scapy
     packet = DNS(request)
     dns = packet.getlayer(DNS)
-    domain =  adresa_cautata(request)
-    print("dns: ", domain) # domain = a list like  ['api', 'github', 'com', '']
+
+    # Extragem domeniul interogat
+    domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
 
     response_ip = '0.0.0.0'
-    if 'github' == domain[0]:
-        response_ip = '140.82.121.3'
-
-    # 140.82.121.3 - github.com
+    if 'github' == domain_parts[0]:
+        response_ip = '140.82.121.3' # 140.82.121.3 - github.com
+    
     if dns is not None and dns.opcode == 0:  # dns QUERY
         print("got: ")
         print(packet.summary())
-        print("address: ", packet)
+
         dns_answer = DNSRR(  # DNS Reply
             rrname=dns.qd.qname,  # for question
             ttl=330,  # DNS entry Time to Live
             type="A",
             rclass="IN",
             rdata=response_ip,
-        )  # found at IP: 1.1.1.1 :)
+        ) 
+
         dns_response = DNS(
             id=packet[DNS].id,  # DNS replies must have the same ID as requests
             qr=1,  # 1 for response, 0 for query
@@ -75,7 +71,9 @@ while True:
             qd=packet.qd,  # request-ul original
             an=dns_answer,
         )  # obiectul de reply
+
         print("response:")
         print(dns_response.summary())
-        simple_udp.sendto(bytes(dns_response), adresa_sursa)
-simple_udp.close()
+        socket_udp.sendto(bytes(dns_response), source_address)
+
+socket_udp.close()
