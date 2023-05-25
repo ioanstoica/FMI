@@ -206,7 +206,7 @@ class IstoricTranzactii {
    }
 }
 
-class Main {
+public class index {
    public static void main(String[] args) {
       Client client = new Client("Stoica");
       client.addCont(new Cont());
