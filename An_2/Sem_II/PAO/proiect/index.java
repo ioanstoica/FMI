@@ -10,6 +10,9 @@ import java.util.Map;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 public class index {
    public static void main(String[] args) {
@@ -225,6 +228,30 @@ public class index {
 
 }
 
+class AuditService {
+   private static AuditService auditServiceInstance = null;
+   private static final String AUDIT_FILE = "audit.csv";
+
+   private AuditService() {
+   }
+
+   public static AuditService getInstance() {
+      if (auditServiceInstance == null) {
+         auditServiceInstance = new AuditService();
+      }
+      return auditServiceInstance;
+   }
+
+   public void logAction(String actionName) {
+      try (PrintWriter writer = new PrintWriter(new FileWriter(AUDIT_FILE, true))) {
+         writer.println(LocalDateTime.now() + ", " + actionName);
+      } catch (IOException e) {
+         System.out.println("Error writing to audit file.");
+         e.printStackTrace();
+      }
+   }
+}
+
 class Cont {
    ArrayList<Asset> active = new ArrayList<Asset>();
    IstoricTranzactii istoric = new IstoricTranzactii();
@@ -363,6 +390,8 @@ class Activ {
 
       Statement stmt = conn.createStatement();
       stmt.execute(sql);
+
+      AuditService.getInstance().logAction("Activ table created");
    }
 
    // CREATE
@@ -372,6 +401,8 @@ class Activ {
       stmt.setString(1, nume);
       stmt.setDouble(2, pret);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Activ created:" + nume + "," + pret);
    }
 
    // READ
@@ -382,10 +413,10 @@ class Activ {
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
+         AuditService.getInstance().logAction("Activ read: " + id);
          return new Activ(rs.getString("nume"), rs.getDouble("pret"));
-      } else {
-         return null;
       }
+      return null;
    }
 
    // UPDATE
@@ -395,6 +426,7 @@ class Activ {
       stmt.setDouble(1, pret);
       stmt.setString(2, nume);
       stmt.executeUpdate();
+      AuditService.getInstance().logAction("Activ updated: " + nume + "," + pret);
    }
 
    // DELETE
@@ -403,6 +435,8 @@ class Activ {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, nume);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Activ deleted: " + nume);
    }
 }
 
