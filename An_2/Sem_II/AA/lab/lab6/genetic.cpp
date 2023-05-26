@@ -21,7 +21,8 @@ public:
 
    double compute(double x)
    {
-      double fitness = a * x * x + b * x + c;
+      // double fitness = a * x * x + b * x + c;
+      double fitness = 0.2 * x * x * x + 1.5 * x * x + x + 1;
       if (fitness > 0)
          return fitness;
       string error = "Fitness-ul trebuie sa fie strict pozitiv: pentru a=" + to_string(a) + ", b=" + to_string(b) + ", c=" + to_string(c) + ", x=" + to_string(x) + ", fitness = a * x * x + b * x + c =" + to_string(fitness) + "\n";
@@ -330,7 +331,7 @@ void menu(Population &population, Species &species)
    cout << "3. Citire din fisier: f \n";
 
    char option = 's';
-   cin >> option;
+   // cin >> option;
 
    if (option == 't')
    {
@@ -415,7 +416,7 @@ void solve()
    ofstream cout("genetic.out");
 
    Species species(-3, 7, 1); // a, b, c - parametri functiei de species ex; -x^2 + 2x + 1
-   species.left = 0;          // capatul din stanga al intervalului de cautare -1
+   species.left = -6;         // capatul din stanga al intervalului de cautare -1
    species.right = 2;         // capatul din dreapta al intervalului de cautare 2
    species.precision = 6;     // 6 - nr de cifre dupa virgula
 
