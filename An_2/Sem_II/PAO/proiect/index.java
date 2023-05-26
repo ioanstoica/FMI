@@ -59,6 +59,29 @@ public class index {
          btcAsset2 = Asset.read(conn, 1);
          System.out.println(btcAsset2);
 
+         // Clasa FIAT
+         Fiat.createTable(conn);
+
+         Fiat.create(conn, "Fiat1", 100.0, "Emitent1");
+         Fiat.create(conn, "Fiat2", 200.0, "Emitent2");
+
+         Fiat fiat = new Fiat();
+         fiat.nume = "Fiat1";
+         id = fiat.getId(conn);
+
+         Fiat fiat1 = Fiat.read(conn, id);
+         System.out.println(fiat1);
+
+         Fiat.update(conn, "Fiat1", 150.0, "Emitent3");
+         fiat1 = Fiat.read(conn, id);
+         System.out.println(fiat1);
+
+         Fiat.delete(conn, "Fiat1");
+         fiat1 = Fiat.read(conn, id);
+         System.out.println(fiat1);
+
+         conn.close();
+
       } catch (SQLException ex) {
          ex.printStackTrace();
       } finally {
@@ -556,5 +579,112 @@ class IstoricTranzactii {
 
    public String toString() {
       return "IstoricTranzactii: {" + tranzactii + "}";
+   }
+}
+
+class Fiat {
+   String nume;
+   double pret; // pret in USD
+   String emitent;
+
+   Fiat(String nume, double pret, String emitent) {
+      this.nume = nume;
+      this.pret = pret;
+      this.emitent = emitent;
+   }
+
+   Fiat() {
+   }
+
+   int getId(Connection conn) throws SQLException {
+      String sql = "SELECT id FROM fiat WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      ResultSet rs = stmt.executeQuery();
+
+      if (rs.next()) {
+         return rs.getInt("id");
+      } else {
+         return -1;
+      }
+   }
+
+   public String toString() {
+      return "Fiat: {nume: " + nume + ", pret: " + pret + ", emitent: " + emitent + "}";
+   }
+
+   public static void createTable(Connection conn) throws SQLException {
+      ResultSet tables = conn.getMetaData().getTables(null, null, "FIAT", null);
+
+      if (!tables.next()) {
+         // Create table
+         String sql = "CREATE TABLE fiat (" +
+               "id NUMBER PRIMARY KEY, " +
+               "nume VARCHAR2(255) NOT NULL, " +
+               "pret NUMBER(10,2), " +
+               "emitent VARCHAR2(255)" +
+               ")";
+         Statement stmt = conn.createStatement();
+         stmt.execute(sql);
+
+         // Create sequence
+         sql = "CREATE SEQUENCE fiat_seq START WITH 1";
+         stmt = conn.createStatement();
+         stmt.execute(sql);
+
+         // Create trigger for auto increment
+         sql = "CREATE OR REPLACE TRIGGER fiat_trigger " +
+               "BEFORE INSERT ON fiat " +
+               "FOR EACH ROW " +
+               "BEGIN " +
+               "SELECT fiat_seq.NEXTVAL " +
+               "INTO :new.id " +
+               "FROM dual; " +
+               "END;";
+         stmt = conn.createStatement();
+         stmt.execute(sql);
+      }
+   }
+
+   // CREATE
+   public static void create(Connection conn, String nume, double pret, String emitent) throws SQLException {
+      String sql = "INSERT INTO fiat(nume, pret, emitent) VALUES(?, ?, ?)";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      stmt.setDouble(2, pret);
+      stmt.setString(3, emitent);
+      stmt.executeUpdate();
+   }
+
+   // READ
+   public static Fiat read(Connection conn, int id) throws SQLException {
+      String sql = "SELECT * FROM fiat WHERE ID = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
+
+      if (rs.next()) {
+         return new Fiat(rs.getString("nume"), rs.getDouble("pret"), rs.getString("emitent"));
+      } else {
+         return null;
+      }
+   }
+
+   // UPDATE
+   public static void update(Connection conn, String nume, double pret, String emitent) throws SQLException {
+      String sql = "UPDATE fiat SET pret = ?, emitent = ? WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setDouble(1, pret);
+      stmt.setString(2, emitent);
+      stmt.setString(3, nume);
+      stmt.executeUpdate();
+   }
+
+   // DELETE
+   public static void delete(Connection conn, String nume) throws SQLException {
+      String sql = "DELETE FROM fiat WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      stmt.executeUpdate();
    }
 }
