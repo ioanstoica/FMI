@@ -38,6 +38,13 @@ public class index {
          btc = Activ.read(conn, id);
          System.out.println(btc);
 
+         // selectam toate activele din baza de date
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery("SELECT * FROM activ");
+         while (rs.next()) {
+            System.out.println(rs.getString("nume") + " " + rs.getDouble("pret"));
+         }
+
          Activ.update(conn, "BTC", 30000);
          btc = Activ.read(conn, 1);
          System.out.println(btc);
