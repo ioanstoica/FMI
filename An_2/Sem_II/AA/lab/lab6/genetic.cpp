@@ -90,19 +90,28 @@ public:
       return *this;
    }
 
+   string split_chromosome_to_string(int index)
+   {
+      return chromosome.substr(0, index) + "|" + chromosome.substr(index);
+   }
+
    void crossover(Individual &other, string &out)
    {
       int index = rand() % chromosome.size();
 
-      out += "Cromozomii care se incruciseaza sunt: \n" + chromosome + "\n" + other.chromosome + "\n";
+      out += "Cromozomii care se incruciseaza sunt: \n" + this->split_chromosome_to_string(index) + "\n" + other.split_chromosome_to_string(index) + "\n";
       out += "Punctul de incrucisare este bit-ul: " + to_string(index) + "\n";
 
       string s1 = chromosome.substr(0, index) + other.chromosome.substr(index);
       string s2 = other.chromosome.substr(0, index) + chromosome.substr(index);
+      // reverse second part from s1 and from s2
+      reverse(s1.begin() + index, s1.end());
+      reverse(s2.begin() + index, s2.end());
+
       chromosome = s1;
       other.chromosome = s2;
 
-      out += "Rezultatul este: \n" + chromosome + "\n" + other.chromosome + "\n";
+      out += "Rezultatul este: \n" + this->split_chromosome_to_string(index) + "\n" + other.split_chromosome_to_string(index) + "\n";
    }
 
    double value()
@@ -320,6 +329,11 @@ public:
    {
       return max_element(individuals.begin(), individuals.end())[0].fitness();
    }
+
+   double maxElement()
+   {
+      return max_element(individuals.begin(), individuals.end())[0].value();
+   }
 };
 Species Population::species;
 
@@ -448,7 +462,7 @@ void solve()
          cout << "Populatie initiala:\n"
               << out;
 
-      cout << setprecision(population.species.precision) << fixed << "Pas " << i + 1 << ": max f(x)=" << population.maxFitness() << ", mean f(x)=" << population.meanFitness() << endl;
+      cout << setprecision(population.species.precision) << fixed << "Pas " << i + 1 << ": max f(" << population.maxElement() << ")=" << population.maxFitness() << ", mean f(x)=" << population.meanFitness() << endl;
    }
 }
 
