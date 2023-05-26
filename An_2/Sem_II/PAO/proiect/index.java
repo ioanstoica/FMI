@@ -1,4 +1,125 @@
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class index {
+   public static void main(String[] args) {
+      // part1();
+
+      Map<String, String> env = new HashMap<>();
+
+      // read file .env
+      try {
+         FileReader reader = new FileReader(".env");
+         BufferedReader bufferedReader = new BufferedReader(reader);
+
+         String line;
+         while ((line = bufferedReader.readLine()) != null) {
+            String[] parts = line.split("=");
+            if (parts.length == 2) {
+               String key = parts[0].strip();
+               String value = parts[1].strip();
+               env.put(key, value);
+            } else
+               System.out.println("Invalid line in .env file: " + line);
+         }
+         bufferedReader.close();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+
+      String dbURL = env.get("DB_URL");
+      String username = env.get("DB_USER");
+      String password = env.get("DB_PASS");
+
+      Connection conn = null;
+      try {
+         // Pasul 1: Încarcăm driverul JDBC.
+         Class.forName("oracle.jdbc.OracleDriver");
+
+         // Pasul 2: Deschide o conexiune
+         conn = DriverManager.getConnection(dbURL, username, password);
+
+         if (conn != null) {
+            System.out.println("Conectat cu succes la baza de date Oracle!");
+
+            part2(conn);
+         }
+      } catch (SQLException ex) {
+         ex.printStackTrace();
+      } catch (ClassNotFoundException ex) {
+         ex.printStackTrace();
+      } finally {
+         // Pasul 3: Închide conexiunea pentru a elibera resursele
+         if (conn != null) {
+            try {
+               conn.close();
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
+         }
+      }
+   }
+
+   static void part1() {
+      Client client = new Client("Stoica");
+      client.addCont(new Cont());
+      client.addCont(new Cont());
+
+      Cont cont0 = client.conturi.get(0);
+
+      Activ activ0 = new Activ("USD", 1);
+      Activ activ1 = new Activ("EUR", 1);
+      Activ activ2 = new Activ("RON", 0.2);
+
+      cont0.addAsset(new Asset(activ0, 1000));
+      cont0.addAsset(new Asset(activ1, 1000));
+      cont0.addAsset(new Asset(activ2, 6000));
+
+      System.out.println(client);
+
+      Asset asset = cont0.active.get(0);
+      System.out.println(asset);
+      System.out.println(asset.valoare());
+      System.out.println(cont0.valoare());
+
+      Cont cont1 = client.conturi.get(1);
+      cont1.addAsset(asset);
+
+      System.out.println(client);
+      System.out.println(client.valoare());
+
+      Pereche pereche = new Pereche(activ0, activ1);
+      System.out.println(pereche.raport);
+      Tranzactie tranzactie = new Tranzactie(pereche, 500);
+      System.out.println(tranzactie);
+      System.out.println(cont0);
+      try {
+         cont0.addTranzactie(tranzactie);
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+
+      System.out.println(cont0);
+
+      cont0.addAsset(asset);
+      System.out.println(cont0);
+
+      cont0.addTranzactie(new Tranzactie(new Pereche(activ0, activ2), 100));
+      System.out.println(cont0);
+
+   }
+
+   static void part2(Connection conn) {
+      // TODO
+   }
+}
 
 class Cont {
    ArrayList<Asset> active = new ArrayList<Asset>();
@@ -203,56 +324,5 @@ class IstoricTranzactii {
 
    public String toString() {
       return "IstoricTranzactii: {" + tranzactii + "}";
-   }
-}
-
-public class index {
-   public static void main(String[] args) {
-      Client client = new Client("Stoica");
-      client.addCont(new Cont());
-      client.addCont(new Cont());
-
-      Cont cont0 = client.conturi.get(0);
-
-      Activ activ0 = new Activ("USD", 1);
-      Activ activ1 = new Activ("EUR", 1);
-      Activ activ2 = new Activ("RON", 0.2);
-
-      cont0.addAsset(new Asset(activ0, 1000));
-      cont0.addAsset(new Asset(activ1, 1000));
-      cont0.addAsset(new Asset(activ2, 6000));
-
-      System.out.println(client);
-
-      Asset asset = cont0.active.get(0);
-      System.out.println(asset);
-      System.out.println(asset.valoare());
-      System.out.println(cont0.valoare());
-
-      Cont cont1 = client.conturi.get(1);
-      cont1.addAsset(asset);
-
-      System.out.println(client);
-      System.out.println(client.valoare());
-
-      Pereche pereche = new Pereche(activ0, activ1);
-      System.out.println(pereche.raport);
-      Tranzactie tranzactie = new Tranzactie(pereche, 500);
-      System.out.println(tranzactie);
-      System.out.println(cont0);
-      try {
-         cont0.addTranzactie(tranzactie);
-      } catch (Exception e) {
-         System.out.println(e);
-      }
-
-      System.out.println(cont0);
-
-      cont0.addAsset(asset);
-      System.out.println(cont0);
-
-      cont0.addTranzactie(new Tranzactie(new Pereche(activ0, activ2), 100));
-      System.out.println(cont0);
-
    }
 }

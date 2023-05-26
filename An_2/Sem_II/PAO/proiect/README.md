@@ -34,4 +34,7 @@ Actiuni:
 - calculare valoare totala active per cont
 - aplicare tranzaactie pe cont
 
+# Rulare program
+java -cp ojdbc10.jar index.java
+
 
