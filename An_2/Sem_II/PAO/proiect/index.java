@@ -484,16 +484,6 @@ class Asset {
       if (tables.next())
          return;
 
-      // String sql = "CREATE TABLE asset (" +
-      // "id SERIAL PRIMARY KEY, " +
-      // "activ_id INTEGER NOT NULL, " +
-      // "cantitate DOUBLE PRECISION, " +
-      // "FOREIGN KEY (activ_id) REFERENCES activ(id)" +
-      // ");";
-
-      // Statement stmt = conn.createStatement();
-      // stmt.execute(sql);
-
       // Crearea secvenței
       String createSequence = "CREATE SEQUENCE asset_seq START WITH 1 INCREMENT BY 1 NOCACHE";
       Statement seqStmt = conn.createStatement();
@@ -522,6 +512,8 @@ class Asset {
       seqStmt.close();
       tableStmt.close();
       triggerStmt.close();
+
+      AuditService.getInstance().logAction("Asset table created");
    }
 
    // CREATE
@@ -531,6 +523,8 @@ class Asset {
       stmt.setInt(1, activ.getId(conn));
       stmt.setDouble(2, cantitate);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Asset created: " + activ + "," + cantitate + "");
    }
 
    // READ
@@ -542,6 +536,7 @@ class Asset {
 
       if (rs.next()) {
          Activ activ = Activ.read(conn, rs.getInt("activ_id"));
+         AuditService.getInstance().logAction("Asset read: " + id + " " + activ + " " + rs.getDouble("cantitate") + "");
          return new Asset(activ, rs.getDouble("cantitate"));
       } else {
          return null;
@@ -556,6 +551,8 @@ class Asset {
       stmt.setDouble(2, cantitate);
       stmt.setInt(3, id);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Asset updated: " + id + " " + activ + " " + cantitate + "");
    }
 
    // DELETE
@@ -564,6 +561,8 @@ class Asset {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setInt(1, id);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Asset deleted: " + id + "");
    }
 }
 
@@ -699,6 +698,8 @@ class Fiat {
                "END;";
          stmt = conn.createStatement();
          stmt.execute(sql);
+
+         AuditService.getInstance().logAction("Fiat table created");
       }
    }
 
@@ -710,6 +711,8 @@ class Fiat {
       stmt.setDouble(2, pret);
       stmt.setString(3, emitent);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Fiat created: " + nume + "," + pret + "," + emitent + "");
    }
 
    // READ
@@ -720,6 +723,7 @@ class Fiat {
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
+         AuditService.getInstance().logAction("Fiat read: " + id + "");
          return new Fiat(rs.getString("nume"), rs.getDouble("pret"), rs.getString("emitent"));
       } else {
          return null;
@@ -734,6 +738,8 @@ class Fiat {
       stmt.setString(2, emitent);
       stmt.setString(3, nume);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Fiat updated: " + nume + "," + pret + "," + emitent + "");
    }
 
    // DELETE
@@ -742,6 +748,8 @@ class Fiat {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, nume);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Fiat deleted: " + nume + "");
    }
 }
 
@@ -768,6 +776,7 @@ class Exchange {
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
+         AuditService.getInstance().logAction("Exchange read: " + nume + "");
          return rs.getInt("id");
       } else {
          return -1;
@@ -806,6 +815,9 @@ class Exchange {
                "END;";
          stmt = conn.createStatement();
          stmt.execute(sql);
+
+         AuditService.getInstance().logAction("Exchange table created");
+
       }
    }
 
@@ -819,6 +831,9 @@ class Exchange {
       stmt.setString(3, website);
       stmt.setInt(4, an_infiintare);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Exchange created: " + nume + "," + locatie + "," + website + ","
+            + an_infiintare + "");
    }
 
    // READ
@@ -829,6 +844,7 @@ class Exchange {
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
+         AuditService.getInstance().logAction("Exchange read: " + id + "");
          return new Exchange(rs.getString("nume"), rs.getString("locatie"), rs.getString("website"),
                rs.getInt("an_infiintare"));
       } else {
@@ -846,6 +862,9 @@ class Exchange {
       stmt.setInt(3, an_infiintare);
       stmt.setString(4, nume);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Exchange updated: " + nume + "," + locatie + "," + website + ","
+            + an_infiintare + "");
    }
 
    // DELETE
@@ -854,5 +873,7 @@ class Exchange {
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, nume);
       stmt.executeUpdate();
+
+      AuditService.getInstance().logAction("Exchange deleted: " + nume + "");
    }
 }
