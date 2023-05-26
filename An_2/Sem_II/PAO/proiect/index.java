@@ -80,6 +80,28 @@ public class index {
          fiat1 = Fiat.read(conn, id);
          System.out.println(fiat1);
 
+         // Clasa Exchange
+         // Clasa EXCHANGE
+         Exchange.createTable(conn);
+
+         Exchange.create(conn, "Exchange1", "Locatie1", "Website1", 1999);
+         Exchange.create(conn, "Exchange2", "Locatie2", "Website2", 2000);
+
+         Exchange exchange = new Exchange();
+         exchange.nume = "Exchange1";
+         id = exchange.getId(conn);
+
+         Exchange exchange1 = Exchange.read(conn, id);
+         System.out.println(exchange1);
+
+         Exchange.update(conn, "Exchange1", "Locatie3", "Website3", 2021);
+         exchange1 = Exchange.read(conn, id);
+         System.out.println(exchange1);
+
+         Exchange.delete(conn, "Exchange1");
+         exchange1 = Exchange.read(conn, id);
+         System.out.println(exchange1);
+
          conn.close();
 
       } catch (SQLException ex) {
@@ -683,6 +705,118 @@ class Fiat {
    // DELETE
    public static void delete(Connection conn, String nume) throws SQLException {
       String sql = "DELETE FROM fiat WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      stmt.executeUpdate();
+   }
+}
+
+class Exchange {
+   String nume;
+   String locatie;
+   String website;
+   int an_infiintare;
+
+   Exchange(String nume, String locatie, String website, int an_infiintare) {
+      this.nume = nume;
+      this.locatie = locatie;
+      this.website = website;
+      this.an_infiintare = an_infiintare;
+   }
+
+   Exchange() {
+   }
+
+   int getId(Connection conn) throws SQLException {
+      String sql = "SELECT id FROM exchange WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      ResultSet rs = stmt.executeQuery();
+
+      if (rs.next()) {
+         return rs.getInt("id");
+      } else {
+         return -1;
+      }
+   }
+
+   public String toString() {
+      return "Exchange: {nume: " + nume + ", locatie: " + locatie + ", website: " + website + ", an_infiintare: "
+            + an_infiintare + "}";
+   }
+
+   public static void createTable(Connection conn) throws SQLException {
+      ResultSet tables = conn.getMetaData().getTables(null, null, "EXCHANGE", null);
+      if (!tables.next()) {
+         String sql = "CREATE TABLE exchange (" +
+               "id NUMBER PRIMARY KEY, " +
+               "nume VARCHAR2(255) NOT NULL, " +
+               "locatie VARCHAR2(255), " +
+               "website VARCHAR2(255), " +
+               "an_infiintare NUMBER" +
+               ")";
+         Statement stmt = conn.createStatement();
+         stmt.execute(sql);
+
+         sql = "CREATE SEQUENCE exchange_seq START WITH 1";
+         stmt = conn.createStatement();
+         stmt.execute(sql);
+
+         sql = "CREATE OR REPLACE TRIGGER exchange_trigger " +
+               "BEFORE INSERT ON exchange " +
+               "FOR EACH ROW " +
+               "BEGIN " +
+               "SELECT exchange_seq.NEXTVAL " +
+               "INTO :new.id " +
+               "FROM dual; " +
+               "END;";
+         stmt = conn.createStatement();
+         stmt.execute(sql);
+      }
+   }
+
+   // CREATE
+   public static void create(Connection conn, String nume, String locatie, String website, int an_infiintare)
+         throws SQLException {
+      String sql = "INSERT INTO exchange(id, nume, locatie, website, an_infiintare) VALUES(exchange_seq.NEXTVAL, ?, ?, ?, ?)";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nume);
+      stmt.setString(2, locatie);
+      stmt.setString(3, website);
+      stmt.setInt(4, an_infiintare);
+      stmt.executeUpdate();
+   }
+
+   // READ
+   public static Exchange read(Connection conn, int id) throws SQLException {
+      String sql = "SELECT * FROM exchange WHERE ID = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
+
+      if (rs.next()) {
+         return new Exchange(rs.getString("nume"), rs.getString("locatie"), rs.getString("website"),
+               rs.getInt("an_infiintare"));
+      } else {
+         return null;
+      }
+   }
+
+   // UPDATE
+   public static void update(Connection conn, String nume, String locatie, String website, int an_infiintare)
+         throws SQLException {
+      String sql = "UPDATE exchange SET locatie = ?, website = ?, an_infiintare = ? WHERE nume = ?";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, locatie);
+      stmt.setString(2, website);
+      stmt.setInt(3, an_infiintare);
+      stmt.setString(4, nume);
+      stmt.executeUpdate();
+   }
+
+   // DELETE
+   public static void delete(Connection conn, String nume) throws SQLException {
+      String sql = "DELETE FROM exchange WHERE nume = ?";
       PreparedStatement stmt = conn.prepareStatement(sql);
       stmt.setString(1, nume);
       stmt.executeUpdate();
