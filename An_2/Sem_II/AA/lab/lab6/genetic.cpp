@@ -330,7 +330,7 @@ void menu(Population &population, Species &species)
    cout << "3. Citire din fisier: f \n";
 
    char option = 's';
-   // cin >> option;
+   cin >> option;
 
    if (option == 't')
    {
