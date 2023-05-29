@@ -1,0 +1,93 @@
+.r0-head {
+   grid-area: r0-head;
+}
+
+.r1-arm1 {
+   grid-area: r1-arm1;
+}
+
+.r2-body1 {
+   grid-area: r2-body1;
+}
+
+.r3-arm2 {
+   grid-area: r3-arm2;
+}
+
+.r4-body2 {
+   grid-area: r4-body2;
+}
+
+.r5-leg1 {
+   grid-area: r5-leg1;
+}
+
+.r6-leg2 {
+   grid-area: r6-leg2;
+}
+
+.container {
+   display: grid;
+   /* fiecare coloană să aibă lățimea de 100px */
+   grid-template-columns: 100px 100px 100px 100px;
+   grid-template-rows: 120px 90px 90px 90px 90px 90px 90px;
+   grid-template-areas:
+      '. r0-head r0-head .'
+      'r1-arm1 r2-body1 r2-body1 r3-arm2'
+      '. r4-body2 r4-body2 .'
+      '. r5-leg1 r6-leg2 .';
+
+   /* spațiul dintre linii și coloane să fie de 5px */
+   grid-gap: 5px;
+
+}
+
+.container>div {
+   /* divurile (mai puțin cercurile) vor avea fundal lightBlue, textul colorat cu alb și border verde, punctat, de 4px */
+   background-color: lightBlue;
+   color: white;
+   border: 4px dotted green;
+
+   /* textul să fie centrat pe orizontală */
+   text-align: center;
+
+   /* divurile să aibă padding de 25px */
+   padding: 25px;
+}
+
+.r0-head>.eye {
+
+   /* divurile în formă de cerc nu vor avea border, vor avea textul colorat cu verde și fundal alb. */
+   border: none;
+   color: green;
+   background-color: white;
+   /*  divurile în formă de cerc  */
+   border-radius: 50%;
+
+   display: inline;
+   /* dimensiunea textului */
+   /* font-size: 40px; */
+   font-size: 2.5rem;
+
+}
+
+/* eye on mouse over */
+.r0-head>.eye:hover {
+   /* divurile vor avea fundal galben și textul colorat verde */
+   border-radius: 50%;
+   color: green;
+   background-color: yellow;
+
+   /* se vor mări (1.25*mărimea inițială), treptat, într-o tranziție de 0.4s. */
+   transform: scale(1.25);
+   transition: transform 0.4s;
+
+}
+
+/* Scrieți un media query pentru ferestre cu lățimea între 200px și 600px astfel încât divurile să nu mai fie afișate cu layoutul de mai sus, ci în formatul default, unele sub altele, ocupând întreaga lațime a containerului, precum în imaginea de mai jos.
+ */
+@media screen and (min-width: 200px) and (max-width: 600px) {
+   .container {
+      display: block;
+   }
+}

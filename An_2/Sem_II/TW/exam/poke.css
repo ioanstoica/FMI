@@ -1,0 +1,46 @@
+body {
+   background-color: #f5f5f5;
+}
+
+.pokeball {
+   width: 200px;
+   height: 200px;
+   border-radius: 50%;
+   background-color: #fff;
+   border: 10px solid #000;
+   position: relative;
+   margin: 0 auto;
+}
+
+.pokeball::before {
+   content: '';
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   background-color: #f00;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+.pokeball::after {
+   content: '';
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   background-color: #000;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+.pokemon-data {
+   display: none;
+}
+
+/* disply pokemon-data when hover over .pokeball */
+.pokemon-image:hover+.pokemon-data {
+   display: block;
+}

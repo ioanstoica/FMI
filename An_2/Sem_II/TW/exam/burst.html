@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+   <!--  încarce fișierul de stil burst.css -->
+   <link rel="stylesheet" href="resources/burst.css">
+   <!-- include burst.js -->
+   <linl rel="text/javascript" src="burst.js"></linl>
+</head>
+
+<body onload="generateTable()">
+   <div id="burst">
+
+   </div>
+   <div id="broken">
+
+   </div>
+
+   <script>
+      // set localStorage[bubbles] = 0
+      localStorage.setItem("bubbles", 0);
+      // set .broken text = localStorage[bubbles]
+      document.getElementById("broken").innerHTML = localStorage.getItem("bubbles");
+
+
+      // generează tabelul
+      function generateTable() {
+         console.log("generateTable");
+         // obțineți referința elementului burst
+         var burst = document.getElementById("burst");
+
+         // folosiți elementul html audio (încărcat dinamic cu JavaScript).
+         var audio = document.createElement("audio");
+         audio.src = "resources/sounds/bubble1.mp3";
+
+         // adaugare audio in DOM
+         burst.appendChild(audio);
+
+         // generează tabelul de bubble
+         for (var i = 0; i < 6; i++) {
+            for (var j = 0; j < 10; j++) {
+               // crează un element div
+               var bubble = document.createElement("img");
+               // setează clasa elementului div
+               bubble.className = "bubble";
+
+               // set src attribute
+               bubble.src = "resources/images/bubble0.jpg";
+
+               // setare latime 60 px
+               bubble.style.width = "60px";
+
+               // set onclick
+               bubble.onclick = function () {
+                  // set src attribute
+                  this.src = "resources/images/bubble1.jpg";
+
+                  // va fi cântat ('played') un sunet, ales aleator din cele trei sunete furnizate în directorul resources/sounds (bubble1.mp3, bubble2.mp3, bubble3.mp3). Hint: folosiți elementul html audio (încărcat dinamic cu JavaScript).
+                  var audio = document.createElement("audio");
+                  audio.src = "resources/sounds/bubble" + Math.floor(Math.random() * 3 + 1) + ".mp3";
+                  audio.play();
+
+                  localStorage.setItem("bubbles", parseInt(localStorage.getItem("bubbles")) + 1);
+                  document.getElementById("broken").innerHTML = localStorage.getItem("bubbles");
+
+               }
+
+               // adaugă elementul div la elementul burst
+               burst.appendChild(bubble);
+            }
+            // adaugă un element br la elementul burst
+            burst.appendChild(document.createElement("br"));
+         }
+      }
+
+      // La apăsarea tastei b, se va sparge o bulă aleasă aleator
+
+      // KeyboardEvent
+      document.addEventListener('keydown', (event) => {
+         var name = event.key;
+         var code = event.code;
+         // Alert the key name and key code on keydown
+         // alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+
+         if (name == 'b')
+         // va fi spartă o bulă aleasă aleator
+         {
+            var bubbles = document.getElementsByClassName("bubble");
+            var bubble = bubbles[Math.floor(Math.random() * bubbles.length)];
+            bubble.src = "resources/images/bubble1.jpg";
+
+            // increment localStorage[bubbles]
+            localStorage.setItem("bubbles", parseInt(localStorage.getItem("bubbles")) + 1);
+            document.getElementById("broken").innerHTML = localStorage.getItem("bubbles");
+
+         }
+
+      }, false);
+
+
+   </script>
+</body>
+
+</html>
