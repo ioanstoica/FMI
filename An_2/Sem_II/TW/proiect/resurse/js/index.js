@@ -109,8 +109,16 @@ function afiseazaComentarii() {
       for (var i = 0; i < comments.length; i++) {
          var commentList = document.getElementById("comment-list");
          var newComment = document.createElement("li");
-         newComment.innerHTML = comments[i];
-         addDeleteButton(newComment, i);
+
+         addDeleteButton(newComment, i); // Adaugă butonul de ștergere la elementul li
+
+         var spaceNode = document.createTextNode(" "); // Creează un nod de text cu un spațiu
+         newComment.appendChild(spaceNode); // Adaugă spațiul după butonul de ștergere
+
+
+         var commentTextNode = document.createTextNode(comments[i]);
+         newComment.appendChild(commentTextNode); // Adaugă textul comentariului după butonul de ștergere
+
          commentList.appendChild(newComment);
       }
    }
