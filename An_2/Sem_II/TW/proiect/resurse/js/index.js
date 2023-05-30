@@ -21,17 +21,25 @@ darkThemeButton.addEventListener("click", function () {
    }
 });
 
-// CERINTA: crearea și stergerea de elemente HTML
+// CERINTA: folosirea localStorage (să se pastreze în localStorage o colecție de elemente)
+// CERINTA: folosirea a cel puțin unei metode din clasele: Math, Array, String, Date
+// declaram un Array de String-uri
+var comments = []; // Array-ul de comentarii
 
-// Funcție pentru a adăuga un buton de ștergere și gestionarea evenimentului de ștergere
-function addDeleteButton(commentElement) {
+// CERINTA: crearea și stergerea de elemente HTML
+function addDeleteButton(commentElement, index) {
    var deleteButton = document.createElement("button");
    deleteButton.innerHTML = "Șterge";
    deleteButton.addEventListener("click", function () {
+      // Șterge comentariul din lista de comentarii
+      comments.splice(index, 1);
+      // Salvează lista de comentarii în localStorage
+      localStorage.setItem("comments", JSON.stringify(comments));
       commentElement.remove();
    });
    commentElement.appendChild(deleteButton);
 }
+
 
 // CERINTA: modificare de proprietăți
 
@@ -46,11 +54,17 @@ function addComment() {
       var newComment = document.createElement("li");
       newComment.innerHTML = commentText;
 
-      addDeleteButton(newComment); // Adaugă butonul de ștergere la comentariu
+      addDeleteButton(newComment, comments.length); // Adaugă butonul de ștergere la comentariu
 
       commentList.appendChild(newComment);
 
       commentInput.value = "";
+
+      // Adaugă comentariul în lista de comentarii
+      comments.push(commentText);
+
+      // Salvează lista de comentarii în localStorage
+      localStorage.setItem("comments", JSON.stringify(comments));
    }
 }
 
@@ -61,7 +75,7 @@ document.getElementById("comment-form").addEventListener("submit", function (eve
 });
 
 // CERINTA: folosirea și modificarea evenimentelor generate de mouse si tastatură
-var image = document.getElementById("image");
+var image = document.getElementById("dark-theme");
 
 image.addEventListener("mouseover", function () {
    image.style.transform = "scale(1.3)";
@@ -71,3 +85,37 @@ image.addEventListener("mouseout", function () {
    image.style.transform = "scale(1)";
 });
 
+// CERINTA: folosirea setTimeout sau setInterval
+function afișeazăMesaj() {
+   // alert("Pagina are acum un buton pentru a schimba tema!");
+   darkThemeButton.style.height = "50px";
+   darkThemeButton.style.width = "50px";
+}
+
+setTimeout(afișeazăMesaj, 2000);
+
+
+// cand se incarca pagina, se apeleaza functia de afisare a comentariilor
+window.onload = function () {
+   afiseazaComentarii();
+}
+
+// functia de afisare a comentariilor din localStorage
+function afiseazaComentarii() {
+   // se verifica daca exista comentarii in localStorage
+   if (localStorage.getItem("comments")) {
+      // se preiau comentariile din localStorage
+      comments = JSON.parse(localStorage.getItem("comments"));
+      // se afiseaza comentariile
+      for (var i = 0; i < comments.length; i++) {
+         var commentList = document.getElementById("comment-list");
+         var newComment = document.createElement("li");
+         newComment.innerHTML = comments[i];
+         addDeleteButton(newComment, i);
+         commentList.appendChild(newComment);
+      }
+   }
+}
+
+
+var data = new Date();

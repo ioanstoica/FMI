@@ -83,11 +83,11 @@ body.light {
 }
 
 /* CERINTA: folosirea și modificarea evenimentelor generate de mouse si tastatură */
-#image {
-    width: 300px;
+#dark-theme {
+    /* width: 300px; */
     transition: transform 2s;
 }
 
-#image:hover {
+#dark-theme:hover {
     transform: scale(1.3);
 }
