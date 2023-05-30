@@ -130,3 +130,9 @@ var data = new Date();
 
 // modifica valoarea tag-ului time cu id-ul id="time_now" cu data si ora curenta
 document.getElementById("time_now").innerHTML = data.toLocaleString();
+
+// CERINTA: schimbarea aleatoare a valorilor unor proprietăți (de exemplu: culoare, dimensiuni, poziție)
+/* alege o culoare random pentru textul din h2 */
+var colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "black", "gray"];
+var randomColor = colors[Math.floor(Math.random() * colors.length)];
+document.getElementById("random_color").style.color = randomColor;
