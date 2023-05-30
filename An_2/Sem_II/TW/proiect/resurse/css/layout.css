@@ -7,10 +7,6 @@ body {
     --ads-color: #707322;
 }
 
-header {
-    background-color: lightgrey;
-}
-
 #main {
     background-color: lightblue;
     padding: var(--padding-main);
@@ -21,7 +17,8 @@ header {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: "z-welcome z-welcome z-welcome"
         "z-info z-info z-info"
-        "z-intrebari z-intrebari z-ip";
+        "z-intrebari z-intrebari z-ip"
+        "z-comentarii z-comentarii z-comentarii";
 }
 
 #grid-pagina>section {
@@ -44,6 +41,10 @@ header {
     grid-area: z-ip;
 }
 
+#comentarii {
+    grid-area: z-comentarii;
+}
+
 @media screen and (max-width: 700px) {
     #grid-pagina {
         display: block;
@@ -52,4 +53,31 @@ header {
 
 .banner {
     display: none;
+}
+
+#dark-theme {
+    width: 35px;
+    height: 35px;
+
+    /* alinierie in dreapta */
+    float: right;
+}
+
+/* dark mode */
+body.dark {
+    background-color: black;
+    color: white;
+
+    #main {
+        background-color: #0D0D0D;
+    }
+}
+
+body.light {
+    background-color: white;
+    color: black;
+
+    #main {
+        background-color: lightblue;
+    }
 }
