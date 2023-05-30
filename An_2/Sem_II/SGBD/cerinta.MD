@@ -24,3 +24,6 @@ Observație: trebuie să apară explicit pe ce tabel și care este constrangerea
 5. Să se ilustreze printr-un exemplu pe schemă apariția erorii mutating table și să se trateze această eroare.
 
 Observație: pt. fiecare punct rezolvat complet/corect se acordă 0,2p
+
+
+_pnu = _ist
