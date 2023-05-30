@@ -41,19 +41,42 @@ function addDeleteButton(commentElement, index) {
 
 
 // CERINTA: modificare de proprietăți
-
 // Funcție pentru a adăuga un comentariu în lista de comentarii
 function addComment() {
    var commentInput = document.getElementById("comment-input");
    var commentText = commentInput.value;
 
+   // CERINTA: validarea datelor dintr-un formular folosind expresii regulate
+   // Expresia regulată care caută tag-urile de script
+   var scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
+   // Verifică dacă textul introdus conține un script
+   if (scriptRegex.test(commentText)) {
+      alert("Comentariul nu poate conține script-uri!");
+      commentInput.value = "";
+      return;
+   }
+
    if (commentText !== "") {
       var commentList = document.getElementById("comment-list");
 
       var newComment = document.createElement("li");
-      newComment.innerHTML = commentText;
+      var commentTextNode = document.createTextNode(commentText);
+      newComment.appendChild(commentTextNode);
 
-      addDeleteButton(newComment, comments.length); // Adaugă butonul de ștergere la comentariu
+      // Creează butonul de ștergere
+      var deleteButton = document.createElement("button");
+      deleteButton.textContent = "Șterge";
+      deleteButton.addEventListener("click", function () {
+         // Șterge comentariul din lista de comentarii
+         comments.splice(comments.indexOf(commentText), 1);
+         // Salvează lista de comentarii în localStorage
+         localStorage.setItem("comments", JSON.stringify(comments));
+         newComment.remove();
+      });
+
+      // Adaugă butonul de ștergere înaintea textului comentariului
+      newComment.insertBefore(deleteButton, commentTextNode);
 
       commentList.appendChild(newComment);
 
@@ -66,6 +89,8 @@ function addComment() {
       localStorage.setItem("comments", JSON.stringify(comments));
    }
 }
+
+
 
 // Eveniment pentru trimiterea formularului de comentarii
 document.getElementById("comment-form").addEventListener("submit", function (event) {
