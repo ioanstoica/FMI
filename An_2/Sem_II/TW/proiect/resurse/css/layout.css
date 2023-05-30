@@ -81,3 +81,13 @@ body.light {
         background-color: lightblue;
     }
 }
+
+/* CERINTA: folosirea și modificarea evenimentelor generate de mouse si tastatură */
+#image {
+    width: 300px;
+    transition: transform 2s;
+}
+
+#image:hover {
+    transform: scale(1.3);
+}

@@ -22,6 +22,19 @@ darkThemeButton.addEventListener("click", function () {
 });
 
 // CERINTA: crearea și stergerea de elemente HTML
+
+// Funcție pentru a adăuga un buton de ștergere și gestionarea evenimentului de ștergere
+function addDeleteButton(commentElement) {
+   var deleteButton = document.createElement("button");
+   deleteButton.innerHTML = "Șterge";
+   deleteButton.addEventListener("click", function () {
+      commentElement.remove();
+   });
+   commentElement.appendChild(deleteButton);
+}
+
+// CERINTA: modificare de proprietăți
+
 // Funcție pentru a adăuga un comentariu în lista de comentarii
 function addComment() {
    var commentInput = document.getElementById("comment-input");
@@ -32,6 +45,8 @@ function addComment() {
 
       var newComment = document.createElement("li");
       newComment.innerHTML = commentText;
+
+      addDeleteButton(newComment); // Adaugă butonul de ștergere la comentariu
 
       commentList.appendChild(newComment);
 
@@ -44,3 +59,15 @@ document.getElementById("comment-form").addEventListener("submit", function (eve
    event.preventDefault(); // Previne acțiunea implicită de trimitere a formularului
    addComment(); // Adaugă comentariul
 });
+
+// CERINTA: folosirea și modificarea evenimentelor generate de mouse si tastatură
+var image = document.getElementById("image");
+
+image.addEventListener("mouseover", function () {
+   image.style.transform = "scale(1.3)";
+});
+
+image.addEventListener("mouseout", function () {
+   image.style.transform = "scale(1)";
+});
+
