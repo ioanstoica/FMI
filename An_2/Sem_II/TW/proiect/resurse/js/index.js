@@ -161,3 +161,23 @@ document.getElementById("time_now").innerHTML = data.toLocaleString();
 var colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "black", "gray"];
 var randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.getElementById("random_color").style.color = randomColor;
+
+
+// CERINTA: folosirea proprietăților classList, target sau currentTarget
+// adauga clasa "rich_text" elementelor <h2> din pagina
+var paragraphs = document.getElementsByTagName("h2");
+for (var i = 0; i < paragraphs.length; i++) {
+   paragraphs[i].classList.add("rich_text");
+}
+
+// CERINTA: folosirea metodelor getComputedStyle și stopPropagation
+// afiseaza in consola proprietatea "color" a elementului cu id-ul "random_color"
+var randomColorElement = document.getElementById("random_color");
+var randomColorElementStyle = window.getComputedStyle(randomColorElement);
+console.log(randomColorElementStyle.color);
+
+// stopPropagation
+document.getElementById("random_color").addEventListener("click", function (event) {
+   alert("Ai apăsat pe textul colorat!");
+   event.stopPropagation();
+});

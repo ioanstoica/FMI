@@ -91,3 +91,9 @@ body.light {
 #dark-theme:hover {
     transform: scale(1.3);
 }
+
+.rich_text {
+    font-weight: bold;
+    font-style: italic;
+    color: red;
+}
