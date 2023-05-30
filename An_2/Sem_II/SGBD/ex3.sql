@@ -29,6 +29,10 @@ END;
 INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
 VALUES (SYSDATE, 1, 101, 92);
 
+-- A 2-a închiriere pentru membrul 101 în aceeași zi (va declanșa eroarea)
+INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
+VALUES (SYSDATE, 2, 101, 95);
+
 -- A treia închiriere pentru membrul 101 în aceeași zi
 INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
 VALUES (SYSDATE, 1, 101, 97);
@@ -36,16 +40,3 @@ VALUES (SYSDATE, 1, 101, 97);
 -- A patra închiriere pentru membrul 101 în aceeași zi (va declanșa eroarea)
 INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
 VALUES (SYSDATE, 1, 101, 96);
-
--- A 5-a închiriere pentru membrul 101 în aceeași zi (va declanșa eroarea)
-INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
-VALUES (SYSDATE, 2, 101, 95);
-
--- am executat toate comenziile, dar triggerul nu a fost declanșat
--- mesajul in console este:
-SQL> INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
-  2  VALUES (SYSDATE, 2, 101, 95);
-
-1 row created.
-
-Commit complete.
