@@ -22,7 +22,6 @@ darkThemeButton.addEventListener("click", function () {
 });
 
 // CERINTA: folosirea localStorage (să se pastreze în localStorage o colecție de elemente)
-// CERINTA: folosirea a cel puțin unei metode din clasele: Math, Array, String, Date
 // declaram un Array de String-uri
 var comments = []; // Array-ul de comentarii
 
@@ -118,4 +117,8 @@ function afiseazaComentarii() {
 }
 
 
+// CERINTA: folosirea a cel puțin unei metode din clasele: Math, Array, String, Date
 var data = new Date();
+
+// modifica valoarea tag-ului time cu id-ul id="time_now" cu data si ora curenta
+document.getElementById("time_now").innerHTML = data.toLocaleString();
