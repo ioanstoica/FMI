@@ -1,30 +1,52 @@
-PROMPT EXERCITIUL 4.
+DROP VIEW copies_view;
 
--- 4. Implementați un trigger de tip instead of. Testați.
+-- Creez un view compus din 2 tabele
+CREATE VIEW copies_view AS
+  SELECT
+    tc.copy_id,
+    t.title,
+    t.description,
+    t.category,
+    tc.status
+  FROM title_copy_ist tc
+  LEFT JOIN title_ist t ON tc.title_ist_id = t.title_ist_id;
+  
+-- Inainte sa creez trigger-ul, o astfel de instructiune de INSERT va da eroare.
+INSERT INTO copies_view (
+  copy_id,
+  title,
+  description,
+  category,
+  status
+)
+VALUES (
+  4,
+  'Willie and Christmas Too',
+  'All of Willie''s friends made a Christmas list for Santa, but Willie has yet 
+   to create his own wish list.',
+  'CHILD',
+  'AVAILABLE'
+);
 
+DROP TRIGGER new_copy_trigger;
 
-CREATE OR REPLACE TRIGGER title_avail_insert_trigger
-INSTEAD OF INSERT ON title_avail_ist
+-- Creez un trigger care insereaza date doar in tabelul title_copy
+CREATE OR REPLACE TRIGGER new_copy_trigger
+  INSTEAD OF INSERT ON copies_view
+  FOR EACH ROW
+DECLARE
+  title_ist_id title_ist.title_ist_id%TYPE;
 BEGIN
-   FOR new_data IN (SELECT * FROM title_avail_ist)
-   LOOP
-      -- Verificăm dacă există o copie disponibilă pentru titlul inserat
-      SELECT COUNT(*) INTO COPY_COUNT
-      FROM TITLE_COPY_IST
-      WHERE TITLE_IST_ID = new_data.title_ist_id
-        AND STATUS = 'AVAILABLE';
+  SELECT title_ist_id INTO title_ist_id FROM title_ist 
+  WHERE title = :NEW.title AND description = :NEW.description AND category = :NEW.category;
 
-      -- Verificăm rezultatul interogării
-      IF COPY_COUNT > 0 THEN
-         -- Se permite inserarea în vedere
-         INSERT INTO rental_ist (book_date, copy_id, member_ist_id, title_ist_id, act_ret_date, exp_ret_date)
-         VALUES (new_data.book_date, new_data.copy_id, new_data.member_ist_id, new_data.title_ist_id, new_data.act_ret_date, new_data.exp_ret_date);
-      ELSE
-         -- Nu există o copie disponibilă, generăm o excepție și anulăm inserarea
-         RAISE_APPLICATION_ERROR(-20001, 'Nu există o copie disponibilă pentru titlul specificat.');
-      END IF;
-   END LOOP;
+  INSERT INTO title_copy_ist (copy_id, title_ist_id, status)
+  VALUES (:NEW.copy_id, title_ist_id, :NEW.status);
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No title found with this description and category!');
+  WHEN TOO_MANY_ROWS THEN
+    DBMS_OUTPUT.PUT_LINE('Unable to insert new title as there are multiple records with these description and category!');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('An error occured: ' || SQLERRM);
 END;
-/
-
-SHOW ERRORS;
