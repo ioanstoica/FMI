@@ -1,0 +1,360 @@
+-- 251_Stoica_Ioan_tema_suplimentara.txt
+
+--                ===   ex 1  ===
+PROMPT EXERCITIUL 1
+
+-- 1. Enunțați o cerere în limbaj natural care să implice în rezolvare utilizarea unui cursor cu parametru ce extrage informațiile din cel puțin 2 tabele și care utilizează cel puțin o funcție grup.
+-- Scrieți un subprogram care utilizează acest cursor.
+-- Vor fi returnate cel puțin două variabile.
+-- Tratați erorile care pot să apară la apelare. Testați.
+
+-- Cererea in limbaj natural:
+-- "Afișați lista tuturor categoriilor de titluri
+-- și numărul total de închirieri pentru fiecare categorie,
+-- pentru membrii care au efectuat cel puțin o închiriere într-o anumită lună și an.
+-- Parametrii de intrare vor fi luna și anul specificate.
+-- Pentru fiecare categorie de titluri, afișați numărul total de închirieri
+-- și lista membrilor care au efectuat închirieri în acea lună și an."
+
+
+CREATE OR REPLACE PACKAGE CURSORS_PACKAGE IS
+   TYPE RENTAL_CUR_TYPE IS
+      REF CURSOR;
+END CURSORS_PACKAGE;
+/
+
+CREATE OR REPLACE PROCEDURE AFISEAZAINCHIRIERI(
+   LUNA IN NUMBER,
+   AN IN NUMBER,
+   REZULTAT1 OUT CURSORS_PACKAGE.RENTAL_CUR_TYPE,
+   REZULTAT2 OUT CURSORS_PACKAGE.RENTAL_CUR_TYPE
+) IS
+   RENTAL_CUR       CURSORS_PACKAGE.RENTAL_CUR_TYPE;
+   CATEGORIE        VARCHAR2(50);
+   NUMAR_INCHIRIERI NUMBER;
+   MEMBRU_ID        NUMBER;
+BEGIN
+   OPEN RENTAL_CUR FOR
+      SELECT
+         T.CATEGORY,
+         COUNT(R.TITLE_IST_ID)
+      FROM
+         RENTAL_IST R
+         INNER JOIN TITLE_IST T
+         ON R.TITLE_IST_ID = T.TITLE_IST_ID
+      WHERE
+         EXTRACT(MONTH FROM R.BOOK_DATE) = LUNA
+         AND EXTRACT(YEAR FROM R.BOOK_DATE) = AN
+      GROUP BY
+         T.CATEGORY;
+   LOOP
+      FETCH RENTAL_CUR INTO CATEGORIE, NUMAR_INCHIRIERI;
+      EXIT WHEN RENTAL_CUR%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE('Categorie: '
+         || CATEGORIE
+         || ', Numar inchirieri: '
+         || NUMAR_INCHIRIERI);
+      OPEN REZULTAT1 FOR
+         SELECT
+            DISTINCT R.MEMBER_IST_ID
+         FROM
+            RENTAL_IST R
+            INNER JOIN TITLE_IST T
+            ON R.TITLE_IST_ID = T.TITLE_IST_ID
+         WHERE
+            T.CATEGORY = CATEGORIE
+            AND EXTRACT(MONTH FROM R.BOOK_DATE) = LUNA
+            AND EXTRACT(YEAR FROM R.BOOK_DATE) = AN;
+      LOOP
+         FETCH REZULTAT1 INTO MEMBRU_ID;
+         EXIT WHEN REZULTAT1%NOTFOUND;
+         DBMS_OUTPUT.PUT_LINE('    Membru ID: '
+            || MEMBRU_ID ); 
+      END LOOP;
+   END LOOP;
+   CLOSE RENTAL_CUR;
+EXCEPTION
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('A aparut o eroare: '
+         || SQLCODE
+         || ' - '
+         || SQLERRM);
+END;
+/
+
+DECLARE
+   REZULTAT1 CURSORS_PACKAGE.RENTAL_CUR_TYPE;
+   REZULTAT2 CURSORS_PACKAGE.RENTAL_CUR_TYPE;
+BEGIN
+   AFISEAZAINCHIRIERI(5, 2023, REZULTAT1, REZULTAT2);
+END;
+/
+
+
+
+--                ===   ex 2  ===
+ PROMPT EXERCITIUL 2.
+
+-- 2. Vom numi "tip3" un tip de date ce folosește în definirea lui un alt tip de date ("tip2"),
+-- care la rândul lui utilizează un alt tip de date ("tip1").
+-- Definiți un astfel de tip, indicați ce anume reprezintă și utilizați-l prin adăugarea unei coloane de acest tip
+-- la unul dintre tabelele din schemă.
+-- Cu ajutorul unui bloc anonim actualizați coloana adăugată cu informații relevante din schemă.
+
+
+-- Prima parte a cerinței este să definim un "tip3" care utilizează un "tip2" în definirea sa, iar "tip2" utilizează un "tip1" în definirea sa. Acestea pot fi definite folosind tipuri obiect sau înregistrări în PL/SQL.
+-- În acest exemplu, vom crea "tip1" ca un tip obiect address_type pentru a stoca adresa unui membru, "tip2" ca un member_type care utilizează address_type și include alte câmpuri specifice unui membru, și "tip3" ca rental_type care utilizează member_type și include și alte informații legate de închiriere.
+
+-- Creare tip1
+CREATE OR REPLACE TYPE ADDRESS_TYPE_IST AS
+   OBJECT (
+      STREET VARCHAR2(100),
+      CITY VARCHAR2(30)
+   );
+/
+
+-- Creare tip2
+CREATE OR REPLACE TYPE MEMBER_TYPE_IST AS
+   OBJECT (
+      MEMBER_ID NUMBER(10),
+      LAST_NAME VARCHAR2(25),
+      FIRST_NAME VARCHAR2(25),
+      ADDRESS ADDRESS_TYPE_IST
+   );
+/
+
+-- Creare tip3
+CREATE OR REPLACE TYPE RENTAL_TYPE_IST AS
+   OBJECT (
+      BOOK_DATE DATE,
+      MEMBER_TYPE MEMBER_TYPE_IST,
+      TITLE_ID NUMBER(10)
+   );
+/
+
+-- Adăugarea coloanei în tabel
+ALTER TABLE rental_ist ADD (
+    rental_info_ist rental_type_ist
+);
+
+-- Actualizarea coloanei adăugate
+DECLARE
+    -- Variabile pentru a stoca datele pe care le vom utiliza pentru a construi obiectele noastre.
+    v_address VARCHAR2(100);
+    v_city VARCHAR2(30);
+    v_member_id NUMBER(10);
+    v_last_name VARCHAR2(25);
+    v_first_name VARCHAR2(25);
+    v_book_date DATE;
+    v_title_id NUMBER(10);
+
+    -- Variabile pentru obiectele noastre.
+    v_address_obj ADDRESS_TYPE_IST;
+    v_member_obj MEMBER_TYPE_IST;
+    v_rental_obj RENTAL_TYPE_IST;
+BEGIN
+    FOR r IN (SELECT m.member_ist_id, m.last_name, m.first_name, m.address, m.city, r.book_date, r.title_ist_id 
+              FROM member_ist m JOIN rental_ist r ON m.member_ist_id = r.member_ist_id)
+    LOOP
+        -- Creăm obiectele noastre.
+        v_address_obj := ADDRESS_TYPE_IST(r.address, r.city);
+        v_member_obj := MEMBER_TYPE_IST(r.member_ist_id, r.last_name, r.first_name, v_address_obj);
+        v_rental_obj := RENTAL_TYPE_IST(r.book_date, v_member_obj, r.title_ist_id);
+
+        -- Actualizăm coloana cu obiectul nostru.
+        UPDATE rental_ist
+        SET rental_info_ist = v_rental_obj
+        WHERE book_date = r.book_date 
+          AND member_ist_id = r.member_ist_id 
+          AND title_ist_id = r.title_ist_id;
+    END LOOP;
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Afișează orice eroare care se produce în timpul execuției.
+        DBMS_OUTPUT.PUT_LINE('A apărut o eroare: ' || SQLERRM);
+END;
+/
+
+
+
+--                ===   ex 3  ===
+-- 3. Pe un tabel dependent din schemă implementați cu ajutorul unui trigger o constrângere de integritate la alegere. Testați.
+-- Observație: trebuie să apară explicit pe ce tabel și care este constrangerea implementată.
+
+-- Pentru această cerință, am să creez un trigger pe tabela rental_ist care să verifice dacă un membru încearcă să închirieze mai mult de 3 titluri în aceeași zi. 
+
+CREATE OR REPLACE TRIGGER check_rental_limit
+BEFORE INSERT ON rental_ist
+FOR EACH ROW
+DECLARE
+  v_rental_count NUMBER;
+BEGIN
+  -- Într-un bloc PL/SQL, selectăm numărul de închirieri ale aceluiași membru în aceeași zi.
+  SELECT COUNT(*) INTO v_rental_count
+  FROM rental_ist
+  WHERE member_ist_id = :NEW.member_ist_id AND TRUNC(book_date) = TRUNC(SYSDATE);
+
+  -- Dacă numărul închirierilor existente este deja 3, aruncăm o excepție.
+  IF v_rental_count >= 3 THEN
+    RAISE_APPLICATION_ERROR(-20000, 'Un membru nu poate închiria mai mult de 3 titluri în aceeași zi.');
+  END IF;
+EXCEPTION
+  WHEN OTHERS THEN
+    -- Afișăm orice altă eroare care ar putea apărea.
+    DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END;
+/
+
+-- Primul închiriere pentru membrul 101 în aceeași zi
+INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
+VALUES (SYSDATE, 1, 101, 92);
+
+-- A 2-a închiriere pentru membrul 101 în aceeași zi (va declanșa eroarea)
+INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
+VALUES (SYSDATE, 2, 101, 95);
+
+-- A treia închiriere pentru membrul 101 în aceeași zi
+INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
+VALUES (SYSDATE, 1, 101, 97);
+
+-- A patra închiriere pentru membrul 101 în aceeași zi (va declanșa eroarea)
+INSERT INTO rental_ist(book_date, copy_id, member_ist_id, title_ist_id)
+VALUES (SYSDATE, 1, 101, 96);
+
+
+
+--                ===   ex 4     ===
+DROP VIEW copies_view;
+
+-- Creez un view compus din 2 tabele
+CREATE VIEW copies_view AS
+  SELECT
+    tc.copy_id,
+    t.title,
+    t.description,
+    t.category,
+    tc.status
+  FROM title_copy_ist tc
+  LEFT JOIN title_ist t ON tc.title_ist_id = t.title_ist_id;
+  
+-- Inainte sa creez trigger-ul, o astfel de instructiune de INSERT va da eroare.
+INSERT INTO copies_view (
+  copy_id,
+  title,
+  description,
+  category,
+  status
+)
+VALUES (
+  4,
+  'Willie and Christmas Too',
+  'All of Willie''s friends made a Christmas list for Santa, but Willie has yet 
+   to create his own wish list.',
+  'CHILD',
+  'AVAILABLE'
+);
+
+DROP TRIGGER new_copy_trigger;
+
+-- Creez un trigger care insereaza date doar in tabelul title_copy
+CREATE OR REPLACE TRIGGER new_copy_trigger
+  INSTEAD OF INSERT ON copies_view
+  FOR EACH ROW
+DECLARE
+  title_ist_id title_ist.title_ist_id%TYPE;
+BEGIN
+  SELECT title_ist_id INTO title_ist_id FROM title_ist 
+  WHERE title = :NEW.title AND description = :NEW.description AND category = :NEW.category;
+
+  INSERT INTO title_copy_ist (copy_id, title_ist_id, status)
+  VALUES (:NEW.copy_id, title_ist_id, :NEW.status);
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('No title found with this description and category!');
+  WHEN TOO_MANY_ROWS THEN
+    DBMS_OUTPUT.PUT_LINE('Unable to insert new title as there are multiple records with these description and category!');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('An error occured: ' || SQLERRM);
+END;
+
+
+
+--                ===   ex 5     ===
+-- Trigger-ul verifica daca noua valoare a exp_ret_date este inainte de data curenta,
+-- caz in care ii asigneaza chiar data curenta
+-- Aceasta este prima versiune de trigger, care declanseaza eroarea mutating table
+CREATE OR REPLACE TRIGGER rental_ret_date_trigger
+  AFTER INSERT OR UPDATE
+  ON rental_ist
+  FOR EACH ROW
+DECLARE
+  now_date rental_ist.exp_ret_date%TYPE;
+BEGIN
+  now_date := SYSDATE;
+  
+  -- daca noua data de returnare este inaintea zilei de azi o schimbam cu data de astazi
+  IF :NEW.exp_ret_date < now_date
+  THEN
+    UPDATE rental_ist
+    SET exp_ret_date = now_date
+    WHERE copy_id = :NEW.copy_id AND member_id = :NEW.member_id AND title_id = :NEW.title_id;
+  END IF;
+END;
+
+-- Functia de UPDATE va declansa eroarea mutating table
+UPDATE rental_ist
+SET exp_ret_date = TO_DATE('01.01.2000', 'DD.MM.YYYY')
+WHERE copy_id = 2 AND member_ist_id = 101 AND title_ist_id = 93;
+
+-- Trigger-ul verifica daca noua valoare a exp_ret_date este inainte de data curenta,
+-- caz in care ii asigneaza chiar data curenta
+-- Aceasta este a doua versiune de trigger, care nu declanseaza eroarea mutating table
+-- Dupa executie putem vedea ca exp_ret_date devine data curenta
+CREATE OR REPLACE TRIGGER rental_ret_date_trigger
+  FOR INSERT OR UPDATE ON rental_ist
+  COMPOUND TRIGGER
+
+  -- corrected record type: member_id changed to member_ist_id and title_id to title_ist_id
+  TYPE r_rental_type IS RECORD (
+    exp_ret_date rental_ist.exp_ret_date%TYPE,
+    copy_id rental_ist.copy_id%TYPE,
+    member_ist_id rental_ist.member_ist_id%TYPE,
+    title_ist_id rental_ist.title_ist_id%TYPE
+  );
+
+  TYPE t_rentals_type IS TABLE OF r_rental_type INDEX BY PLS_INTEGER;
+
+  t_rentals t_rentals_type;
+
+  -- changed member_id to member_ist_id and title_id to title_ist_id
+  AFTER EACH ROW IS
+  BEGIN
+    t_rentals(t_rentals.COUNT + 1).exp_ret_date := :NEW.exp_ret_date;
+    t_rentals(t_rentals.COUNT).copy_id := :NEW.copy_id;
+    t_rentals(t_rentals.COUNT).member_ist_id := :NEW.member_ist_id;
+    t_rentals(t_rentals.COUNT).title_ist_id := :NEW.title_ist_id;
+  END AFTER EACH ROW;
+
+  AFTER STATEMENT IS
+    now_date DATE;  -- changed type to DATE
+  BEGIN
+    now_date := SYSDATE;
+
+    -- execute the previous code, but for each affected record
+    FOR i IN 1..t_rentals.COUNT
+    LOOP
+      -- if the new return date is before today, change it to today
+      IF t_rentals(i).exp_ret_date < now_date
+      THEN
+        UPDATE rental_ist
+        SET exp_ret_date = now_date
+        WHERE 
+          copy_id = t_rentals(i).copy_id AND 
+          member_ist_id = t_rentals(i).member_ist_id AND 
+          title_ist_id = t_rentals(i).title_ist_id;
+      END IF;
+    END LOOP;
+  END AFTER STATEMENT;
+END;
+/
