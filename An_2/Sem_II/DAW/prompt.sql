@@ -29,11 +29,13 @@ CREATE TABLE users (
 
 
 -- ex 3  
+Avand mai jos schema tabelelor, scrie cate un formular custon pentru fiecare dintre cele 4 tabele.
+
 Se dorește implementarea operațiilor de insert, delete, update pe baza de date definită 
 la I  (fără  tabelul  de  utilizatori). Se  dorește  reutilizarea  codului  pentru  scenarii 
 asemănătoare (nu definesc câte o pagină pentru fiecare tabel etc.). 
 
-Scrie pagina template.php care genereaza iti ofera optiunea sa alegi intre
+Avem o pagina template.php care genereaza iti ofera optiunea sa alegi intre
 'Hotle' , 'Rezervare', 'Camera'  si 'Cazare' si creeaza 3 formulare diferit html 
 (pentru insert, update si delete) in functie
 de optiunea aleasa. Formularele apeleaza in spate metodele specifice din fisierul database.php
@@ -122,9 +124,65 @@ function delete($table, $id) {
     }
 }
 
--- ex 4  
-Securizarea formularelor de la III (2p):
-Vor fi indicate în fișierul predat ce validări, 
-metode de validare a datelor de intrare au fost implementate. 
-In timpul evaluării vor fi realizate o serie de teste 
-pentru acordarea punctelor de la această cerință.
+-- fisierul template.php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Management</title>
+</head>
+<body>
+    <form method="post">
+        <select name="table">
+            <option value="">-- Select an Option --</option>
+            <option value="hotel">Hotel</option>
+            <option value="rezervare">Rezervare</option>
+            <option value="camera">Camera</option>
+            <option value="cazare">Cazare</option>
+        </select>
+        <input type="submit" name="submit" value="Select"/>
+    </form>
+
+    <?php
+    if (isset($_POST['table'])) {
+        $table = $_POST['table'];
+        echo "<h2>Working on: $table</h2>";
+        // Generate forms
+        echo "<h3>Insert Form</h3>";
+        // You should customize your form fields according to the selected table
+        echo "
+        <form method='post' action='database.php?action=insert'>
+            <!-- Custom Fields Here -->
+            <input type='submit' value='Insert'>
+        </form>";
+
+        echo "<h3>Update Form</h3>";
+        echo "
+        <form method='post' action='database.php?action=update'>
+            <!-- Custom Fields Here -->
+            <input type='submit' value='Update'>
+        </form>";
+
+        echo "<h3>Delete Form</h3>";
+        echo "
+        <form method='post' action='database.php?action=delete'>
+            <!-- Custom Fields Here -->
+            <input type='submit' value='Delete'>
+        </form>";
+    }
+    ?>
+</body>
+</html>
+
+
+-- ex3
+Scrie un formulr html, care sa corespunda tabele de mai jos:
+
+CREATE TABLE HOTEL (
+   ID_HOTEL INT AUTO_INCREMENT,
+   DENUMIRE VARCHAR(255) NOT NULL,
+   ZONA VARCHAR(255),
+   JUDET VARCHAR(255),
+   LOCALITATE VARCHAR(255),
+   NUMAR_STELE INT,
+   PRIMARY KEY (ID_HOTEL)
+);

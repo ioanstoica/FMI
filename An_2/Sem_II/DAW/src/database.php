@@ -50,8 +50,16 @@ function delete($table, $id)
 $action = $_POST['action'];
 $table = $_POST['table'];
 if ($action == 'insert') {
-   $data = []; // Get data from $_POST
+   $data = $_POST;
+   // remove action and table from data
+   unset($data['action']);
+   unset($data['table']);
+
    insert($table, $data);
+   
+   echo "S-au insertat urmatoarele date: ";
+   print_r($data);
+
 } else if ($action == 'update') {
    $data = []; // Get data from $_POST
    $id = $_POST['id']; // Get id from $_POST
