@@ -7,3 +7,4 @@ Expect: 188.114. ...
 - afiseaza daca portul 53 e ocupat:
 netstat -aon | findstr :53
 
+- WIN change DNS server: Network and Internet -> Advanced network settings

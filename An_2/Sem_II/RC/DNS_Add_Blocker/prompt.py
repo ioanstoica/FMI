@@ -1,18 +1,13 @@
-# Scrie in python un server de DNS,
-#  care sa trimita cererile mai departe la 8.8.8.8, 
-# si sa raspunda cu raspunsul primit
-# si sa poate raspunde la mai multe cereri in paralel.
+# codul urmator ruleaza in paralel functia solve, sau nu?
 
-# cum opresc un porces in Windows Power Shell?
-# - opreste procesul care asculta pe portul 53:
-# taskkill /PID 1234 /F
-
-# scrie in python un server care sa poata sa raspunda in paralel la mai multe cereri
-
-import concurrent.futures
-
-with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-    future = executor.submit(pow, 2, 4)
-    future2 = executor.submit(pow, 2, 4)
-    print(future.result())
-    print(future2.result())
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+   while True:
+      try:
+         request, source_address = socket_udp.recvfrom(65535)
+         future = executor.submit(solve, request, source_address, socket_udp)
+         print(future.result())
+      except KeyboardInterrupt:
+         break
+      except Exception as e:
+         print("Exception:", e)
+         continue

@@ -51,7 +51,7 @@ def get_ip_address(hostname):
         # query pentru a afla entry de tipul 
         # dns_query = DNSQR(qname=b'fmi.unibuc.ro.', qtype=1, qclass=1) -> use hostname
         byte_hostname= hostname.encode()
-        # !!!  print("Byte hostname: ", byte_hostname)
+        print("Byte hostname: ", byte_hostname)
         dns_query = DNSQR(qname=byte_hostname, qtype=1, qclass=1)
         dns.qd = dns_query
 
@@ -59,7 +59,7 @@ def get_ip_address(hostname):
 
         return answer[DNS].an.rdata
     except Exception as e:
-        #   !!!print("Failed to retrieve the IP address of", hostname, "with socket.gaierror", e)
+        print("Failed to retrieve the IP address of", hostname, "with socket.gaierror", e)
         return None
 
 blacklist = []
@@ -68,7 +68,6 @@ with open("adservers.txt", "r") as f:
         blacklist.append(line.strip())
 
 def solve(request, source_address, socket_udp):
-   out = ""
 
    # converitm payload-ul in pachet scapy
    packet = DNS(request)
@@ -77,34 +76,33 @@ def solve(request, source_address, socket_udp):
    # Extragem domeniul interogat
    domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
    domain_parts = domain_parts[:-1] # domain_parts = ['api', 'github', 'com']
-   # !!! out += "domain_parts: " + domain_parts
+   print("domain_parts: " , domain_parts)
    
    domain = '.'.join(domain_parts) # domain = 'api.github.com'
-   out += "domain: " +  domain
+   print("domain: " , domain)
 
    if domain in blacklist:
-      out += f"Domain {domain} is blacklisted"
+      print(f"Domain {domain} is blacklisted")
       response_ip = "0.0.0.0"
    else:
       # Obtinem IP-ul pentru domeniul interogat
       try:
             response_ip = get_ip_address(domain)
       except Exception as e:
-            out += "Ip address exception:" + e
+            print( "Ip address exception:" , e)
             return
    
-   out += "response_ip: " +  response_ip
+   print("response_ip: " , response_ip)
 
    # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
    errorcode = 0
    if response_ip is None:
-      out += "Failed to retrieve the IP address of" + domain
+      print("Failed to retrieve the IP address of" ,domain)
       response_ip = '0.0.0.0'
       errorcode = 3 # NXDOMAIN - Non-Existent Domain
 
    if dns is not None and dns.opcode == 0:  # dns QUERY
-      # !!! out += "got: "
-      # !!! out += packet.summary()
+      print("got: ",  packet.summary())
 
       dns_answer = DNSRR(  # DNS Reply
             rrname=dns.qd.qname,  # for question
@@ -123,29 +121,27 @@ def solve(request, source_address, socket_udp):
             an=dns_answer,
       )  # obiectul de reply
 
-      # !!! out += "response:"
-      # !!! out += dns_response.summary()
+      print("response:", dns_response.summary())
       socket_udp.sendto(bytes(dns_response), source_address)
 
 
 print("DNS server started at host:", host, "port:", port)
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
    while True:
       try:
          request, source_address = socket_udp.recvfrom(65535)
          future = executor.submit(solve, request, source_address, socket_udp)
-         print(future.result())
       except KeyboardInterrupt:
          break
       except Exception as e:
          print("Exception:", e)
          continue
         
-
-    
 socket_udp.close()
 # fd.api.iris.microsoft.com
 # skydrivesync.policies.live.net.
 # beacons.gcp.gvt2.com
 # skydrivesync.policies.live.net
+
+# accuweather.com
