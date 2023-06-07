@@ -17,13 +17,14 @@ Creati un site in php. La accesarea site-ului (home page) să se încarce un for
 Obs: trebuie restricționată retransmiterea datelor folosite la înregistrare;
 
 -- tabela de users
-CREATE TABLE USER (
-   ID_USER INT AUTO_INCREMENT,
-   EMAIL VARCHAR(255) NOT NULL,
-   PAROLA VARCHAR(255) NOT NULL,
-   PRIMARY KEY (ID_USER),
-   UNIQUE (EMAIL)
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id_user),
+    UNIQUE (email)
 );
+
 
 
 

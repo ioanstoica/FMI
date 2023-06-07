@@ -4,18 +4,23 @@
 require_once "db_connect.php";
 $conn = db_connect();
 
-require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-
 // Get the form data
 $email = $_POST["email"];
 $password = $_POST["password"];
 
-// echo a form to enter the verification code
-echo '<form action="" method="post">
-    <input type="text" name="code" placeholder="Enter the verification code">
-    <input type="hidden" name="email" value="' . $email . '">
-    <input type="hidden" name="password" value="' . $password . '">
-    <input type="submit" value="Verify">';
+
+// Hash the password
+$password = password_hash($password, PASSWORD_DEFAULT);
+
+// Insert the new user into the users table
+$sql = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
+if ($conn->query($sql) === TRUE) {
+    echo "Signup successful! Welcome $email";
+    session_start();
+    $_SESSION["username"] = $email;
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
 
 // Close the database connection
 $conn->close();
