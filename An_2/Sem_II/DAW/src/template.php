@@ -18,6 +18,13 @@
    </form>
 
    <?php
+   // if user is not logged in, redirect to login.php
+   session_start();
+   if (!isset($_SESSION["email"])) {
+      header("Location: /src/login.html");
+      exit();
+   }
+
    if (isset($_POST['table'])) {
       $table = $_POST['table'];
       echo "<h2>Working on: $table</h2>";

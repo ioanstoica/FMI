@@ -19,7 +19,8 @@ if (isset($_SESSION["email"])) {
 }
 
 echo '<a href="/src/login.html">Signup/Login</a><br>
-    <a href="/src/logout.php">Logout</a><br>';
+    <a href="/src/logout.php">Logout</a><br>
+    <a href="/src/template.php">Template</a><br>';
 
 
 
