@@ -58,7 +58,7 @@ GROUP BY
 HAVING
    COUNT(*) > 1;
 
--- 4. Ordering and the use of NVL and DECODE functions:
+-- 4. ordonari  si  utilizarea  functiilor  NVL  si  DECODE  (in  cadrul  aceleiasi cereri) 
 SELECT
    A.NUME,
    DECODE(A.TIP,
@@ -86,7 +86,8 @@ FROM
 ORDER BY
    A.NUME;
 
--- 5. Using at least 2 string functions, 2 date functions, and one CASE expression, along with a WITH clause:
+-- 5. utilizarea  a  cel  putin  2  functii  pe  siruri  de  caractere,  2  functii  pe  date 
+-- calendaristice,  a cel putin unei expresii CASE
 WITH T_INFO AS (
    SELECT
       T.ID_TRANZACTIE,
