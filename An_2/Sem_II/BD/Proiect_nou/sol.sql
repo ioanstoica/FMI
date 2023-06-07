@@ -1,4 +1,6 @@
 -- 1. subcereri sincronizate in care intervin cel putin 3 tabele
+-- CERINTA: Am nevoie să obțin o listă cu numele și tipul activelor tranzacționate prin intermediul brokerilor care dețin mai mult de 200 de active. În această listă, vreau să fie inclus și numele brokerului prin intermediul căruia s-a realizat fiecare tranzacție 
+
 SELECT
    A.NUME,
    A.TIP,
@@ -12,6 +14,7 @@ WHERE
    BR.NR_ACTIVE > 200;
 
 -- 2. subcereri nesincronizate in clauza FROM
+-- CERINTA: Doresc o listă cu numele și prețurile activelor de tip 'Acțiuni', ordonată descrescător după preț.
 SELECT
    ACT.NUME,
    ACT.PRET
@@ -30,6 +33,7 @@ ORDER BY
 
 -- 3.grupari  de  date  cu  subcereri  nesincronizate  in  care  intervin  cel  putin  3
 -- tabele, functii grup, filtrare la nivel de grupuri (in cadrul aceleiasi cereri)
+-- CERINTA: Am nevoie de o listă cu numele brokerilor care au efectuat mai mult de o tranzacție cu active de tip 'Acțiuni'. În această listă, vreau să includ numărul total de tranzacții realizate de fiecare broker și prețul mediu al tranzacțiilor.
 SELECT
    BR.NUME,
    COUNT(*)    AS NR_TRANZACTII,
@@ -59,6 +63,7 @@ HAVING
    COUNT(*) > 1;
 
 -- 4. ordonari  si  utilizarea  functiilor  NVL  si  DECODE  (in  cadrul  aceleiasi cereri) 
+-- CERINTA: Aș dori o listă cu numele activelor și tipul lor, tradus în engleză. Pentru active de tip 'Actiuni', tipul ar trebui să fie 'Stocks'; pentru 'ETFuri', 'ETF'; iar pentru 'Crypto', 'Criptomonede'. Dacă tipul activului nu se încadrează în aceste categorii, ar trebui să fie clasificat ca 'Unknown'. De asemenea, aș dori să se afișeze numele brokerului care a tranzacționat fiecare activ; în cazul în care brokerul nu este cunoscut, trebuie să fie indicat cu 'No Broker'. Lista ar trebui să fie ordonată după numele activelor.
 SELECT
    A.NUME,
    DECODE(A.TIP,
@@ -88,6 +93,7 @@ ORDER BY
 
 -- 5. utilizarea  a  cel  putin  2  functii  pe  siruri  de  caractere,  2  functii  pe  date 
 -- calendaristice,  a cel putin unei expresii CASE
+-- CERINTA: Aș dori să obțin o listă cu id-ul tranzacțiilor, împreună cu vechimea acestora. Numele brokerilor ar trebui să fie convertite la majuscule și să includă doar primele trei caractere. Vechimea tranzacțiilor ar trebui calculată în luni, începând de la data curentă. Dacă vechimea tranzacției este mai mică de 6 luni, aceasta ar trebui clasificată ca 'Recent'; în caz contrar, ca 'Old'. Lista ar trebui să includă doar tranzacțiile pentru care numele brokerilor au mai mult de un caracter și ar trebui să fie ordonată descrescător după data tranzacției
 WITH T_INFO AS (
    SELECT
       T.ID_TRANZACTIE,
