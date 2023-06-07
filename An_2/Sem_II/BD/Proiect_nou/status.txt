@@ -11,3 +11,5 @@ Administrare de active financiare
 9. DONE
 10. DONE
 11. DONE
+12. DONE
+13. DONE
