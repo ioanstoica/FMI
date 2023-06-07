@@ -24,7 +24,7 @@ function update($table, $data, $id)
    $setValues = implode(", ", array_map(function ($key, $value) {
       return "$key='$value'";
    }, array_keys($data), $data));
-   $sql = "UPDATE $table SET $setValues WHERE id=$id";
+   $sql = "UPDATE $table SET $setValues WHERE id_$table=$id";
    if ($conn->query($sql) === TRUE) {
       return true;
    } else {
@@ -36,7 +36,7 @@ function update($table, $data, $id)
 function delete($table, $id)
 {
    global $conn;
-   $sql = "DELETE FROM $table WHERE id=$id";
+   $sql = "DELETE FROM $table WHERE id_$table=$id";
    if ($conn->query($sql) === TRUE) {
       return true;
    } else {
@@ -56,10 +56,9 @@ if ($action == 'insert') {
    unset($data['table']);
 
    insert($table, $data);
-   
-   echo "S-au insertat urmatoarele date: ";
-   print_r($data);
 
+   echo "S-au insertat urmatoarele date in tabela: $table";
+   print_r($data);
 } else if ($action == 'update') {
    $data = []; // Get data from $_POST
    $id = $_POST['id']; // Get id from $_POST

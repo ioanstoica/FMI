@@ -175,7 +175,41 @@ function delete($table, $id) {
 
 
 -- ex3
-Scrie un formulr html, care sa corespunda tabele de mai jos:
+Scrie un formular html, care sa corespunda tabele de mai jos:
+
+CREATE TABLE CAZARE (
+   ID_CAZARE INT AUTO_INCREMENT,
+   DATA_SOSIRE DATE NOT NULL,
+   DATA_PLECARE DATE NOT NULL,
+   ID_REZERVARE INT,
+   ID_CAMERA INT,
+   PRIMARY KEY (ID_CAZARE),
+   FOREIGN KEY (ID_REZERVARE) REFERENCES REZERVARE(ID_REZERVARE),
+   FOREIGN KEY (ID_CAMERA) REFERENCES CAMERA(ID_CAMERA)
+);
+
+pe modelul:
+<form method="post" action="database.php?action=insert">
+               <input type="hidden" name="table" value="hotel">
+               <input type="hidden" name="action" value="insert">
+               
+               <label for="denumire">Denumire:</label>
+               <input type="text" id="denumire" name="denumire" required>
+               
+               <label for="zona">Zona:</label>
+               <input type="text" id="zona" name="zona">
+               
+               <label for="judet">Judet:</label>
+               <input type="text" id="judet" name="judet">
+               
+               <label for="localitate">Localitate:</label>
+               <input type="text" id="localitate" name="localitate">
+               
+               <label for="numar_stele">Numar Stele:</label>
+               <input type="number" id="numar_stele" name="numar_stele">
+               
+               <input type="submit" value="Insert">
+               </form>
 
 CREATE TABLE HOTEL (
    ID_HOTEL INT AUTO_INCREMENT,
