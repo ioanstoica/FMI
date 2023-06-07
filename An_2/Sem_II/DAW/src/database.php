@@ -2,21 +2,58 @@
 require_once "db_connect.php";
 $conn = db_connect();
 
+// function insert($table, $data)
+// {
+//    global $conn;
+//    $fields = implode(", ", array_keys($data));
+//    $values = implode(", ", array_map(function ($item) {
+//       return "'$item'";
+//    }, array_values($data)));
+//    $sql = "INSERT INTO $table ($fields) VALUES ($values)";
+//    if ($conn->query($sql) === TRUE) {
+//       return $conn->insert_id;
+//    } else {
+//       echo "Error: " . $sql . "<br>" . $conn->error;
+//       return false;
+//    }
+// }
+
 function insert($table, $data)
 {
    global $conn;
+
+   // Prepare an array of placeholders and bind values.
+   $placeholders = array();
+   $bind_values = array();
+   foreach ($data as $field => $value) {
+      $placeholders[] = '?';
+      $bind_values[] = $value;
+   }
+
+   // Create an SQL statement with placeholders.
    $fields = implode(", ", array_keys($data));
-   $values = implode(", ", array_map(function ($item) {
-      return "'$item'";
-   }, array_values($data)));
+   $values = implode(", ", $placeholders);
    $sql = "INSERT INTO $table ($fields) VALUES ($values)";
-   if ($conn->query($sql) === TRUE) {
+
+   // Prepare the SQL statement.
+   $stmt = $conn->prepare($sql);
+
+   if ($stmt === false) {
+      echo "Error: " . $conn->error;
+      return false;
+   }
+
+   // Bind parameters and execute the statement.
+   $stmt->bind_param(str_repeat('s', count($bind_values)), ...$bind_values);
+
+   if ($stmt->execute() === TRUE) {
       return $conn->insert_id;
    } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $stmt->error;
       return false;
    }
 }
+
 
 function update($table, $data, $id)
 {
