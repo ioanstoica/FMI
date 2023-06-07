@@ -33,6 +33,11 @@ Se dorește implementarea operațiilor de insert, delete, update pe baza de date
 la I  (fără  tabelul  de  utilizatori). Se  dorește  reutilizarea  codului  pentru  scenarii 
 asemănătoare (nu definesc câte o pagină pentru fiecare tabel etc.). 
 
+Scrie pagina template.php care genereaza iti ofera optiunea sa alegi intre
+'Hotle' , 'Rezervare', 'Camera'  si 'Cazare' si creeaza 3 formulare diferit html 
+(pentru insert, update si delete) in functie
+de optiunea aleasa. Formularele apeleaza in spate metodele specifice din fisierul database.php
+
 -- I. Schema examen
 CREATE TABLE HOTEL (
    ID_HOTEL INT AUTO_INCREMENT,
@@ -76,4 +81,50 @@ CREATE TABLE CAZARE (
 );
 
 
+-- fisierul src/database.php
+<?php
+require_once "db_connect.php";
+$conn = db_connect();
+
+function insert($table, $data) {
+    global $conn;
+    $fields = implode(", ", array_keys($data));
+    $values = implode(", ", array_map(function($item) { return "'$item'"; }, array_values($data)));
+    $sql = "INSERT INTO $table ($fields) VALUES ($values)";
+    if ($conn->query($sql) === TRUE) {
+        return $conn->insert_id;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        return false;
+    }
+}
+
+function update($table, $data, $id) {
+    global $conn;
+    $setValues = implode(", ", array_map(function($key, $value) { return "$key='$value'"; }, array_keys($data), $data));
+    $sql = "UPDATE $table SET $setValues WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        return false;
+    }
+}
+
+function delete($table, $id) {
+    global $conn;
+    $sql = "DELETE FROM $table WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        return false;
+    }
+}
+
 -- ex 4  
+Securizarea formularelor de la III (2p):
+Vor fi indicate în fișierul predat ce validări, 
+metode de validare a datelor de intrare au fost implementate. 
+In timpul evaluării vor fi realizate o serie de teste 
+pentru acordarea punctelor de la această cerință.
