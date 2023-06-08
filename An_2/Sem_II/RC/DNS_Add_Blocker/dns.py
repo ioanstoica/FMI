@@ -2,16 +2,10 @@
 
 import socket
 from scapy.all import IP, UDP,sr1, DNS, DNSQR, DNSRR
-import concurrent.futures
-
-host = "127.0.0.1"
-port = 53
-
-# Create a socket object and bind it to a port
-socket_udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
-socket_udp.bind((host, port))
+from concurrent.futures import ThreadPoolExecutor 
 
 # Extrage domeniul targetat din request-ul DNS
+# Source: https://github.com/howCodeORG/howDNS/blob/master/dns.py - functia getquestiondomain
 def extract_domain(data):
     data = data[12:]
     state = 0
@@ -39,6 +33,7 @@ def extract_domain(data):
     return domain_parts
 
 # Get the IP address of a hostname
+# Source: curs - https://github.com/senisioi/computer-networks/tree/2023/capitolul6#exemplu-dns-request
 def get_ip_address(hostname):
     try:
         # DNS request către google DNS
@@ -62,12 +57,10 @@ def get_ip_address(hostname):
         print("Failed to retrieve the IP address of", hostname, "with socket.gaierror", e)
         return None
 
-blacklist = []
-with open("adservers.txt", "r") as f:
-    for line in f:
-        blacklist.append(line.strip())
 
-def solve(request, source_address, socket_udp):
+# Solve the DNS request
+# Source: curs - https://github.com/senisioi/computer-networks/tree/2023/capitolul6#micro-dns-server 
+def dns_thread(request, source_address, socket_udp, blacklist):
 
    # converitm payload-ul in pachet scapy
    packet = DNS(request)
@@ -124,18 +117,39 @@ def solve(request, source_address, socket_udp):
       print("response:", dns_response.summary())
       socket_udp.sendto(bytes(dns_response), source_address)
 
+# Create a DNS server
+# That will block adservers
+def dns_add_blocker_server():
+    host = "127.0.0.1"
+    port = 53
 
-print("DNS server started at host:", host, "port:", port)
+    # Citim lista de domenii blacklistate
+    blacklist = []
+    with open("adservers.txt", "r") as f:
+        for line in f:
+            blacklist.append(line.strip())
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-   while True:
-      try:
-         request, source_address = socket_udp.recvfrom(65535)
-         future = executor.submit(solve, request, source_address, socket_udp)
-      except KeyboardInterrupt:
-         break
-      except Exception as e:
-         print("Exception:", e)
-         continue
-        
-socket_udp.close()
+    # Create a socket object and bind it to a port
+    socket_udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, proto=socket.IPPROTO_UDP)
+    socket_udp.bind((host, port))
+
+    print("DNS server started at host:", host, "port:", port)
+
+    # Listen for incoming requests, and handle them in a separate thread
+    with ThreadPoolExecutor(max_workers=100) as executor:
+        while True:
+            try:
+                request, source_address = socket_udp.recvfrom(65535)
+                executor.submit(dns_thread, request, source_address, socket_udp, blacklist)
+            except KeyboardInterrupt:
+                break
+            except Exception as e:
+                print("Exception:", e)
+                continue
+
+    # Close the socket when done 
+    socket_udp.close()
+
+# Run the DNS server
+if __name__ == "__main__":
+    dns_add_blocker_server()
