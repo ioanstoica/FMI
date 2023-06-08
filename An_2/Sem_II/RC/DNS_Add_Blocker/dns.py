@@ -43,7 +43,6 @@ def get_ip_address(hostname):
 
         # query pentru a afla entry de tipul 
         byte_hostname= hostname.encode()
-        print("Byte hostname: ", byte_hostname)
         dns_query = DNSQR(qname=byte_hostname, qtype=1, qclass=1)
         dns.qd = dns_query
 
@@ -58,58 +57,61 @@ def get_ip_address(hostname):
 # Solve the DNS request
 # Source: curs - https://github.com/senisioi/computer-networks/tree/2023/capitolul6#micro-dns-server 
 def dns_thread(request, source_address, socket_udp, blacklist):
-   # converitm payload-ul in pachet scapy
-   packet = DNS(request)
-   dns = packet.getlayer(DNS)
+    # converitm payload-ul in pachet scapy
+    packet = DNS(request)
+    dns = packet.getlayer(DNS)
 
-   # Extragem domeniul interogat
-   domain =  extract_domain(request) # domain is like 'api.github.com'
-   print("domain: " , domain)
+    # Verificam daca este un request valid
+    if dns is None or dns.opcode != 0:  
+        print("Invalid DNS request")
+        return
 
-   # Obtinem IP-ul pentru domeniul interogat
-   if domain in blacklist:
-      print(f"Domain {domain} is blacklisted")
-      response_ip = "0.0.0.0"
-   else:
-      try:
+
+    # Extragem domeniul interogat
+    domain =  extract_domain(request) # domain is like 'api.github.com'
+    print("Domain request:" , domain)
+
+    # Obtinem IP-ul pentru domeniul interogat
+    if domain in blacklist:
+        print(f"Domain {domain} is blacklisted")
+        response_ip = "0.0.0.0"
+    else:
+        try:
             response_ip = get_ip_address(domain)
-      except Exception as e:
+        except Exception as e:
             print( "Ip address exception:" , e)
             return
+
+    print("Qry -> Ans:" , domain, "->" ,response_ip)
+
+    # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
+    errorcode = 0
+    if response_ip is None:
+        print("Failed to retrieve the IP address of" ,domain)
+        response_ip = '0.0.0.0'
+        errorcode = 3 # NXDOMAIN - Non-Existent Domain
+
    
-   print("response_ip: " , response_ip)
+    # Construim raspunsul
+    dns_answer = DNSRR(  # DNS Reply
+        rrname=dns.qd.qname,  # for question
+        ttl=330,  # DNS entry Time to Live
+        type="A",
+        rclass="IN",
+        rdata=response_ip,
+    ) 
 
-   # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
-   errorcode = 0
-   if response_ip is None:
-      print("Failed to retrieve the IP address of" ,domain)
-      response_ip = '0.0.0.0'
-      errorcode = 3 # NXDOMAIN - Non-Existent Domain
+    dns_response = DNS(
+        id=packet[DNS].id,  # DNS replies must have the same ID as requests
+        qr=1,  # 1 for response, 0 for query
+        aa=0,  # Authoritative Answer
+        rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
+        qd=packet.qd,  # request-ul original
+        an=dns_answer,
+    )  # obiectul de reply
 
-   if dns is not None and dns.opcode == 0:  # dns QUERY
-      print("got: ",  packet.summary())
-
-      # Construim raspunsul
-      dns_answer = DNSRR(  # DNS Reply
-            rrname=dns.qd.qname,  # for question
-            ttl=330,  # DNS entry Time to Live
-            type="A",
-            rclass="IN",
-            rdata=response_ip,
-      ) 
-
-      dns_response = DNS(
-            id=packet[DNS].id,  # DNS replies must have the same ID as requests
-            qr=1,  # 1 for response, 0 for query
-            aa=0,  # Authoritative Answer
-            rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
-            qd=packet.qd,  # request-ul original
-            an=dns_answer,
-      )  # obiectul de reply
-
-      print("response:", dns_response.summary())
-      # Trimitem raspunsul
-      socket_udp.sendto(bytes(dns_response), source_address)
+    # Trimitem raspunsul
+    socket_udp.sendto(bytes(dns_response), source_address)
 
 
 # Create a DNS server
