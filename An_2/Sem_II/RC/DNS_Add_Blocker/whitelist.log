@@ -94,3 +94,6 @@ d2bdez37z1e7h0.cloudfront.net -> 54.192.235.82
 static.metafi.codefi.network -> b'd2bdez37z1e7h0.cloudfront.net.'
 clientservices.googleapis.com -> 142.251.208.99
 play.googleapis.com -> 172.217.20.10
+mobile.events.data.microsoft.com -> b'mobile.events.data.trafficmanager.net.'
+mobile.events.data.trafficmanager.net -> b'onedscolprdcus03.centralus.cloudapp.azure.com.'
+onedscolprdcus03.centralus.cloudapp.azure.com -> 13.89.178.27
