@@ -30,7 +30,7 @@ def extract_domain(data):
             state = 1
             expected_length = byte
     
-    return domain_parts
+    return '.'.join(domain_parts[:-1]) # domain_parts = a list like  ['api', 'github', 'com', '']
 
 # Get the IP address of a hostname
 # Source: curs - https://github.com/senisioi/computer-networks/tree/2023/capitolul6#exemplu-dns-request
@@ -39,12 +39,9 @@ def get_ip_address(hostname):
         # DNS request către google DNS
         ip = IP(dst = '8.8.8.8')
         transport = UDP(dport = 53)
-
-        # rd = 1 cod de request
-        dns = DNS(rd = 1)
+        dns = DNS(rd = 1)  # rd = 1 cod de request
 
         # query pentru a afla entry de tipul 
-        # dns_query = DNSQR(qname=b'fmi.unibuc.ro.', qtype=1, qclass=1) -> use hostname
         byte_hostname= hostname.encode()
         print("Byte hostname: ", byte_hostname)
         dns_query = DNSQR(qname=byte_hostname, qtype=1, qclass=1)
@@ -61,24 +58,19 @@ def get_ip_address(hostname):
 # Solve the DNS request
 # Source: curs - https://github.com/senisioi/computer-networks/tree/2023/capitolul6#micro-dns-server 
 def dns_thread(request, source_address, socket_udp, blacklist):
-
    # converitm payload-ul in pachet scapy
    packet = DNS(request)
    dns = packet.getlayer(DNS)
 
    # Extragem domeniul interogat
-   domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
-   domain_parts = domain_parts[:-1] # domain_parts = ['api', 'github', 'com']
-   print("domain_parts: " , domain_parts)
-   
-   domain = '.'.join(domain_parts) # domain = 'api.github.com'
+   domain =  extract_domain(request) # domain is like 'api.github.com'
    print("domain: " , domain)
 
+   # Obtinem IP-ul pentru domeniul interogat
    if domain in blacklist:
       print(f"Domain {domain} is blacklisted")
       response_ip = "0.0.0.0"
    else:
-      # Obtinem IP-ul pentru domeniul interogat
       try:
             response_ip = get_ip_address(domain)
       except Exception as e:
@@ -97,6 +89,7 @@ def dns_thread(request, source_address, socket_udp, blacklist):
    if dns is not None and dns.opcode == 0:  # dns QUERY
       print("got: ",  packet.summary())
 
+      # Construim raspunsul
       dns_answer = DNSRR(  # DNS Reply
             rrname=dns.qd.qname,  # for question
             ttl=330,  # DNS entry Time to Live
@@ -115,7 +108,9 @@ def dns_thread(request, source_address, socket_udp, blacklist):
       )  # obiectul de reply
 
       print("response:", dns_response.summary())
+      # Trimitem raspunsul
       socket_udp.sendto(bytes(dns_response), source_address)
+
 
 # Create a DNS server
 # That will block adservers
@@ -136,11 +131,16 @@ def dns_add_blocker_server():
     print("DNS server started at host:", host, "port:", port)
 
     # Listen for incoming requests, and handle them in a separate thread
+    # Creeaza un thread pool cu 100 de threaduri
     with ThreadPoolExecutor(max_workers=100) as executor:
         while True:
             try:
+                # Wait for a request
                 request, source_address = socket_udp.recvfrom(65535)
+
+                # Handle the request in a separate thread
                 executor.submit(dns_thread, request, source_address, socket_udp, blacklist)
+
             except KeyboardInterrupt:
                 break
             except Exception as e:
