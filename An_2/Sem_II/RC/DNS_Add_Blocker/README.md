@@ -9,5 +9,8 @@ netstat -aon | findstr :53
 
 - WIN change DNS server: Network and Adapter Settings
 
+- alte liste de addservere: https://github.com/blocklistproject/Lists.git
+
 # PyUnit (Unittest) Testing Framework
+
 
