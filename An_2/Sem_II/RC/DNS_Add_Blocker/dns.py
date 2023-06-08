@@ -1,5 +1,4 @@
-# Create a Add BLocker DNS server 
-
+# Create a Add Blocker DNS server 
 import socket
 from scapy.all import IP, UDP,sr1, DNS, DNSQR, DNSRR
 from concurrent.futures import ThreadPoolExecutor 
@@ -51,7 +50,7 @@ def get_ip_address(hostname):
         return answer[DNS].an.rdata
     except Exception as e:
         print("Failed to retrieve the IP address of", hostname, "with socket.gaierror", e)
-        return None
+        return '0.0.0.0'
 
 
 # Solve the DNS request
@@ -66,7 +65,6 @@ def dns_thread(request, source_address, socket_udp, blacklist):
         print("Invalid DNS request")
         return
 
-
     # Extragem domeniul interogat
     domain =  extract_domain(request) # domain is like 'api.github.com'
     print("Domain request:" , domain)
@@ -76,21 +74,9 @@ def dns_thread(request, source_address, socket_udp, blacklist):
         print(f"Domain {domain} is blacklisted")
         response_ip = "0.0.0.0"
     else:
-        try:
-            response_ip = get_ip_address(domain)
-        except Exception as e:
-            print( "Ip address exception:" , e)
-            return
+        response_ip = get_ip_address(domain)
 
     print("Qry -> Ans:" , domain, "->" ,response_ip)
-
-    # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
-    errorcode = 0
-    if response_ip is None:
-        print("Failed to retrieve the IP address of" ,domain)
-        response_ip = '0.0.0.0'
-        errorcode = 3 # NXDOMAIN - Non-Existent Domain
-
    
     # Construim raspunsul
     dns_answer = DNSRR(  # DNS Reply
@@ -105,7 +91,7 @@ def dns_thread(request, source_address, socket_udp, blacklist):
         id=packet[DNS].id,  # DNS replies must have the same ID as requests
         qr=1,  # 1 for response, 0 for query
         aa=0,  # Authoritative Answer
-        rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
+        rcode=0,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
         qd=packet.qd,  # request-ul original
         an=dns_answer,
     )  # obiectul de reply
