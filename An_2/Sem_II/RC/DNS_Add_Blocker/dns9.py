@@ -139,9 +139,3 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
          continue
         
 socket_udp.close()
-# fd.api.iris.microsoft.com
-# skydrivesync.policies.live.net.
-# beacons.gcp.gvt2.com
-# skydrivesync.policies.live.net
-
-# accuweather.com
