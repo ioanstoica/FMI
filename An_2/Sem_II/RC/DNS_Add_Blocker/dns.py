@@ -72,9 +72,13 @@ def dns_thread(request, source_address, socket_udp, blacklist):
     # Obtinem IP-ul pentru domeniul interogat
     if domain in blacklist:
         print(f"Domain {domain} is blacklisted")
+        with open("blacklist.log", "a") as f:
+            f.write(f"{domain}\n")
         response_ip = "0.0.0.0"
     else:
         response_ip = get_ip_address(domain)
+        with open("whitelist.log", "a") as f:
+            f.write(f"{domain} -> {response_ip}\n")
 
     print("Qry -> Ans:" , domain, "->" ,response_ip)
    
