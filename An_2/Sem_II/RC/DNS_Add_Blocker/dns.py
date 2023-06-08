@@ -2,6 +2,7 @@
 
 import socket
 from scapy.all import IP, UDP,sr1, DNS, DNSQR, DNSRR
+import concurrent.futures
 
 host = "127.0.0.1"
 port = 53
@@ -66,77 +67,75 @@ with open("adservers.txt", "r") as f:
     for line in f:
         blacklist.append(line.strip())
 
+def solve(request, source_address, socket_udp):
+
+   # converitm payload-ul in pachet scapy
+   packet = DNS(request)
+   dns = packet.getlayer(DNS)
+
+   # Extragem domeniul interogat
+   domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
+   domain_parts = domain_parts[:-1] # domain_parts = ['api', 'github', 'com']
+   print("domain_parts: " , domain_parts)
+   
+   domain = '.'.join(domain_parts) # domain = 'api.github.com'
+   print("domain: " , domain)
+
+   if domain in blacklist:
+      print(f"Domain {domain} is blacklisted")
+      response_ip = "0.0.0.0"
+   else:
+      # Obtinem IP-ul pentru domeniul interogat
+      try:
+            response_ip = get_ip_address(domain)
+      except Exception as e:
+            print( "Ip address exception:" , e)
+            return
+   
+   print("response_ip: " , response_ip)
+
+   # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
+   errorcode = 0
+   if response_ip is None:
+      print("Failed to retrieve the IP address of" ,domain)
+      response_ip = '0.0.0.0'
+      errorcode = 3 # NXDOMAIN - Non-Existent Domain
+
+   if dns is not None and dns.opcode == 0:  # dns QUERY
+      print("got: ",  packet.summary())
+
+      dns_answer = DNSRR(  # DNS Reply
+            rrname=dns.qd.qname,  # for question
+            ttl=330,  # DNS entry Time to Live
+            type="A",
+            rclass="IN",
+            rdata=response_ip,
+      ) 
+
+      dns_response = DNS(
+            id=packet[DNS].id,  # DNS replies must have the same ID as requests
+            qr=1,  # 1 for response, 0 for query
+            aa=0,  # Authoritative Answer
+            rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
+            qd=packet.qd,  # request-ul original
+            an=dns_answer,
+      )  # obiectul de reply
+
+      print("response:", dns_response.summary())
+      socket_udp.sendto(bytes(dns_response), source_address)
+
+
 print("DNS server started at host:", host, "port:", port)
-while True:
-    # Asteptam o cerere de tip DNS
-    try:
-        request, source_address = socket_udp.recvfrom(65535)
 
-
-        # converitm payload-ul in pachet scapy
-        packet = DNS(request)
-        dns = packet.getlayer(DNS)
-
-        # Extragem domeniul interogat
-        domain_parts =  extract_domain(request) # domain_parts = a list like  ['api', 'github', 'com', '']
-        domain_parts = domain_parts[:-1] # domain_parts = ['api', 'github', 'com']
-        print("domain_parts: ", domain_parts)
-        domain = '.'.join(domain_parts) # domain = 'api.github.com'
-        print("domain: ", domain)
-
-        if domain in blacklist:
-            print(f"Domain {domain} is blacklisted")
-            response_ip = "0.0.0.0"
-        else:
-            # Obtinem IP-ul pentru domeniul interogat
-            try:
-                response_ip = get_ip_address(domain)
-            except Exception as e:
-                print("Ip address exception:", e)
-                continue
+with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+   while True:
+      try:
+         request, source_address = socket_udp.recvfrom(65535)
+         future = executor.submit(solve, request, source_address, socket_udp)
+      except KeyboardInterrupt:
+         break
+      except Exception as e:
+         print("Exception:", e)
+         continue
         
-        print("response_ip: ", response_ip)
-
-        # Daca nu am putut obtine IP-ul, trimitem un raspuns cu codul de eroare NXDOMAIN
-        errorcode = 0
-        if response_ip is None:
-            print("Failed to retrieve the IP address of", domain)
-            response_ip = '0.0.0.0'
-            errorcode = 3 # NXDOMAIN - Non-Existent Domain
-    
-        if dns is not None and dns.opcode == 0:  # dns QUERY
-            print("got: ")
-            print(packet.summary())
-
-            dns_answer = DNSRR(  # DNS Reply
-                rrname=dns.qd.qname,  # for question
-                ttl=330,  # DNS entry Time to Live
-                type="A",
-                rclass="IN",
-                rdata=response_ip,
-            ) 
-
-            dns_response = DNS(
-                id=packet[DNS].id,  # DNS replies must have the same ID as requests
-                qr=1,  # 1 for response, 0 for query
-                aa=0,  # Authoritative Answer
-                rcode=errorcode,  # 0, nicio eroare http://www.networksorcery.com/enp/protocol/dns.htm#Rcode,%20Return%20code
-                qd=packet.qd,  # request-ul original
-                an=dns_answer,
-            )  # obiectul de reply
-
-            print("response:")
-            print(dns_response.summary())
-            socket_udp.sendto(bytes(dns_response), source_address)
-    
-    except KeyboardInterrupt:
-        break
-    except Exception as e:
-        print("Exception:", e)
-        continue
-    
 socket_udp.close()
-# fd.api.iris.microsoft.com
-# skydrivesync.policies.live.net.
-# beacons.gcp.gvt2.com
-# skydrivesync.policies.live.net
