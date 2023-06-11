@@ -16,7 +16,13 @@ domain_dict = defaultdict(int)
 for line in lines:
     domain = line.split('->')[0].strip()
     key = extract_domain(domain)
-    domain_dict[key] += 1
+    domain_dict[key] = 0  # initializarea valorilor dictionarului cu 0
+
+for key in domain_dict.keys():
+    for line in lines:
+        if key in line:
+            domain_dict[key] += 1  # incrementarea valorilor dictionarului atunci cand cheia se gaseste in linia respectiva
+
 
 # Crearea fisierului de statistici
 with open('stats_blacklist.log', 'w') as file:
