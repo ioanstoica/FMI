@@ -1,1 +1,0 @@
-Scrie un program in Python, care verifica cate linii din fisierele "date1.txt" si "date2.txt" sunt identice

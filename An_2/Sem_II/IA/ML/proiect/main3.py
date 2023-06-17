@@ -1,86 +1,106 @@
-from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Sequential
-from keras.layers import Dense, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.optimizers import SGD
-from keras.preprocessing import image
+import torch
+from torch import nn
+from torchvision import transforms
+from torch.utils.data import Dataset, DataLoader
+import pandas as pd
+from PIL import Image
 
-# This Python 3 environment comes with many helpful analytics libraries installed
-# It is defined by the kaggle/python Docker image: https://github.com/kaggle/docker-python
-# For example, here's several helpful packages to load
+# Define the transformation
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+])
 
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+# Create custom dataset
+class CustomDataset(Dataset):
+    def __init__(self, img_path, csv_file, transform=None):
+        self.img_path = img_path
+        self.annotations = pd.read_csv(csv_file)
+        self.transform = transform
 
-# Input data files are available in the read-only "../input/" directory
-# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+    def __len__(self):
+        return len(self.annotations)
 
-import os
-#for dirname, _, filenames in os.walk('/kaggle/input'):
- #   for filename in filenames:
-  #      print(os.path.join(dirname, filename))
+    def __getitem__(self, index):
+        img_id = self.annotations.iloc[index, 0]
+        img = Image.open(f"{self.img_path}/{img_id}").convert("RGB")
+        if self.transform:
+            img = self.transform(img)
 
-# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
-# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+        if len(self.annotations.columns) == 2:
+            y_label = torch.tensor(int(self.annotations.iloc[index, 1]))
+            return (img, y_label)
+        else:
+            return img
 
-# Dimensiunile imaginilor
-img_width, img_height = 64, 64
+folder = 'kaggle/input/unibuc-dhc-2023/'
+output_file = 'kaggle/working/submission.csv'
 
-# Calea directoarelor
-train_data_dir = '/kaggle/input/unibuc-dhc-2023/train_images'
-val_data_dir = '/kaggle/input/unibuc-dhc-2023/val_images'
-test_data_dir = '/kaggle/input/unibuc-dhc-2023/test_images'
+# Load the dataset
+train_data = CustomDataset(folder + 'train_images', folder + 'train.csv', transform)
+val_data = CustomDataset(folder + 'val_images', folder+ 'val.csv', transform)
+test_data = CustomDataset(folder+ 'test_images', folder + 'test.csv', transform)
 
-# Parametri
-epochs = 20
-batch_size = 32
-num_classes = 96 # numarul de clase
+# Create data loaders
+train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
+val_loader = DataLoader(val_data, batch_size=64, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
 
-# Crearea modelului
-model = Sequential()
-model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(img_width, img_height, 3)))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dense(num_classes, activation='softmax'))
-
-# Compilarea modelului
-model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True), metrics=['accuracy'])
-
-# Citirea datelor de antrenament si validare
-train_datagen = ImageDataGenerator(rescale = 1./255)
-val_datagen = ImageDataGenerator(rescale = 1./255)
-
-train_df = pd.read_csv('/kaggle/input/unibuc-dhc-2023/train.csv')
-val_df = pd.read_csv('/kaggle/input/unibuc-dhc-2023/val.csv')
-
-# Convertirea coloanei "Class" la string
-train_df['Class'] = train_df['Class'].astype(str)
-val_df['Class'] = val_df['Class'].astype(str)
-
-train_generator = train_datagen.flow_from_dataframe(dataframe=train_df, directory=train_data_dir, x_col="Image", y_col="Class", class_mode="categorical", target_size=(img_width, img_height), batch_size=batch_size)
-val_generator = val_datagen.flow_from_dataframe(dataframe=val_df, directory=val_data_dir, x_col="Image", y_col="Class", class_mode="categorical", target_size=(img_width, img_height), batch_size=batch_size)
+# Define the model
+model = nn.Sequential(
+    nn.Conv2d(3, 16, 3, padding=1),
+    nn.ReLU(),
+    nn.MaxPool2d(2, 2),
+    nn.Conv2d(16, 32, 3, padding=1),
+    nn.ReLU(),
+    nn.MaxPool2d(2, 2),
+    nn.Flatten(),
+    nn.Linear(32*16*16, 500),  # modified this line
+    nn.ReLU(),
+    nn.Linear(500, 96)  # we have 96 classes
+)
 
 
-#train_generator = train_datagen.flow_from_dataframe(dataframe=train_df, directory=train_data_dir, x_col="Image", y_col="Class", class_mode="categorical", target_size=(img_width, img_height), batch_size=batch_size)
-#val_generator = val_datagen.flow_from_dataframe(dataframe=val_df, directory=val_data_dir, x_col="Image", y_col="Class", class_mode="categorical", target_size=(img_width, img_height), batch_size=batch_size)
+# Define the loss and the optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-# Antrenarea modelului
-model.fit(train_generator, epochs=epochs, validation_data=val_generator)
+# Training loop
+print("Training started...")
+for epoch in range(10):  # loop over the dataset multiple times
+    for images, labels in train_loader:
+        # forward pass
+        outputs = model(images)
+        loss = criterion(outputs, labels)
 
-# Citirea si procesarea datelor de test
-test_df = pd.read_csv("/kaggle/input/unibuc-dhc-2023/test.csv")
-test_datagen = ImageDataGenerator(rescale = 1./255)
-test_generator = test_datagen.flow_from_dataframe(dataframe=test_df, directory=test_data_dir, x_col="Image", y_col=None, class_mode=None, target_size=(img_width, img_height), batch_size=1, shuffle=False)
+        # backward and optimize
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+    print(f"Epoch: {epoch}")
 
-# Predictia claselor pentru datele de test
-predictions = model.predict(test_generator)
-predicted_classes = np.argmax(predictions, axis=1)
+    # Validation
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            outputs = model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
-# Salvarea rezultatelor
-results=pd.DataFrame({"Image": test_df["Image"], "Class": predicted_classes})
-results.to_csv("/kaggle/working/rezultat.csv", index=False)
+    print(f'Validation accuracy is: {100 * correct / total}%')
 
-# rez: 0.04
+# Testing
+result = []
+with torch.no_grad():
+    for i, images in enumerate(test_loader):
+        outputs = model(images)
+        _, predicted = torch.max(outputs.data, 1)
+        for j in range(predicted.shape[0]):
+            result.append({"Image": test_data.annotations.iloc[i*64+j, 0], "Class": predicted[j].item()})
+
+# Write to CSV
+df = pd.DataFrame(result)
+df.to_csv(output_file, index=False)
+print("Done!")

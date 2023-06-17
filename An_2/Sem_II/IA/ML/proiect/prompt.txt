@@ -1,4 +1,4 @@
-Scrie in python un AI care citeste datele din unibuc-dhc-2023
+Scrie in python un AI (folosind torch) care citeste datele din unibuc-dhc-2023
 cu urmatoarea structura
 /kaggle/input/unibuc-dhc-2023/train_images - imaginile de test
 /kaggle/input/unibuc-dhc-2023/train.csv - etichetele imaginilor sub forma:
