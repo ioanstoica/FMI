@@ -78,17 +78,17 @@ for epoch in range(10):  # loop over the dataset multiple times
         optimizer.step()
     print(f"Training: {epoch}")
 
-# Validation
-correct = 0
-total = 0
-with torch.no_grad():
-    for images, labels in val_loader:
-        outputs = model(images)
-        _, predicted = torch.max(outputs.data, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
+    # Validation
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            outputs = model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
-print(f'Validation accuracy is: {100 * correct / total}%')
+    print(f'Validation accuracy is: {100 * correct / total}%')
 
 # Testing
 result = []
