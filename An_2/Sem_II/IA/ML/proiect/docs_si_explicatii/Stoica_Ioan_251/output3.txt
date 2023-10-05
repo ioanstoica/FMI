@@ -1,0 +1,22 @@
+Training started...
+Epoch: 0
+Validation accuracy is: 46.9%
+Epoch: 1
+Validation accuracy is: 58.1%
+Epoch: 2
+Validation accuracy is: 60.5%
+Epoch: 3
+Validation accuracy is: 62.4%
+Epoch: 4
+Validation accuracy is: 63.1%
+Epoch: 5
+Validation accuracy is: 63.8%
+Epoch: 6
+Validation accuracy is: 62.8%
+Epoch: 7
+Validation accuracy is: 61.7%
+Epoch: 8
+Validation accuracy is: 61.3%
+Epoch: 9
+Validation accuracy is: 64.1%
+Done!

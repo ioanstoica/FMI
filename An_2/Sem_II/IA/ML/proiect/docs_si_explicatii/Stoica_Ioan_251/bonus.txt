@@ -1,0 +1,25 @@
+1. Ce este un strat convoluțional?
+
+Un strat convoluțional (sau convoluție) este componenta fundamentală a unei rețele neuronale convoluționale (Convolutional Neural Network - CNN). Această clasă de rețele neuronale este special concepută pentru a procesa date cu o structură în formă de grilă, cum ar fi o imagine.
+Într-un strat convoluțional, fiecare neuron efectuează operația de convoluție pe datele de intrare. Operația de convoluție implică aplicarea unui filtru sau a unui nucleu (o matrice de dimensiuni mai mici decât intrarea) asupra imaginii de intrare. Acest filtru este aplicat pe întreaga imagine, deplasându-se cu un număr definit de pixeli, numit pas (stride).
+Filtrul este aplicat pe fiecare porțiune de imagine (cu dimensiunea egală cu cea a filtrului) prin înmulțirea element cu element și adunarea rezultatelor. Rezultatul acestor operații este o altă imagine, numită harta de caracteristici sau harta de activare.
+Straturile convoluționale sunt utile în învățarea caracteristicilor spațiale dintr-o imagine. De exemplu, un strat convoluțional poate învăța să recunoască marginile, culorile sau texturile unei imagini. Pe măsură ce rețeaua devine mai adâncă, straturile convoluționale pot recunoaște forme sau obiecte mai complexe.
+În plus, aceste straturi prezintă două avantaje majore: partajarea parametrilor și conectivitatea locală. Prin partajarea parametrilor (toate valorile din filtru sunt aplicate pe întreaga imagine), numărul total de parametri pe care rețeaua trebuie să îi învețe este redus, făcând rețeaua mai eficientă. Prin conectivitatea locală, fiecare neuron din stratul convoluțional este conectat doar la o porțiune mică din imaginea de intrare, ceea ce îi permite să se concentreze pe detalii mici și specifice.
+
+2. Activare Relu:
+ReLU este o funcție de activare folosită în straturile unei rețele neuronale pentru a introduce neliniaritatea în model. ReLU este definit ca max(0, x), ceea ce înseamnă că pentru orice valoare negativă a intrării, funcția ReLU va returna 0, în timp ce pentru orice valoare pozitivă a intrării, funcția ReLU va returna valoarea nemodificată. Acesta este unul dintre cele mai comune tipuri de funcții de activare, deoarece ajută la rezolvarea problemelor de dispariție a gradientului, este ușor de calculat și promovează activarea rară a neuronilor.
+
+3. Alg AdamPe de altă parte, Adam este un algoritm de optimizare folosit pentru actualizarea parametrilor unei rețele neuronale în scopul de a minimiza funcția de pierdere. Adam este eficient în sensul că necesită puțină memorie, este invariant la redimensionarea diagonală a gradienților și este bine adaptat pentru problemele care sunt mari în ceea ce privește datele și/sau parametrii. Adam face ajustări adaptative ale ratei de învățare pentru fiecare parametru, lucru care se dovedește a fi foarte util în practică și face Adam un optimizator popular în domeniul învățării automate.
+
+4. diferente dintre adam si SGD
+Adam (Adaptive Moment Estimation) și SGD (Stochastic Gradient Descent) sunt doi algoritmi de optimizare utilizati în învățarea automată și în rețelele neuronale. Ambii algoritmi sunt utilizați pentru a actualiza parametrii unui model în scopul de a minimiza funcția de pierdere.
+SGD este cel mai simplu și cel mai folosit algoritm de optimizare. În fiecare pas de actualizare, SGD folosește un singur exemplu de antrenament (sau un subset, numit batch) pentru a calcula gradientul și a actualiza parametrii. Acest lucru poate conduce la o convergență zgomotoasă spre minimul global, deoarece actualizările sunt sensibile la particularitățile fiecărui exemplu individual.
+Adam, pe de altă parte, este o îmbunătățire a SGD și este considerat mai avansat și eficient. Adam combină două tehnici de optimizare, RMSProp (Root Mean Square Propagation) și Momentum, pentru a obține rezultate mai bune. Momentum ajută algoritmul să navigheze prin văi în timp ce RMSProp ajută la ajustarea ratei de învățare pentru fiecare parametru individual în funcție de momentul lor.
+Prin urmare, diferențele principale între SGD și Adam sunt:
+Adam ajustează rata de învățare pentru fiecare parametru, în timp ce SGD folosește aceeași rată de învățare pentru toți parametrii.
+Adam folosește o combinație a RMSProp și a Momentum pentru a accelera optimizarea, în timp ce SGD nu folosește niciuna din aceste tehnici.
+Adam este, în general, mai robust la alegerea inițială a ratei de învățare și tinde să convergă mai rapid și mai uniform decât SGD.
+Totuși, nu există o regulă dură și rapidă care să determine care algoritm este mai bun. Performanța lor poate varia în funcție de aplicație și de setarea hiperparametrilor, și astfel, este adesea o practică bună să experimentăm cu ambele.
+
+
+

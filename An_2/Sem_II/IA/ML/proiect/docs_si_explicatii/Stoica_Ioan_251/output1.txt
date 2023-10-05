@@ -1,0 +1,44 @@
+Found 12000 validated image filenames belonging to 96 classes.
+Found 1000 validated image filenames belonging to 96 classes.
+Epoch 1/20
+375/375 [==============================] - 16s 42ms/step - loss: 3.9982 - accuracy: 0.0936 - val_loss: 3.0029 - val_accuracy: 0.2430
+Epoch 2/20
+375/375 [==============================] - 15s 41ms/step - loss: 2.3052 - accuracy: 0.3873 - val_loss: 2.0223 - val_accuracy: 0.4530
+Epoch 3/20
+375/375 [==============================] - 15s 41ms/step - loss: 1.4954 - accuracy: 0.5657 - val_loss: 1.5986 - val_accuracy: 0.5440
+Epoch 4/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.9868 - accuracy: 0.7010 - val_loss: 1.4176 - val_accuracy: 0.5910
+Epoch 5/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.5985 - accuracy: 0.8108 - val_loss: 1.5963 - val_accuracy: 0.5880
+Epoch 6/20
+375/375 [==============================] - 15s 41ms/step - loss: 0.3537 - accuracy: 0.8846 - val_loss: 1.7535 - val_accuracy: 0.5880
+Epoch 7/20
+375/375 [==============================] - 16s 43ms/step - loss: 0.2342 - accuracy: 0.9243 - val_loss: 2.1698 - val_accuracy: 0.5650
+Epoch 8/20
+375/375 [==============================] - 15s 40ms/step - loss: 0.1419 - accuracy: 0.9549 - val_loss: 1.8961 - val_accuracy: 0.5960
+Epoch 9/20
+375/375 [==============================] - 15s 40ms/step - loss: 0.0873 - accuracy: 0.9733 - val_loss: 2.1134 - val_accuracy: 0.5810
+Epoch 10/20
+375/375 [==============================] - 16s 43ms/step - loss: 0.1059 - accuracy: 0.9693 - val_loss: 2.1009 - val_accuracy: 0.5890
+Epoch 11/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.0593 - accuracy: 0.9810 - val_loss: 2.3626 - val_accuracy: 0.6090
+Epoch 12/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.0740 - accuracy: 0.9762 - val_loss: 2.3187 - val_accuracy: 0.6110
+Epoch 13/20
+375/375 [==============================] - 15s 40ms/step - loss: 0.0526 - accuracy: 0.9850 - val_loss: 2.4470 - val_accuracy: 0.6010
+Epoch 14/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.0468 - accuracy: 0.9847 - val_loss: 2.2896 - val_accuracy: 0.6170
+Epoch 15/20
+375/375 [==============================] - 15s 41ms/step - loss: 0.0467 - accuracy: 0.9867 - val_loss: 2.5308 - val_accuracy: 0.6110
+Epoch 16/20
+375/375 [==============================] - 15s 40ms/step - loss: 0.0148 - accuracy: 0.9962 - val_loss: 2.3851 - val_accuracy: 0.6400
+Epoch 17/20
+375/375 [==============================] - 16s 42ms/step - loss: 0.0240 - accuracy: 0.9934 - val_loss: 2.6152 - val_accuracy: 0.6120
+Epoch 18/20
+375/375 [==============================] - 15s 40ms/step - loss: 0.0257 - accuracy: 0.9926 - val_loss: 2.7464 - val_accuracy: 0.6150
+Epoch 19/20
+375/375 [==============================] - 15s 41ms/step - loss: 0.0140 - accuracy: 0.9966 - val_loss: 2.4685 - val_accuracy: 0.6450
+Epoch 20/20
+375/375 [==============================] - 16s 43ms/step - loss: 0.0128 - accuracy: 0.9973 - val_loss: 2.3701 - val_accuracy: 0.6530
+Found 5000 validated image filenames.
+5000/5000 [==============================] - 14s 3ms/step

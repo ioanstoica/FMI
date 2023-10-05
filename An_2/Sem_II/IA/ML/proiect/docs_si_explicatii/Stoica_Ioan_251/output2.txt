@@ -1,0 +1,53 @@
+/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/__init__.py:98: UserWarning: unable to load libtensorflow_io_plugins.so: unable to open file: libtensorflow_io_plugins.so, from paths: ['/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/libtensorflow_io_plugins.so']
+caused by: ['/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/libtensorflow_io_plugins.so: undefined symbol: _ZN3tsl6StatusC1EN10tensorflow5error4CodeESt17basic_string_viewIcSt11char_traitsIcEENS_14SourceLocationE']
+  warnings.warn(f"unable to load libtensorflow_io_plugins.so: {e}")
+/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/__init__.py:104: UserWarning: file system plugins are not loaded: unable to open file: libtensorflow_io.so, from paths: ['/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/libtensorflow_io.so']
+caused by: ['/opt/conda/lib/python3.10/site-packages/tensorflow_io/python/ops/libtensorflow_io.so: undefined symbol: _ZTVN10tensorflow13GcsFileSystemE']
+  warnings.warn(f"file system plugins are not loaded: {e}")
+/opt/conda/lib/python3.10/site-packages/keras/optimizers/legacy/adam.py:117: UserWarning: The `lr` argument is deprecated, use `learning_rate` instead.
+  super().__init__(name, **kwargs)
+Found 12000 validated image filenames belonging to 96 classes.
+Found 1000 validated image filenames belonging to 96 classes.
+Epoch 1/20
+2023-06-17 00:46:13.988334: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:954] layout failed: INVALID_ARGUMENT: Size of values 0 does not match size of permutation 4 @ fanin shape insequential/dropout/dropout/SelectV2-2-TransposeNHWCToNCHW-LayoutOptimizer
+375/375 [==============================] - 44s 93ms/step - loss: 3.1884 - accuracy: 0.2447 - val_loss: 5.1595 - val_accuracy: 0.0750
+Epoch 2/20
+375/375 [==============================] - 35s 92ms/step - loss: 1.8927 - accuracy: 0.4709 - val_loss: 2.0038 - val_accuracy: 0.4470
+Epoch 3/20
+375/375 [==============================] - 34s 92ms/step - loss: 1.4821 - accuracy: 0.5694 - val_loss: 1.4573 - val_accuracy: 0.5920
+Epoch 4/20
+375/375 [==============================] - 35s 92ms/step - loss: 1.2916 - accuracy: 0.6186 - val_loss: 1.6916 - val_accuracy: 0.5190
+Epoch 5/20
+375/375 [==============================] - 36s 96ms/step - loss: 1.1519 - accuracy: 0.6553 - val_loss: 1.5984 - val_accuracy: 0.5770
+Epoch 6/20
+375/375 [==============================] - 34s 91ms/step - loss: 1.0602 - accuracy: 0.6768 - val_loss: 1.1789 - val_accuracy: 0.6470
+Epoch 7/20
+375/375 [==============================] - 34s 92ms/step - loss: 0.9629 - accuracy: 0.7031 - val_loss: 1.3836 - val_accuracy: 0.6580
+Epoch 8/20
+375/375 [==============================] - 34s 91ms/step - loss: 0.8900 - accuracy: 0.7253 - val_loss: 1.0221 - val_accuracy: 0.7070
+Epoch 9/20
+375/375 [==============================] - 34s 90ms/step - loss: 0.8562 - accuracy: 0.7387 - val_loss: 1.0634 - val_accuracy: 0.7090
+Epoch 10/20
+375/375 [==============================] - 35s 92ms/step - loss: 0.8094 - accuracy: 0.7452 - val_loss: 0.8711 - val_accuracy: 0.7370
+Epoch 11/20
+375/375 [==============================] - 34s 91ms/step - loss: 0.7736 - accuracy: 0.7546 - val_loss: 1.1427 - val_accuracy: 0.7050
+Epoch 12/20
+375/375 [==============================] - 36s 95ms/step - loss: 0.7503 - accuracy: 0.7631 - val_loss: 1.7619 - val_accuracy: 0.5800
+Epoch 13/20
+375/375 [==============================] - 36s 96ms/step - loss: 0.7024 - accuracy: 0.7781 - val_loss: 4.0490 - val_accuracy: 0.3860
+Epoch 14/20
+375/375 [==============================] - 35s 92ms/step - loss: 0.6738 - accuracy: 0.7825 - val_loss: 0.9837 - val_accuracy: 0.7140
+Epoch 15/20
+375/375 [==============================] - 34s 92ms/step - loss: 0.6577 - accuracy: 0.7837 - val_loss: 1.9722 - val_accuracy: 0.5880
+Epoch 16/20
+375/375 [==============================] - 34s 91ms/step - loss: 0.6355 - accuracy: 0.7920 - val_loss: 1.0686 - val_accuracy: 0.7160
+Epoch 17/20
+375/375 [==============================] - 34s 91ms/step - loss: 0.6131 - accuracy: 0.7995 - val_loss: 1.3886 - val_accuracy: 0.6810
+Epoch 18/20
+375/375 [==============================] - 35s 93ms/step - loss: 0.5832 - accuracy: 0.8069 - val_loss: 0.8150 - val_accuracy: 0.7640
+Epoch 19/20
+375/375 [==============================] - 34s 90ms/step - loss: 0.5860 - accuracy: 0.8102 - val_loss: 1.4400 - val_accuracy: 0.6610
+Epoch 20/20
+375/375 [==============================] - 34s 90ms/step - loss: 0.5880 - accuracy: 0.8092 - val_loss: 1.6750 - val_accuracy: 0.6310
+Found 5000 validated image filenames.
+5000/5000 [==============================] - 15s 3ms/step
