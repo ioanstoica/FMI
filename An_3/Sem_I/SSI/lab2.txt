@@ -1,0 +1,76 @@
+1.
+A. 4
+B. 2
+C. 5
+D. 1
+E. 6
+F. 3
+
+
+2)
+
+1. confidentialitate
+2. disponibilitate / accesabilitate
+3. integritate / accesabilitate
+4. confidentialitate
+5. integritate
+
+Ce primitiva criptografica ofera confidentialitate - algoritmi de generare a tokenului - poate accesa doar cine are tokenul
+Ce primitiva criptografica ofera integritate -  semnaturile digitale
+
+3) 
+1 - F
+2 - A
+3 - F
+
+4)
+În contextul securității și criptografiei, termenii "funcție neglijabilă" și "funcție ne-neglijabilă" sunt folosiți pentru a descrie comportamentul asimptotic al unei funcții în raport cu un anumit parametru de securitate (de obicei notat ca "n"). Aceste concepte sunt importante în analiza schemei criptografice și sunt adesea folosite pentru a evalua nivelul de securitate al unei scheme.
+
+Funcție neglijabilă (negligible function):
+
+O funcție este considerată neglijabilă (sau "negligibil mică") dacă valoarea sa scade mai repede decât orice funcție recunoscută ca fiind invers proporțională cu oricare putere a parametrului de securitate "n" (adică 1/n^k, unde "k" este o constantă pozitivă).
+Formal, o funcție "f(n)" este neglijabilă dacă pentru orice constantă pozitivă "c" există un număr întreg "N" astfel încât pentru toate "n" mai mari sau egale cu "N", "f(n) < 1/n^c".
+Funcție ne-neglijabilă (non-negligible function):
+
+O funcție este considerată ne-neglijabilă dacă nu este neglijabilă, adică valoarea sa nu scade suficient de repede odată cu creșterea parametrului de securitate "n".
+În cazul unei funcții ne-neglijabile, există o constantă "c" astfel încât, pentru oricare număr întreg "N", există o valoare a lui "n" mai mare sau egală cu "N" pentru care "f(n) ≥ 1/n^c".
+În criptografie, se dorește ca schemele criptografice să aibă o probabilitate neglijabilă de a eșua sau de a permite unui adversar de a sparge securitatea acestora, ceea ce înseamnă că probabilitatea acestor evenimente trebuie să scadă rapid odată cu creșterea parametrului de securitate "n". Prin utilizarea funcțiilor neglijabile, se poate exprima matematic această cerință pentru securitatea schemei criptografice. Schemele cu funcții neglijabile asociate probabilităților de eșec sunt considerate securizate, în timp ce schemele cu funcții ne-neglijabile pot fi vulnerabile la anumite atacuri.
+
+1. f(x) = 2 e constanta => gasim c putere naturala astfel incat f(x) >= 1 / x^c => NU e neglijabil
+
+2. analog ca 1
+
+3. NU e neglijabila ca este algoritm polinomial (adversarul are putere polinomiala)
+Gasim putere naturala c astfel incat oricare ar fi n0 f(x) >= 1 / x ^ c
+
+f(x) = 1/n^2000 > 1/ n ^k pentru k > 2000
+
+4. este neglijabila ca este algoritm exponential
+Fie c putere naturala si oricare ar fi n0 a.i. f(x) < 1 / x ^ c, x > n0
+=> 2 ^ n > x ^ c. Cum n tinde la infinit si x si c sunt finite => A.
+
+f(x) = 1/ 2^ n < 1 / n^k cand n tinde la infinit deoarece
+2^n > n^k cand n tinde la infinit
+
+Deci pentru orice k, de la un n in colo, 2^n > n^k
+
+5. f1, f2 neglijabile => Fie c1 si c2 puteri naturale => Exista 2 praguri
+n1 si n2 pt care f1(x) < 1 / x^c1, x > n1 si f2(x) < 1 / x^c2, x > n2
+Le adunam si => f(x) = f1(x) + f2(x) < 1 / x^c1 + 1 / x^c2 < 2 / x^min(c1, c2) < 1/x^(min(c1, c2) - 1) oricare ar fi x > max(n1, n2)
+
+5. f1 neglijabila, f2 ne-neglijabila
+P.p. R.A. ca f = f1 + f2 este neglijabila. f2 = f - f1 < f + f1 = neglijabil
+f2 -> ne-neglijabil => fals
+
+5) Costuri mari, dificil de realizat
+Mai degraba o eroare care tinde spre 0 cat de cat viabila decat o eroare 0 absolut foarte greu de atins si cu costuri foarte ridicate.
+Trebuie o intalnire in prealabil a celor 2 interlocutori
+Evolutia tehnologiei - ceva bun acum poate reprezenta ceva prost in cativa ani
+Mai usor facem ca ceva care sa fie > 1 sa fie 1.00000001 (tinde spre 1) decat sa fie egal cu 1 si niciodata sa nu atinga acea limita (sa avem marja de eroare).
+
+6) 2 ^ 512 chei posibile
+
+2 ^ (512 - 30) = 2 ^ 482 secunde => 2 ^ 482 / 3600 / 24 / 365 > 2 ^ (482 - 12 - 5 - 9) = 2 ^ 456 ani 🙂 
+
+Evident ca nu e eficient, intrucat dureaza pentru 2 ^ 451 generatii (gandind ca o generatie se schimba la 32 ani).
+

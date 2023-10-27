@@ -1,0 +1,86 @@
+Ex. 1
+
+A - 3
+B - 4
+C - 5
+D - 2
+E - 1
+
+Ex. 2
+
+Ex. 3
+
+ - 19 + 10 = 29, 29 in baza 2 este:
+29/2 = 14 r 1
+14/2 = 7  r 0
+7 /2 = 3  r 1
+3 /2 = 1  r 1
+1 /1 = 0  r 1
+=> 11101 in baza 2
+
+ - 11101 in baza 2 este:
+1 + 4 + 8 + 16 = 29
+
+ - 0x2FAB in baza 2 este:
+0010 1111 1010 1011
+
+ - 0010 1111 1010 1011 in baza 16 este:
+  0x2FAB
+
+Ex. 4
+
+IOAN = ASCII 73 79 65 78
+ASCII 66 82 65 86 79 = BRAVO
+
+Ex. 5
+IOAN => Base64 SU9BTg==
+
+explicatie (de mana, cu tabelul https://www.rapidtables.com/convert/number/binary-to-ascii.html):
+IOAN => ASCII 73 79 65 78
+=> b. 01001001 01001111 01000001 01001110
+=> b. 010010 010100 111101 000001 010011 100000
+=> dec:   18   20     61      1    19      32  
+=> base64: S   U      9       B    T        g
+=> base64: SU9B
+
+U3VudCBzdHVkZW50IGxhIEZNSS4=  => Sunt student la FMI.
+
+explicatie (folosind 2 tool-uri online):
+U3VudCBzdHVkZW50IGxhIEZNSS4
+=> binary 010100 110111 010101 101110 011101 000010 000001 110011 011101 000111 010101 100100 011001 010110 111001 110100 001000 000110 110001 100001 001000 000100 011001 001101 010010 010010 1110 (https://cryptii.com/pipes/base64-to-binary)
+=> binary 01010011 01110101 01101110 01110100 00100000 01110011 01110100 01110101 01100100 01100101 01101110 01110100 00100000 01101100 01100001 00100000 01000110 01001101 01001001 00101110  (https://cryptii.com/pipes/base64-to-binary)
+=> to ASCII: Sunt student la FMI. (https://www.rapidtables.com/convert/number/binary-to-ascii.html)
+
+
+Ex. 6
+Malware-ul: este descris ca fiind o aplicație rău intenționată sau un cod care deteriorează sau perturbă utilizarea normală a dispozitivelor punct final .
+
+Virus: Un virus de computer este un mic program software care se răspândește in general singur,  de la un computer la altul și interferează cu funcționarea computerului.
+
+Dropper: Este un downloader care are deja componentele de malware in el. 
+
+Downloader: Isi descarca componentele de pe un alt server. 
+
+Trojan (Trojan Horse): Un tip de malware care se ascunde într-un program aparent inofensiv sau util, dar care, de fapt, are funcționalități rău intenționate. Acesta se bazează pe înșelarea utilizatorilor pentru a fi descărcat și executat.
+
+Spyware: Un tip de malware care urmărește activitățile utilizatorului fără consimțământul acestuia, adunând informații personale sau confidențiale.
+
+Riskware: Software care poate fi considerat potențial periculos sau riscant, dar care nu este neapărat malware. Aceasta include aplicații sau funcționalități cu potențial de securitate sau de confidențialitate, cum ar fi unele aplicații de monitorizare a părinților.
+
+Ransomware: Un tip de malware care criptează fișierele sau întregul sistem al unei victime și cere o răscumpărare în schimbul cheii de decriptare. Scopul este extorcare de bani.
+
+Adware: Software care afișează anunțuri publicitare nedorite utilizatorilor, de obicei pentru a genera profit pentru creatorii săi.
+
+Worm (vierme): Un tip de malware care se răspândește automat de la un sistem la altul, fără intervenția umană. Viermii se pot răspândi rapid și pot provoca daune în rețelele informatice. Un vierme informatic sau vierme de calculator reprezintă o formă de malware, un tip de virus autoreplicant. În comparație cu un virus, viermii informatici nu au nevoie de un fișier gazdă executabil pentru a se răspândi, sau de a afecta sectorul de boot. De obicei, viermii tind să se multiplice și să se extindă prin intermediul unei rețele și utilizează o infrastructură existentă pentru a se copia automat în alte sisteme. Factorul de multiplicare al viermilor este exponențial.
+
+Obfuscare: Tehnica utilizată de dezvoltatorii de malware pentru a ascunde codul lor și pentru a face mai dificilă detectarea și analiza malware-ului de către software-urile antivirus sau de securitate. Obfuscare poate include amestecarea codului sau criptarea funcțiilor.
+
+virus?
+Ex. 7
+
+
+2, DONE
+5, DONE
+6, DONE
+
+
