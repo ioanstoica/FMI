@@ -54,11 +54,96 @@ Daca refolosim cheia, o persoana care are ambele texte criptate face xor pe ele 
 
 Ex. 2
 
-substitutie fara Cezar si monoalfabetic
-transpozitie, fara Croner transpozition
+1. substitutie fara Cezar si monoalfabetic:
+Cifrul Vigenère
+
+Scurta descriere:
+https://ro.wikipedia.org/wiki/Cifrul_Vigen%C3%A8re#:~:text=Cifrul%20Vigen%C3%A8re%20este%20o%20metod%C4%83,Belaso%20inventase%20primul%20acest%20cifru.
+
+Codare + decodare:
+https://users.utcluj.ro/~jim/SSA/Resources/Laboratory/04b.%20Algoritmii%20de%20cifrare-descifrare%20Vigenere.pdf
+
+Exemplu de criptare și decriptare cu cifrul Vigenère:
+Criptare:
+
+Alegeți o cheie secretă, care este un șir de caractere (de exemplu, "SECRET").
+
+Repetați cheia secretă pentru a o face la fel de lungă ca textul clar. De exemplu, dacă textul clar este "HELLO" și cheia secretă este "SECRET", cheia repetată va fi "SECRETSECRETSECRET."
+
+Asociați fiecărui caracter din textul clar un număr (de obicei, de la 0 la 25, corespunzător literelor alfabetului).
+
+Asociați fiecărui caracter din cheia repetată un număr în mod similar.
+
+Adunați numerele corespunzătoare caracterelor textului clar și cheii. Acesta este pasul de criptare. Pentru fiecare caracter, rezultatul trebuie să se afle în intervalul de la 0 la 25. Acest număr va reprezenta caracterul criptat.
+
+Decriptare:
+
+Folosiți cheia secretă pentru a obține cheia repetată.
+
+Asociați fiecărui caracter din cheia repetată un număr în mod similar.
+
+Scădeți numerele corespunzătoare caracterelor criptate și cheii. Acesta este pasul de decriptare. Rezultatul va fi numărul asociat caracterului din textul clar.
+
+Asociați numerele obținute cu caracterele alfabetului pentru a obține textul clar.
+
+Securitatea cifrului Vigenère:
+Cifrul Vigenère este mai sigur decât cifrul Cezar și cifrul monoalfabetic, deoarece utilizează o cheie care poate varia în lungime și nu păstrează o corelație directă între literele din textul clar și cele criptate. Cu toate acestea, cifrul Vigenère nu este complet sigur, deoarece cheia poate fi scurtă sau prezenta un model.
+
+Tehnici de criptanaliză pentru spargerea cifrului Vigenère:
+Frecvența literelor: În ciuda complexității cifrului Vigenère, încă se poate folosi analiza frecvenței literelor. Prin analiza textului criptat, un atacator poate încerca să ghicească lungimea cheii și apoi să folosească metode de forță brută pentru a încerca să decripteze textul.
+
+Metoda Kasiski: Acesta este un atac care se concentrează pe identificarea secvențelor repetate din textul criptat, ceea ce poate ajuta la determinarea lungimii cheii.
+
+Atacul prin analiza indiceleui de coincidență: În cifrul Vigenère, există momente când litera aceleiași chei se pot potrivi cu litera din textul clar, ceea ce produce o corelație. Analiza indiceleui de coincidență poate ajuta la ghidarea determinării lungimii cheii.
+
+Atacul de dicționar: Dacă cheia este slabă (de exemplu, este un cuvânt din dicționar), atacatorii pot încerca atacul de dicționar, încercând toate cuvintele posibile pentru a decripta textul.
+
+Pentru a face cifrul Vigenère mai sigur, este important să folosiți chei lungi și aleatorii și să evitați modelele sau cuvintele ușor de ghicit ca chei.
+
+
+2. transpozitie, fara Croner transpozition
+
+Un sistem istoric de criptare care folosește metoda transpoziției este cifrul "Skytale." Skytale este un sistem de criptare folosit în antichitate, mai ales de către spartanii din Grecia. Acesta implică înfășurarea unui șir de caractere în jurul unui obiect cilindric sau al unui știft și citirea textului criptat de-a lungul axei cilindrice. Cifrul Skytale este un exemplu de criptare prin transpoziție.
+
+Exemplu de criptare și decriptare cu cifrul Skytale:
+ === Criptare:
+
+Alegeți un obiect cilindric sau un știft de dimensiuni specifice, numit cheia Skytale.
+
+Înfășurați șirul de caractere, care este textul clar, în jurul cheii Skytale. Asigurați-vă că textul este înfășurat pe verticală, astfel încât să fie citit de-a lungul axei cilindrice.
+
+Textul criptat este acum citit de-a lungul axei cilindrice și poate părea un șir aparent fără sens.
+
+ === Decriptare:
+
+Pentru a decripta, trebuie să aveți aceeași cheie Skytale.
+Înfășurați textul criptat în jurul cheii Skytale în același mod în care a fost criptat inițial.
+
+Acum, textul clar poate fi citit în mod normal, de-a lungul axei cilindrice, obținându-se textul clar original.
+
+ === Securitatea cifrului Skytale:
+Cifrul Skytale este un cifru simplu și poate fi relativ ușor de spart în absența cheii. Cu toate acestea, dacă aveți cheia Skytale, puteți decripta textul cu ușurință. Securitatea acestui cifru se bazează pe securitatea fizică a cheii și pe faptul că atacatorii nu pot determina forma cheii sau modul în care textul a fost înfășurat în jurul acesteia.
+
+Tehnici de criptanaliză pentru a sparge cifrul Skytale:
+Forță brută: Atacatorii pot încerca diferite dimensiuni ale cilindrilor pentru a vedea dacă pot decripta textul criptat prin încercare și eroare.
+
+Analiza frecvenței literelor: Dacă atacatorii au un text criptat suficient de lung și cunosc limba în care este scris textul clar, pot utiliza analiza frecvenței literelor pentru a ghici literele corecte. Cu toate acestea, acest lucru poate fi dificil fără cheie.
+
+Analiza tiparului: Dacă atacatorii identifică tiparul în care textul a fost înfășurat în jurul cheii Skytale, pot încerca să decripteze textul.
+ex: https://ro.frwiki.wiki/wiki/Scytale
+
+Forța fizică: Atacatorii pot încerca să obțină cheia Skytale sau să descopere forma cheii. Dacă cheia este compromisă, textul devine vulnerabil.
+
+Din punct de vedere al securității, cifrul Skytale este considerat un cifru simplu și nu oferă o protecție semnificativă împotriva atacurilor. Cu toate acestea, în antichitate, în lipsa cunoștințelor și resurselor tehnologice, acest cifru putea oferi o anumită confidențialitate a comunicațiilor.
+
+
+Ex. 3
 
 folosind doar un tool ajutator:
 https://scottbryce.com/cryptograms/
+
++ frecventa literelor in engleza:
+https://en.wikipedia.org/wiki/Letter_frequency
 
 ALICE AND BOB ARE THE WORLDS MOST FAMOUS CRYPTOGRAPHIC COUPLE. SINCE
 THEIR INVENTION IN 1978, THEY HAVE AT ONCE BEEN CALLED INSEPARABLE, AND
@@ -75,10 +160,15 @@ WITH IN-JOKES, OFTEN REFLECTING OF THE SEXIST AND HETERONORMATIVE
 ENVIRONMENTS IN WHICH THEY WERE BORN AND CONTINUE TO BE USED. MORE THAN
 JUST THE WORLDS MOST FAMOUS CRYPTOGRAPHIC COUPLE, ALICE AND BOB HAVE
 BECOME AN ARCHETYPE OF DIGITAL EXCHANGE, AND A LENS THROUGH WHICH TO VIEW
-BROADER DIGITAL CULTURE. Z.DUPONT AND A.CATTAPAN CRYPTOCOUPLE
+BROADER DIGITAL CULTURE. Q.DUPONT AND A.CATTAPAN CRYPTOCOUPLE
+
+ordinea literelor: frecventa: E, A, "the" t,h, y from "they", "and" ,"most", 
 
 textul se afla si la adresa: http://cryptocouple.com/
 
 optional, transformare directa:
 https://www.dcode.fr/monoalphabetic-substitution /
 https://www.guballa.de/substitution-solver
+
+
+Ex. 4
