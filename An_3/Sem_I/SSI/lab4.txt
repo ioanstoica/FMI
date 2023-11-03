@@ -1,1 +1,69 @@
-Inginerie sociala
+1. 
+
+A - 4
+B - 2
+C - 1
+D - 3
+E - 6
+F - 5
+
+2. 
+
+ - mesajul este identificat ca junk
+ - adresa de email ese dubioasa mbm.@externalys.net
+ - Este gramatical gresit (litera mica, si 'Valida')
+ - are o poza care nu este incarcata
+ - nu este personalizat deloc
+
+3. 
+Sender Policy Framework (SPF) hardens your DNS servers and restricts who can send emails from your domain.
+
+DomainKeys Identified Mail (DKIM) ensures that the content of your emails remains trusted and hasn’t been tampered with or compromised. 
+
+Domain-based Message Authentication, Reporting and Conformance (DMARC) ties the first two protocols together with a consistent set of policies
+
+https://www.csoonline.com/article/564563/mastering-email-security-with-dmarc-spf-and-dkim.html
+
+Analizare email: 
+Imaginea de email este un '?'
+Email-ul nu este personalizat.
+Textul nu este aranjat profi.
+Imi cere EURO (desi in romania se plateste in lei)
+si asta in BITCOIN!!!
+
+
+Eu email propriu -> afiseaza originalul:
+https://mail.google.com/mail/u/0/?ik=4e39b12298&view=om&permmsgid=msg-f:1781553669116462619
+
+SPF:	PASS with IP 209.85.220.41 Learn more
+DKIM:	'PASS' with domain thesunexchange.com Learn more
+DMARC:	'PASS' Learn more
+
+Analizam mai detaliat un header:
+[4] https://mha.azurewebsites.net/
+
+Un email din spam:
+https://mail.google.com/mail/u/0/?ik=4e39b12298&view=om&permmsgid=msg-f:1781185852246744523
+
+
+Text:
+Buna ziua!
+
+Sunt Elena Popescu, reprezentantul dumneavoastra personal BCR. Va informez ca este necesar sa actualizati datele personale in contul de BCR, conectati-va folosind urmatorul link: https://formular.emkei.cz/.com
+
+Va anunt ca daca nu actualizati datele, in viitor nu veti putea folosii produsele BCR. 
+
+Pentru a va incuraja sa actuzlizati datele mai repede, echipa BCR va ofera un tiket de 200 de lei, daca faceti acest lucru in 24 de ore.
+
+Va multumim!
+
+Am incercat cu email-ul mea: ioanstoica89@gmai.com si cu cel institutional: ioan.stoica1@s.unibuc.ro
+Nu am primit nimic.
+
+
+Am folosit un email temporar:
+sapik89796@newnime.com
+
+Am primit un email: https://temp-mail.org/en/view/6545048489dd9c04273aa61c
+
+ 	

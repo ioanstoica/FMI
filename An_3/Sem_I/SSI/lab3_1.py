@@ -16,21 +16,21 @@ key = bytes.fromhex(hex_key)
 decrypted_message = bytes(a ^ b for a, b in zip(encrypted_message, key))
 
 # Convertim mesajul clar într-un șir de caractere
-decrypted_message_str = decrypted_message.decode('utf-8')
+decrypted_message_str = decrypted_message.decode("utf-8")
 
-#printeaza encrypted_message sub forma de 0 si 1
+# printeaza encrypted_message sub forma de 0 si 1
 print("Encrypted message: ")
 for i in encrypted_message:
     print(bin(i)[2:].zfill(8), end=" ")
 print()
 
-#printeaza key sub forma de 0 si 1
+# printeaza key sub forma de 0 si 1
 print("Key: ")
 for i in key:
     print(bin(i)[2:].zfill(8), end=" ")
 print()
 
-#printeaza decrypted_message sub forma de 0 si 1
+# printeaza decrypted_message sub forma de 0 si 1
 print("Decrypted message: ")
 for i in decrypted_message:
     print(bin(i)[2:].zfill(8), end=" ")
