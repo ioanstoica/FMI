@@ -1,4 +1,8 @@
-1. De ce putem distinge urmatoarele siruri de niste siruri aletoare?
+Ex 1. 
+
+Am vizualizat [1]: https://www.youtube.com/watch?v=4sYawx70iP4&feature=youtu.be
+
+De ce putem distinge urmatoarele siruri de niste siruri aletoare?
 
 1. #candidate 1
 prima valoarea este seed, apoi numai 0
@@ -7,6 +11,71 @@ valorile cresc cu ~*1.5 per iteratie ceea ce duce la o progresie geometrica, dec
 1. #3 
 Se printeaza o singura valoare. Noi avem nevoie de un sir de numere aleatoare.
 
-2. Folosim librarii de python
-3. Black Box vs Gray box
-Timing attack  - masoara timpul
+Ex 2. Folosim librarii de python
+Citiți despre modulul secrets.py [2] - https://docs.python.org/3/library/secrets.html
+
+Rezolvarile se afla in fisierul lab5_ex2.py
+
+Ex 4.
+https://www.cve.org/
+dentify, define, and catalog publicly disclosed cybersecurity vulnerabilities.
+
+https://cwe.mitre.org/index.html
+CWE™ is a community-developed list of software and hardware weakness types. 
+
+https://capec.mitre.org/index.html
+CAPEC™ helps by providing a comprehensive dictionary of known patterns of attack employed by adversaries to exploit known weaknesses in cyber-enabled capabilities. It can be used by analysts, developers, testers, and educators to advance community understanding and enhance defenses.
+
+https://www.cve.org/About/RelatedEfforts
+
+ - Ce problemă identificați în următoarele secvențe de cod?
+
+Problema din Figura 1 este descrisa la:
+https://cwe.mitre.org/data/definitions/336.html
+
+Un atacator care afla seed-ul, poate afla toate id-urile, prin generarea lor, folosind aceasi functie si acelas seed.
+
+In Figura 2, un atacator, daca stie id-ul userului (cel mai probabil este public) va putea afla foarte usor id-ul sesiunii.
+
+ - Care este CWE ID asociat scenariilor de mai sus si problemei pe care acestea o ridică?
+
+Figura 1: CWE-336: Same Seed in Pseudo-Random Number Generator (PRNG)
+
+Figura 2: 		
+CWE-337: Predictable Seed in Pseudo-Random Number Generator (PRNG)
+https://cwe.mitre.org/data/definitions/337.html
+
+ - Ce se întâmplă dacă nu se folosește același seed de fiecare dată, dar spațiul seed-urilor posibile este mic? Puteți găsi un CWE ID corespunzător acestui caz?
+
+CWE-339: Small Seed Space in PRNG
+https://cwe.mitre.org/data/definitions/339.html
+A Pseudo-Random Number Generator (PRNG) uses a relatively small seed space, which makes it more susceptible to brute force attacks.
+
+ - Căutați atacul identificat la punctul precedent în [5] https://capec.mitre.org/index.html. Identificați și aici o mențiune la seed?
+
+https://capec.mitre.org/data/definitions/112.html
+Search by 'seed':
+If the secret was chosen algorithmically, cryptanalysis can be applied to the algorithm to discover patterns in this algorithm. (This is true even if the secret is not used in cryptography.) Periodicity, the need for seed values, or weaknesses in the generator all can result in a significantly smaller secret space.
+
+Găsiți alte utilizări defectuoase ale PRG explicate în alte CWE-uri. Există CVE-uri corespunzătoare acestora?
+https://cwe.mitre.org/data/definitions/335.html
+CWE-335: Incorrect Usage of Seeds in Pseudo-Random Number Generator (PRNG)
+da:
+https://cwe.mitre.org/data/definitions/338.html
+CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
+
+
+Căutați înregistrări CVE care se referă la vulnerabilități în legătură cu PRG. Câte ați identificat ca fiind definite în acest an?
+CWE 336
+CWE-336: Same Seed in Pseudo-Random Number Generator (PRNG)
+
+CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
+
+
+330, 
+
+337
+Toate sunt destul de vechi - nu am gasit de anul acesta.
+
+
+

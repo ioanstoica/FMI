@@ -1,0 +1,12 @@
+Lab 6
+Cifrare simetrica
+secretul_cifrat are lungimea egala cu a mesajului
+LFSR wikipedia
+
+Ex 1. 
+Citesc despre LFSR pe wikipedia
+https://en.wikipedia.org/wiki/Linear-feedback_shift_register
+
+
+
+
