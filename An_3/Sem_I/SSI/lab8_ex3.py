@@ -17,7 +17,7 @@ with open(file, "rb") as f:
 print(hash.hexdigest())
 
 # Realizați un request către VirusTotal folosind VirusTotal API v3 [6]
-url = "https://www.virustotal.com/api/v3/files/32db335d14021213da6a0535249d8fd0a5411cc374ac05b4592fe65ebc16621d"
+url = "https://www.virustotal.com/api/v3/files/c0202cf6aeab8437c638533d14563d35"
 
 headers = {
     "accept": "application/json",
@@ -28,3 +28,6 @@ response = requests.get(url, headers=headers)
 
 with open("lab8_ex3_response_2.txt", "w") as f:
     f.write(response.text)
+    print("Fisierul a fost detectat ca fiind malitios de catre: ", end="")
+    print(response.json()["data"]["attributes"]["total_votes"]["malicious"], end=" ")
+    print("vendori antivirus.")

@@ -17,6 +17,9 @@ Ex3.
 
 Rezolvarea in fisierul: lab8_ex3.py
 
+Un fisier de pe net: c0202cf6aeab8437c638533d14563d35
+Fisierul a fost detectat ca fiind malitios de catre: 18 vendori antivirus.
+
 Ex4.
 	Descărcați pestudio [7]. Compilați un program default („hello world”) în Code::Blocks[8] (în C/C++). Deschideți binarul obținut (aflat în numeproiect/bin/Debug) în pestudio.
 	Binar folosit: lab8_ex2.exe
