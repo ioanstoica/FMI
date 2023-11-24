@@ -1,0 +1,33 @@
+Ex1.
+
+Ex2.
+	Citiți p4-511 (pg.1163) din [5] pentru o privire tehnică asupra modului de funcționare al stivei. Structura stivei în arhitectura Intel 64 si IA-32 [5] este evidențiată în imaginea următoare:
+
+	Reproduceți codul de mai jos in C++. Rulați programul și încercați diverse inputuri diferite de parola corectă (i.e., orice input diferit de string-ul „fmiSSI”).
+	 Ce observați?
+	Codul verifica daca parola este cea corecta, dar nu face acest lucru prea bine, deoarece nu verifica dimensiunea string-ului de input, si poate fi suprascrisa parola. 
+	
+	Folosind modul în care este aranjată stiva pe IA-32, găsiți un input pentru care veți avea afișat mesajul “Parola introdusă este corectă”, chiar dacă aceasta este complet diferită de string-ul “fmiSSI”.
+	ex solutie: 12345671234567 - suprascrie parola
+	
+	Cum se numește aceasta vulnerabilitate/acest atac?
+	vulnerabilitate cunoscută sub numele de buffer overflow
+
+Ex3.
+
+Ex4.
+	Descărcați pestudio [7]. Compilați un program default („hello world”) în Code::Blocks[8] (în C/C++). Deschideți binarul obținut (aflat în numeproiect/bin/Debug) în pestudio.
+	Binar folosit: lab8_ex2.exe
+	
+	Găsiți data la care a fost compilat binarul respectiv (faceți o poză ecranului cu informația din pestudio).
+	Poza cu pestudio cu ora: lab8_ex3.png 
+	ora: Tue Nov 21 14:47:36 2023 | UTC 
+	alt format: Tue, 21 Nov 2023 14:47:36 UTC 
+	https://www.epochconverter.com/hex
+	Epoch timestamp: 1700578056
+	
+	Deschideți binarul și în HxD și identificați zona în care este prezentă data de compilare a binarului respectiv. Puteți folosi un timestamp converter [9] pentru a verifica dacă data este corectă
+	Search in HxD: Ă\e
+	Hexa: 08 C3 5C 65
+	poza: lab8_ex3_2.png 
+
