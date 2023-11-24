@@ -9,6 +9,53 @@ https://en.wikipedia.org/wiki/Linear-feedback_shift_register
 
 Am rezulvat ex 1 in lab6_ex1.py
 
+2. Advanced Encryption Standard (AES)
+
+Citiți despre utilizarea AES în Python [2]. Am citit: https://pycryptodome.readthedocs.io/en/latest/src/cipher/aes.html
+
+Răspundeți la următoarele cerințe:
+a) Executați secvența de mai sus. Ce obțineți?
+
+b'\x05\xc0\x84\x13?5\x81#\x8b"\xc7a\tS0\x83\x04\'f\x18\xe6~\xa9\x90\xa7\x9e\x94\xd6sE}E\xbd\x02\x05\x1f\x90\x17\x1d\xa3'
+
+b) Ce mod de operare este folosit? Ce observați?
+
+MODE_ECB
+
+Crypto.Cipher.AES.MODE_CCM= 8¶
+Counter with CBC-MAC (CCM mode)
+
+https://pycryptodome.readthedocs.io/en/latest/src/cipher/modern.html#ccm-mode
+
+c) Ați recomanda folosirea modului de operare de la b)? De ce? De ce nu?
+
+Nu, utilizarea modului ECB (Electronic Codebook) în criptografie este considerată nesigură. Acest lucru se datorează faptului că blocuri identice de text sunt criptate identic, indiferent de lungimea acestora. Prin urmare, un potențial atacator poate identifica modele și similitudini între mesaje criptate. De exemplu:
+
+
+b'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttest'
+b'testtesttesttesttesttesttesttesttesttesttesttest'
+
+b'\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec'
+b'\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec\x88\x10\x86\xe2\xf3\xaai)\x9fz\xcb\xf0h4\xa4\xec'
+
+d) Care este dimensiunea cheii? Dar a blocului?
+
+Dimensiune cheie si bloc: 16
+
+e) Modificați codul astfel încât să funcționeze dacă se înlocuiește valoarea data cu data=b'test'.
+
+
+f) Refaceți codul, schimbând modul de operare cu un alt mod de operare pe care îl considerați mai potrivit.
+
+key = b'O cheie oarecare'
+data = b'test'
+
+cipher = AES.new(key, AES.MODE_CCM)
+res = cipher.encrypt(data)
+print(res)
+
+Am folosit modul de operare CCM ce suporta blocuri de orice dimensiune (counter with cipher block chaining message authentication code; counter with CBC-MAC)
+
 
 
 
