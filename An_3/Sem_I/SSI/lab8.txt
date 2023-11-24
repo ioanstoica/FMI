@@ -1,6 +1,6 @@
 Ex1.
 
-Ex2.
+Ex2. OK 
 	Citiți p4-511 (pg.1163) din [5] pentru o privire tehnică asupra modului de funcționare al stivei. Structura stivei în arhitectura Intel 64 si IA-32 [5] este evidențiată în imaginea următoare:
 
 	Reproduceți codul de mai jos in C++. Rulați programul și încercați diverse inputuri diferite de parola corectă (i.e., orice input diferit de string-ul „fmiSSI”).
@@ -14,6 +14,8 @@ Ex2.
 	vulnerabilitate cunoscută sub numele de buffer overflow
 
 Ex3.
+
+Rezolvarea in fisierul: lab8_ex3.py
 
 Ex4.
 	Descărcați pestudio [7]. Compilați un program default („hello world”) în Code::Blocks[8] (în C/C++). Deschideți binarul obținut (aflat în numeproiect/bin/Debug) în pestudio.

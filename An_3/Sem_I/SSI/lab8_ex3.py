@@ -8,7 +8,7 @@ import os
 
 dotenv.load_dotenv()
 
-file = "ciorna.txt"
+file = "lab1.txt"
 hash = hashlib.sha256()
 with open(file, "rb") as f:
     for chunk in iter(lambda: f.read(4096), b""):
@@ -17,7 +17,7 @@ with open(file, "rb") as f:
 print(hash.hexdigest())
 
 # Realizați un request către VirusTotal folosind VirusTotal API v3 [6]
-url = "https://www.virustotal.com/api/v3/files/" + hash.hexdigest()
+url = "https://www.virustotal.com/api/v3/files/32db335d14021213da6a0535249d8fd0a5411cc374ac05b4592fe65ebc16621d"
 
 headers = {
     "accept": "application/json",
@@ -26,5 +26,5 @@ headers = {
 
 response = requests.get(url, headers=headers)
 
-with open("lab8_ex3_response.txt", "w") as f:
+with open("lab8_ex3_response_2.txt", "w") as f:
     f.write(response.text)

@@ -9,7 +9,7 @@ https://en.wikipedia.org/wiki/Linear-feedback_shift_register
 
 Am rezulvat ex 1 in lab6_ex1.py
 
-2. Advanced Encryption Standard (AES)
+Ex2. Advanced Encryption Standard (AES)
 
 Citiți despre utilizarea AES în Python [2]. Am citit: https://pycryptodome.readthedocs.io/en/latest/src/cipher/aes.html
 
