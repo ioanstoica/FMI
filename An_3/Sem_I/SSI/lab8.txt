@@ -8,7 +8,7 @@ Ex2. OK
 	Codul verifica daca parola este cea corecta, dar nu face acest lucru prea bine, deoarece nu verifica dimensiunea string-ului de input, si poate fi suprascrisa parola. 
 	
 	Folosind modul în care este aranjată stiva pe IA-32, găsiți un input pentru care veți avea afișat mesajul “Parola introdusă este corectă”, chiar dacă aceasta este complet diferită de string-ul “fmiSSI”.
-	ex solutie: 12345671234567 - suprascrie parola
+	ex solutie: 1234567123456 - suprascrie parola
 	
 	Cum se numește aceasta vulnerabilitate/acest atac?
 	vulnerabilitate cunoscută sub numele de buffer overflow
@@ -25,7 +25,7 @@ Ex4.
 	Binar folosit: lab8_ex2.exe
 	
 	Găsiți data la care a fost compilat binarul respectiv (faceți o poză ecranului cu informația din pestudio).
-	Poza cu pestudio cu ora: lab8_ex3.png 
+	Poza cu pestudio cu ora: lab8_ex4.png 
 	ora: Tue Nov 21 14:47:36 2023 | UTC 
 	alt format: Tue, 21 Nov 2023 14:47:36 UTC 
 	https://www.epochconverter.com/hex

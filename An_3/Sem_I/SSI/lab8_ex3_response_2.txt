@@ -1,504 +1,590 @@
 {
     "data": {
         "attributes": {
-            "type_description": "Win32 EXE",
-            "tlsh": "T1CF048D4772A532F8F173CA3585528452F7B6BC7507609B6F03A4827A1F176929F3AF20",
-            "vhash": "015076655d155515555088z54hz3lz",
+            "type_description": "Text",
+            "tlsh": "T141A022003B0EEE2BA20B00200032E8B00808020E2CE00A3820A020B8C83308803EC228",
             "type_tags": [
-                "executable",
-                "windows",
-                "win32",
-                "pe",
-                "peexe"
+                "text"
             ],
+            "antiy_info": "Trojan/Generic.ASBOL.2A",
             "crowdsourced_yara_results": [
                 {
-                    "description": "Identifies RYUK ransomware",
+                    "description": "Rule to detect the EICAR pattern",
+                    "source": "https://github.com/advanced-threat-research/Yara-Rules",
+                    "author": "Marc Rivero | McAfee ATR Team",
+                    "ruleset_name": "MALW_Eicar",
+                    "rule_name": "malw_eicar",
+                    "ruleset_id": "0019ab4291"
+                },
+                {
+                    "ruleset_id": "015dce072d",
+                    "rule_name": "Multi_EICAR_ac8f42d6",
+                    "ruleset_name": "Multi_EICAR",
                     "source": "https://github.com/elastic/protections-artifacts",
-                    "author": "Elastic Security",
-                    "ruleset_name": "Windows_Ransomware_Ryuk",
-                    "rule_name": "Windows_Ransomware_Ryuk_8ba51798",
-                    "ruleset_id": "0154f15213"
+                    "author": "Elastic Security"
                 },
                 {
-                    "description": "Detects executables containing many references to VEEAM. Observed in ransomware",
-                    "source": "https://github.com/ditekshen/detection",
-                    "author": "ditekSHen",
-                    "ruleset_name": "indicator_suspicious",
-                    "rule_name": "INDICATOR_SUSPICOUS_EXE_References_VEEAM",
-                    "ruleset_id": "00c3b8eb5d"
-                },
-                {
-                    "description": "Ryuk Payload",
-                    "source": "https://github.com/kevoreilly/CAPEv2",
-                    "author": "kevoreilly",
-                    "ruleset_name": "Ryuk",
-                    "rule_name": "Ryuk",
-                    "ruleset_id": "00b9d4c345"
-                },
-                {
-                    "description": "detects command variations typically used by ransomware",
-                    "source": "https://github.com/ditekshen/detection",
-                    "author": "ditekSHen",
-                    "ruleset_name": "indicator_suspicious",
-                    "rule_name": "INDICATOR_SUSPICIOUS_GENRansomware",
-                    "ruleset_id": "00c3b8eb5d"
-                },
-                {
-                    "description": "Detects win.ryuk.",
-                    "source": "https://malpedia.caad.fkie.fraunhofer.de/",
-                    "author": "Felix Bilstein - yara-signator at cocacoding dot com",
-                    "ruleset_name": "win.ryuk_auto",
-                    "rule_name": "win_ryuk_auto",
-                    "ruleset_id": "008fcd3b82"
-                },
-                {
-                    "description": "Identifies RYUK ransomware",
-                    "source": "https://github.com/elastic/protections-artifacts",
-                    "author": "Elastic Security",
-                    "ruleset_name": "Windows_Ransomware_Ryuk",
-                    "rule_name": "Windows_Ransomware_Ryuk_878bae7e",
-                    "ruleset_id": "0154f15213"
-                },
-                {
-                    "description": "Detects strings known from Ryuk Ransomware",
+                    "description": "Just an EICAR test file - this is boring but users asked for it",
                     "source": "https://github.com/Neo23x0/signature-base",
                     "author": "Florian Roth (Nextron Systems)",
-                    "ruleset_name": "crime_ryuk_ransomware",
-                    "rule_name": "MAL_Ryuk_Ransomware",
-                    "ruleset_id": "000a47a18d"
+                    "ruleset_name": "gen_suspicious_strings",
+                    "rule_name": "SUSP_Just_EICAR",
+                    "ruleset_id": "000720c1f3"
                 }
             ],
-            "creation_date": 1534247117,
             "names": [
-                "YAeqq.exe",
-                "IPrnR.exe",
-                "YOXsm.exe",
-                "RNRmc.exe",
-                "8d3f68b16f0710f858d8c1d2c699260e6f43161a5510abb0e7ba567bd72c965b-dropped.bin",
-                "KVfkK.exe",
-                "GukAj.exe",
-                "hHjRS.exe",
-                "oYokX.exe",
-                "ryuk-ransomware",
-                "yHHhv.exe",
-                "strikevOzfZr.data",
-                "BKSrs.exe",
-                "xeapp.exe",
-                "ttofj.exe",
-                "gmytq.exe",
-                "mqwtx.exe",
-                "c0202cf6aeab8437c638533d14563d35_BLZsa.ExE",
-                "c0202cf6aeab8437c638533d14563d35.virus",
-                "Sample_5b7ce71f911816380a79b924.bin",
-                "FmoAc.exe"
+                "eicar.com-25372",
+                "eicar.com",
+                "eicar.com-15716",
+                "eicar.com-5355",
+                "eicar.com-44458",
+                "eicar.com-35161",
+                "eicar.com-25685",
+                "eicar.com-18546",
+                "eicar.com-11623",
+                "\u041d\u043e\u0432\u044b\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442.txt",
+                "eicar.com-4537",
+                "eicar.com-35481",
+                "eicar",
+                "eicar.com-28435",
+                "eicar.com-21348",
+                "test.txt",
+                "eicar.com-20301",
+                "Nuevo documento de texto.txt",
+                "secure.eicar.org_eicar.com.txt",
+                "eicar.com-48701",
+                "eicar.com-12242",
+                "eicar.com-34230",
+                "eicar.txt",
+                "secgrp_eirc4r.txt",
+                "eicar.com.pdf",
+                "eicar.com-30237",
+                "eicar.com-24703",
+                "EICAR.com",
+                "eicar.com.txt",
+                "eicar.com-19359",
+                "eicar.com-13892",
+                "eicar.com-8234",
+                "virus.txt",
+                "Faktura.txt",
+                "eicar.com-2522",
+                "eicar.com-29233",
+                "eicar.com-23838",
+                "eicar.com-23474",
+                "eicar.com-12481",
+                "eicar.com-2619",
+                "eicar.com-41344",
+                "eicar(1).com",
+                "Malware.SamplePositive.txt.malz",
+                "eicar.com-30883",
+                "eicar.com-21346",
+                "eicar.com-12008",
+                "eicar.com-9880",
+                "eicar.com-45574",
+                "eicar.com-1235",
+                "eicar.com-31422",
+                "eicar.com-25483",
+                "eicar.com-15625",
+                "eicar.com-17284",
+                "Untitled 1.com",
+                "eicar.com-48934",
+                "eicar.com-8929",
+                "eicar.com-34886",
+                "eicar.com-32576",
+                "eicar.com-20855",
+                "eicar.com-24508",
+                "eicar.com-18497",
+                "eicar.com-11704",
+                "eicar.com-5810",
+                "eicar.com-32342",
+                "eicar.com-26912",
+                "eicar.com-21333",
+                "eicar.com-15910",
+                "eicar.com-10159",
+                "eicar.com-4369",
+                "eicar.com-31126",
+                "eicar.com-25551",
+                "eicar.com-20259",
+                "eicar.com-14910",
+                "viruses.txt",
+                "eicar.com-28750",
+                "eicar.com-17828",
+                "Archivo.txt",
+                "eicar.com-8058",
+                "eicar.com-24723",
+                "eicar.com-37826",
+                "Single Bee Buzzing 2 - QuickSounds.com.mp3",
+                "eicar.com-28474",
+                "Virus.txt",
+                "eicar.com-19130",
+                "practica seguridad informatica1.txt",
+                "Nuevo Documento de texto1.txt",
+                "eicar.com-9464",
+                "Nuevo Documento de texto (2).txt",
+                "archivo1.txt",
+                "eicar.com-48441",
+                "eicar.com-32206",
+                "eicar.com-22754",
+                "eicar.com-13285",
+                "eicar.com-3089",
+                "eicar.com-42432",
+                "eicar.com-32897",
+                "eicar.com-22774",
+                "eicar.com-9758",
+                "eicar.com-48631",
+                "eicar.com-38547"
             ],
-            "last_modification_date": 1699962270,
-            "type_tag": "peexe",
-            "times_submitted": 13,
+            "last_modification_date": 1700840608,
+            "type_tag": "text",
+            "times_submitted": 995575,
             "total_votes": {
-                "harmless": 1,
-                "malicious": 18
+                "harmless": 2111,
+                "malicious": 376
             },
-            "size": 176640,
+            "size": 68,
             "popular_threat_classification": {
-                "suggested_threat_label": "ransomware.ryuk/hermez",
+                "suggested_threat_label": "virus.eicar/test",
                 "popular_threat_category": [
                     {
-                        "count": 28,
-                        "value": "ransomware"
+                        "count": 12,
+                        "value": "virus"
                     },
                     {
-                        "count": 23,
+                        "count": 3,
                         "value": "trojan"
                     }
                 ],
                 "popular_threat_name": [
                     {
-                        "count": 16,
-                        "value": "ryuk"
+                        "count": 56,
+                        "value": "eicar"
                     },
                     {
-                        "count": 6,
-                        "value": "hermez"
+                        "count": 48,
+                        "value": "test"
                     },
                     {
-                        "count": 2,
-                        "value": "ransomx"
+                        "count": 36,
+                        "value": "file"
                     }
                 ]
             },
-            "authentihash": "dbec4905fbe2d9be19d9bf6d518dec29345bb2266377b501846ae87f4ca13c18",
-            "detectiteasy": {
-                "filetype": "PE64",
-                "values": [
-                    {
-                        "version": "2015 update 2",
-                        "type": "Compiler",
-                        "name": "Microsoft Visual C/C++"
-                    },
-                    {
-                        "info": "LTCG/C++",
-                        "version": "19.00.23918",
-                        "type": "Compiler",
-                        "name": "Microsoft Visual C/C++"
-                    },
-                    {
-                        "version": "14.00.23918",
-                        "type": "Linker",
-                        "name": "Microsoft Linker"
-                    },
-                    {
-                        "version": "2015",
-                        "type": "Tool",
-                        "name": "Visual Studio"
-                    }
-                ]
-            },
-            "last_submission_date": 1679138640,
-            "meaningful_name": "YAeqq.exe",
-            "trid": [
+            "last_submission_date": 1700840438,
+            "sigma_analysis_results": [
                 {
-                    "file_type": "Win64 Executable (generic)",
-                    "probability": 48.7
-                },
-                {
-                    "file_type": "Win16 NE executable (generic)",
-                    "probability": 23.3
-                },
-                {
-                    "file_type": "OS/2 Executable (generic)",
-                    "probability": 9.3
-                },
-                {
-                    "file_type": "Generic Win/DOS Executable",
-                    "probability": 9.2
-                },
-                {
-                    "file_type": "DOS Executable Generic",
-                    "probability": 9.2
+                    "rule_title": "User with Privileges Logon",
+                    "rule_source": "Sigma Integrated Rule Set (GitHub)",
+                    "match_context": [
+                        {
+                            "values": {
+                                "EventID": "4672",
+                                "PrivilegeList": "SeAssignPrimaryTokenPrivilege\r\n\t\t\tSeTcbPrivilege\r\n\t\t\tSeSecurityPrivilege\r\n\t\t\tSeTakeOwnershipPrivilege\r\n\t\t\tSeLoadDriverPrivilege\r\n\t\t\tSeBackupPrivilege\r\n\t\t\tSeRestorePrivilege\r\n\t\t\tSeDebugPrivilege\r\n\t\t\tSeAuditPrivilege\r\n\t\t\tSeSystemEnvironmentPrivilege\r\n\t\t\tSeImpersonatePrivilege\r\n\t\t\tSeDelegateSessionUserImpersonatePrivilege",
+                                "SubjectUserName": "SYSTEM",
+                                "SubjectLogonId": "999",
+                                "SubjectUserSid": "S-1-5-18",
+                                "SubjectDomainName": "NT AUTHORITY"
+                            }
+                        },
+                        {
+                            "values": {
+                                "EventID": "4672",
+                                "PrivilegeList": "SeAssignPrimaryTokenPrivilege\r\n\t\t\tSeTcbPrivilege\r\n\t\t\tSeSecurityPrivilege\r\n\t\t\tSeTakeOwnershipPrivilege\r\n\t\t\tSeLoadDriverPrivilege\r\n\t\t\tSeBackupPrivilege\r\n\t\t\tSeRestorePrivilege\r\n\t\t\tSeDebugPrivilege\r\n\t\t\tSeAuditPrivilege\r\n\t\t\tSeSystemEnvironmentPrivilege\r\n\t\t\tSeImpersonatePrivilege",
+                                "SubjectUserName": "SYSTEM",
+                                "SubjectLogonId": "999",
+                                "SubjectUserSid": "S-1-5-18",
+                                "SubjectDomainName": "NT AUTHORITY"
+                            }
+                        }
+                    ],
+                    "rule_level": "low",
+                    "rule_id": "8919a871f4a52b7af785fab44b4665ab6a3637e6ebeeac0288df8a5012a48be2",
+                    "rule_author": "frack113",
+                    "rule_description": "Detects logon with \"Special groups\" and \"Special Privileges\" can be thought of as Administrator groups or privileges."
                 }
             ],
+            "known_distributors": {
+                "filenames": [
+                    "eicar.com"
+                ],
+                "products": [
+                    "BlackArch Linux"
+                ],
+                "distributors": [
+                    "Open Source"
+                ],
+                "data_sources": [
+                    "National Software Reference Library (NSRL)"
+                ]
+            },
+            "meaningful_name": "eicar.com-25372",
+            "trid": [
+                {
+                    "file_type": "EICAR antivirus test file",
+                    "probability": 100.0
+                }
+            ],
+            "sigma_analysis_summary": {
+                "Sigma Integrated Rule Set (GitHub)": {
+                    "high": 0,
+                    "medium": 0,
+                    "critical": 0,
+                    "low": 1
+                }
+            },
             "sandbox_verdicts": {
                 "Zenbox": {
-                    "category": "malicious",
-                    "confidence": 76,
+                    "category": "harmless",
                     "sandbox_name": "Zenbox",
                     "malware_classification": [
-                        "MALWARE",
-                        "RANSOM",
-                        "EVADER"
-                    ],
-                    "malware_names": [
-                        "Ryuk"
-                    ]
-                },
-                "Dr.Web vxCube": {
-                    "category": "malicious",
-                    "sandbox_name": "Dr.Web vxCube",
-                    "malware_classification": [
-                        "MALWARE"
-                    ]
-                },
-                "DAS-Security Orcas": {
-                    "category": "malicious",
-                    "sandbox_name": "DAS-Security Orcas",
-                    "malware_classification": [
-                        "MALWARE"
+                        "CLEAN"
                     ]
                 },
                 "Lastline": {
                     "category": "malicious",
                     "sandbox_name": "Lastline",
                     "malware_classification": [
-                        "MALWARE"
+                        "MALWARE",
+                        "TROJAN"
+                    ]
+                },
+                "OS X Sandbox": {
+                    "category": "malicious",
+                    "sandbox_name": "OS X Sandbox",
+                    "malware_classification": [
+                        "EVADER"
                     ]
                 }
             },
-            "sha256": "8d3f68b16f0710f858d8c1d2c699260e6f43161a5510abb0e7ba567bd72c965b",
-            "type_extension": "exe",
+            "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+            "type_extension": "txt",
             "tags": [
-                "peexe",
-                "assembly",
-                "checks-disk-space",
-                "runtime-modules",
-                "detect-debug-environment",
+                "attachment",
                 "idle",
-                "calls-wmi",
+                "known-distributor",
                 "direct-cpu-clock-access",
-                "64bits",
-                "long-sleeps",
-                "persistence"
+                "via-tor"
             ],
-            "last_analysis_date": 1699954972,
-            "unique_sources": 12,
-            "first_submission_date": 1534510060,
-            "sha1": "5767653494d05b3f3f38f1662a63335d09ae6489",
-            "ssdeep": "3072:tEyekjv8/eFJ59W2+yV3XgDJ/nptkIV77pJd7RQy+P/:qMo/eF7EDyVgFfn7QyK",
-            "md5": "c0202cf6aeab8437c638533d14563d35",
-            "pe_info": {
-                "resource_details": [
-                    {
-                        "lang": "ENGLISH US",
-                        "entropy": 4.911615371704102,
-                        "chi2": 4031.47,
-                        "filetype": "XML",
-                        "sha256": "4bb79dcea0a901f7d9eac5aa05728ae92acb42e0cb22e5dd14134f4421a3d8df",
-                        "type": "RT_MANIFEST"
-                    }
-                ],
-                "rich_pe_header_hash": "0419af1e713584cc28b658beec622601",
-                "imphash": "3d84250cdbe08a9921b4fb008881914b",
-                "compiler_product_versions": [
-                    "id: 241, version: 40116 count=4",
-                    "id: 243, version: 40116 count=122",
-                    "id: 242, version: 40116 count=13",
-                    "id: 259, version: 23907 count=6",
-                    "id: 261, version: 23907 count=35",
-                    "id: 260, version: 23907 count=18",
-                    "[IMP] VS2008 SP1 build 30729 count=7",
-                    "[---] Unmarked objects count=114",
-                    "id: 265, version: 23918 count=2",
-                    "[RES] VS2015 UPD2 build 23918 count=1",
-                    "[LNK] VS2015 UPD2 build 23918 count=1"
-                ],
-                "resource_langs": {
-                    "ENGLISH US": 1
-                },
-                "machine_type": 34404,
-                "timestamp": 1534247117,
-                "resource_types": {
-                    "RT_MANIFEST": 1
-                },
-                "sections": [
-                    {
-                        "name": ".text",
-                        "chi2": 574536.81,
-                        "virtual_address": 4096,
-                        "entropy": 6.44,
-                        "raw_size": 90624,
-                        "flags": "rx",
-                        "virtual_size": 90592,
-                        "md5": "4904774de46eb1568d94179e47fcd4a5"
-                    },
-                    {
-                        "name": ".rdata",
-                        "chi2": 1776235.5,
-                        "virtual_address": 98304,
-                        "entropy": 5.44,
-                        "raw_size": 48128,
-                        "flags": "r",
-                        "virtual_size": 47744,
-                        "md5": "3525303e7430e3f1217ad236cee9a261"
-                    },
-                    {
-                        "name": ".data",
-                        "chi2": 2388488.75,
-                        "virtual_address": 147456,
-                        "entropy": 4.02,
-                        "raw_size": 29184,
-                        "flags": "rw",
-                        "virtual_size": 49912,
-                        "md5": "b9faaa4dc78f7cb4e167e3049bde0da4"
-                    },
-                    {
-                        "name": ".pdata",
-                        "chi2": 168537.19,
-                        "virtual_address": 200704,
-                        "entropy": 5.18,
-                        "raw_size": 4608,
-                        "flags": "r",
-                        "virtual_size": 4596,
-                        "md5": "66a3cec74aac46da7e086a3a2f4aee1d"
-                    },
-                    {
-                        "name": ".gfids",
-                        "chi2": 92936.0,
-                        "virtual_address": 208896,
-                        "entropy": 1.42,
-                        "raw_size": 512,
-                        "flags": "r",
-                        "virtual_size": 168,
-                        "md5": "cd0eeb0595a0cbe644c18c49a985ea7e"
-                    },
-                    {
-                        "name": ".rsrc",
-                        "chi2": 9292.0,
-                        "virtual_address": 212992,
-                        "entropy": 4.72,
-                        "raw_size": 512,
-                        "flags": "r",
-                        "virtual_size": 480,
-                        "md5": "1b99276507c6356b24a31f63887375df"
-                    },
-                    {
-                        "name": ".reloc",
-                        "chi2": 44634.5,
-                        "virtual_address": 217088,
-                        "entropy": 4.75,
-                        "raw_size": 2048,
-                        "flags": "r",
-                        "virtual_size": 1552,
-                        "md5": "3403c5ceea73044342921c31ea6d86d9"
-                    }
-                ],
-                "import_list": [
-                    {
-                        "library_name": "ADVAPI32.dll",
-                        "imported_functions": [
-                            "AdjustTokenPrivileges",
-                            "GetTokenInformation",
-                            "ImpersonateSelf",
-                            "LookupAccountSidW",
-                            "LookupPrivilegeValueW",
-                            "OpenProcessToken",
-                            "OpenThreadToken",
-                            "SystemFunction036"
-                        ]
-                    },
-                    {
-                        "library_name": "SHELL32.dll",
-                        "imported_functions": [
-                            "CommandLineToArgvW",
-                            "ShellExecuteA",
-                            "ShellExecuteW"
-                        ]
-                    },
-                    {
-                        "library_name": "KERNEL32.dll",
-                        "imported_functions": [
-                            "CloseHandle",
-                            "CreateFileW",
-                            "CreateRemoteThread",
-                            "CreateToolhelp32Snapshot",
-                            "DeleteCriticalSection",
-                            "DeleteFileW",
-                            "EnterCriticalSection",
-                            "ExitProcess",
-                            "FindClose",
-                            "FindFirstFileExA",
-                            "FindNextFileA",
-                            "FlushFileBuffers",
-                            "FreeEnvironmentStringsW",
-                            "FreeLibrary",
-                            "GetACP",
-                            "GetCommandLineA",
-                            "GetCommandLineW",
-                            "GetConsoleCP",
-                            "GetConsoleMode",
-                            "GetCPInfo",
-                            "GetCurrentProcess",
-                            "GetCurrentProcessId",
-                            "GetCurrentThread",
-                            "GetCurrentThreadId",
-                            "GetEnvironmentStringsW",
-                            "GetFileType",
-                            "GetLastError",
-                            "GetModuleFileNameA",
-                            "GetModuleFileNameW",
-                            "GetModuleHandleA",
-                            "GetModuleHandleExW",
-                            "GetModuleHandleW",
-                            "GetOEMCP",
-                            "GetProcAddress",
-                            "GetProcessHeap",
-                            "GetStartupInfoW",
-                            "GetStdHandle",
-                            "GetStringTypeW",
-                            "GetSystemTimeAsFileTime",
-                            "GetVersionExW",
-                            "GetWindowsDirectoryW",
-                            "GlobalAlloc",
-                            "GlobalFree",
-                            "HeapAlloc",
-                            "HeapFree",
-                            "HeapReAlloc",
-                            "HeapSize",
-                            "InitializeCriticalSectionAndSpinCount",
-                            "InitializeSListHead",
-                            "IsDebuggerPresent",
-                            "IsProcessorFeaturePresent",
-                            "IsValidCodePage",
-                            "LCMapStringW",
-                            "LeaveCriticalSection",
-                            "LoadLibraryA",
-                            "LoadLibraryExW",
-                            "LocalFree",
-                            "MultiByteToWideChar",
-                            "OpenProcess",
-                            "Process32FirstW",
-                            "Process32NextW",
-                            "QueryPerformanceCounter",
-                            "RaiseException",
-                            "RtlCaptureContext",
-                            "RtlLookupFunctionEntry",
-                            "RtlUnwindEx",
-                            "RtlVirtualUnwind",
-                            "SetFilePointerEx",
-                            "SetLastError",
-                            "SetStdHandle",
-                            "SetUnhandledExceptionFilter",
-                            "Sleep",
-                            "TerminateProcess",
-                            "TlsAlloc",
-                            "TlsFree",
-                            "TlsGetValue",
-                            "TlsSetValue",
-                            "UnhandledExceptionFilter",
-                            "VirtualAllocEx",
-                            "VirtualFreeEx",
-                            "WideCharToMultiByte",
-                            "WriteConsoleW",
-                            "WriteFile",
-                            "WriteProcessMemory"
-                        ]
-                    }
-                ],
-                "entry_point": 34324
-            },
-            "magic": "PE32+ executable (GUI) x86-64, for MS Windows",
+            "last_analysis_date": 1700840438,
+            "unique_sources": 3557,
+            "first_submission_date": 1148301722,
+            "ssdeep": "3:a+JraNvsgzsVqSwHq9:tJuOgzsko",
+            "md5": "44d88612fea8a8f36de82e1278abb02f",
+            "sha1": "3395856ce81f2b7382dee72602f798b642f14140",
+            "magic": "EICAR virus test files",
             "last_analysis_stats": {
                 "harmless": 0,
-                "type-unsupported": 4,
+                "type-unsupported": 9,
                 "suspicious": 0,
                 "confirmed-timeout": 0,
-                "timeout": 0,
-                "failure": 1,
-                "malicious": 58,
-                "undetected": 13
+                "timeout": 1,
+                "failure": 0,
+                "malicious": 62,
+                "undetected": 4
             },
             "last_analysis_results": {
                 "Bkav": {
                     "category": "malicious",
                     "engine_name": "Bkav",
                     "engine_version": "2.0.0.1",
-                    "result": "W64.AIDetectMalware",
+                    "result": "W32.EicarTest.Trojan",
                     "method": "blacklist",
-                    "engine_update": "20231113"
+                    "engine_update": "20231124"
                 },
                 "Lionic": {
                     "category": "malicious",
                     "engine_name": "Lionic",
                     "engine_version": "7.5",
-                    "result": "Trojan.Win32.Hermez.trsW",
+                    "result": "Test.File.EICAR.y",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "tehtris": {
-                    "category": "undetected",
-                    "engine_name": "tehtris",
-                    "engine_version": "v0.1.4-109-g76614fd",
-                    "result": null,
+                "Elastic": {
+                    "category": "malicious",
+                    "engine_name": "Elastic",
+                    "engine_version": "4.0.117",
+                    "result": "eicar",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231123"
                 },
                 "MicroWorld-eScan": {
                     "category": "malicious",
                     "engine_name": "MicroWorld-eScan",
                     "engine_version": "14.0.409.0",
-                    "result": "Trojan.Ransom.Ryuk.A",
+                    "result": "EICAR-Test-File",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
+                },
+                "FireEye": {
+                    "category": "malicious",
+                    "engine_name": "FireEye",
+                    "engine_version": "35.24.1.0",
+                    "result": "EICAR-Test-File (not a virus)",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "CAT-QuickHeal": {
+                    "category": "malicious",
+                    "engine_name": "CAT-QuickHeal",
+                    "engine_version": "22.00",
+                    "result": "EICAR.TestFile",
+                    "method": "blacklist",
+                    "engine_update": "20231123"
+                },
+                "Skyhigh": {
+                    "category": "malicious",
+                    "engine_name": "Skyhigh",
+                    "engine_version": "v2021.2.0+4045",
+                    "result": "EICAR test file",
+                    "method": "blacklist",
+                    "engine_update": "20231123"
+                },
+                "ALYac": {
+                    "category": "malicious",
+                    "engine_name": "ALYac",
+                    "engine_version": "1.1.3.1",
+                    "result": "Misc.Eicar-Test-File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Malwarebytes": {
+                    "category": "malicious",
+                    "engine_name": "Malwarebytes",
+                    "engine_version": "4.5.5.54",
+                    "result": "EICAR-AV-Test",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Zillya": {
+                    "category": "malicious",
+                    "engine_name": "Zillya",
+                    "engine_version": "2.0.0.5000",
+                    "result": "EICAR.TestFile",
+                    "method": "blacklist",
+                    "engine_update": "20231123"
+                },
+                "Sangfor": {
+                    "category": "malicious",
+                    "engine_name": "Sangfor",
+                    "engine_version": "2.23.0.0",
+                    "result": "EICAR-Test-File (not a virus)",
+                    "method": "blacklist",
+                    "engine_update": "20231122"
+                },
+                "K7AntiVirus": {
+                    "category": "malicious",
+                    "engine_name": "K7AntiVirus",
+                    "engine_version": "12.127.50312",
+                    "result": "EICAR_Test_File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Alibaba": {
+                    "category": "malicious",
+                    "engine_name": "Alibaba",
+                    "engine_version": "0.3.0.5",
+                    "result": "Trojan:MacOS/eicar.com",
+                    "method": "blacklist",
+                    "engine_update": "20190527"
+                },
+                "K7GW": {
+                    "category": "malicious",
+                    "engine_name": "K7GW",
+                    "engine_version": "12.127.50311",
+                    "result": "EICAR_Test_File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "CrowdStrike": {
+                    "category": "type-unsupported",
+                    "engine_name": "CrowdStrike",
+                    "engine_version": "1.0",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20220812"
+                },
+                "Baidu": {
+                    "category": "malicious",
+                    "engine_name": "Baidu",
+                    "engine_version": "1.0.0.2",
+                    "result": "Win32.Test.Eicar.a",
+                    "method": "blacklist",
+                    "engine_update": "20190318"
+                },
+                "VirIT": {
+                    "category": "malicious",
+                    "engine_name": "VirIT",
+                    "engine_version": "9.5.586",
+                    "result": "EICAR-Test-File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Paloalto": {
+                    "category": "type-unsupported",
+                    "engine_name": "Paloalto",
+                    "engine_version": "0.9.0.1003",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "SymantecMobileInsight": {
+                    "category": "malicious",
+                    "engine_name": "SymantecMobileInsight",
+                    "engine_version": "2.0",
+                    "result": "ALG:EICAR Test String",
+                    "method": "blacklist",
+                    "engine_update": "20230119"
+                },
+                "Symantec": {
+                    "category": "malicious",
+                    "engine_name": "Symantec",
+                    "engine_version": "1.21.0.0",
+                    "result": "EICAR Test String",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "tehtris": {
+                    "category": "type-unsupported",
+                    "engine_name": "tehtris",
+                    "engine_version": "v0.1.4-109-g76614fd",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "ESET-NOD32": {
+                    "category": "malicious",
+                    "engine_name": "ESET-NOD32",
+                    "engine_version": "28293",
+                    "result": "Eicar test file",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Cynet": {
+                    "category": "malicious",
+                    "engine_name": "Cynet",
+                    "engine_version": "4.0.0.28",
+                    "result": "Malicious (score: 99)",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "APEX": {
+                    "category": "malicious",
+                    "engine_name": "APEX",
+                    "engine_version": "6.476",
+                    "result": "EICAR Anti-Virus Test File",
+                    "method": "blacklist",
+                    "engine_update": "20231119"
+                },
+                "Avast": {
+                    "category": "malicious",
+                    "engine_name": "Avast",
+                    "engine_version": "23.9.8494.0",
+                    "result": "EICAR Test-NOT virus!!!",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "ClamAV": {
+                    "category": "malicious",
+                    "engine_name": "ClamAV",
+                    "engine_version": "1.2.1.0",
+                    "result": "Win.Test.EICAR_HDB-1",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Kaspersky": {
+                    "category": "malicious",
+                    "engine_name": "Kaspersky",
+                    "engine_version": "22.0.1.28",
+                    "result": "EICAR-Test-File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "BitDefender": {
+                    "category": "malicious",
+                    "engine_name": "BitDefender",
+                    "engine_version": "7.2",
+                    "result": "EICAR-Test-File (not a virus)",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "NANO-Antivirus": {
+                    "category": "malicious",
+                    "engine_name": "NANO-Antivirus",
+                    "engine_version": "1.0.146.25796",
+                    "result": "Marker.Dos.EICAR-Test-File.dyb",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "SUPERAntiSpyware": {
+                    "category": "malicious",
+                    "engine_name": "SUPERAntiSpyware",
+                    "engine_version": "5.6.0.1032",
+                    "result": "NotAThreat.EICAR[TestFile]",
+                    "method": "blacklist",
+                    "engine_update": "20231122"
+                },
+                "Tencent": {
+                    "category": "malicious",
+                    "engine_name": "Tencent",
+                    "engine_version": "1.0.0.1",
+                    "result": "EICAR.TEST.NOT-A-VIRUS",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Trustlook": {
+                    "category": "type-unsupported",
+                    "engine_name": "Trustlook",
+                    "engine_version": "1.0",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Sophos": {
+                    "category": "malicious",
+                    "engine_name": "Sophos",
+                    "engine_version": "2.4.3.0",
+                    "result": "EICAR-AV-Test",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "F-Secure": {
+                    "category": "malicious",
+                    "engine_name": "F-Secure",
+                    "engine_version": "18.10.1547.307",
+                    "result": "EICAR_Test_File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "DrWeb": {
+                    "category": "malicious",
+                    "engine_name": "DrWeb",
+                    "engine_version": "7.0.61.8090",
+                    "result": "EICAR Test File (NOT a Virus!)",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "VIPRE": {
+                    "category": "malicious",
+                    "engine_name": "VIPRE",
+                    "engine_version": "6.0.0.35",
+                    "result": "EICAR-Test-File (not a virus)",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "TrendMicro": {
+                    "category": "malicious",
+                    "engine_name": "TrendMicro",
+                    "engine_version": "11.0.0.1006",
+                    "result": "Eicar_test_file",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Trapmine": {
+                    "category": "type-unsupported",
+                    "engine_name": "Trapmine",
+                    "engine_version": "4.0.14.97",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20231106"
                 },
                 "CMC": {
                     "category": "undetected",
@@ -508,325 +594,61 @@
                     "method": "blacklist",
                     "engine_update": "20230822"
                 },
-                "CAT-QuickHeal": {
-                    "category": "undetected",
-                    "engine_name": "CAT-QuickHeal",
-                    "engine_version": "22.00",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Skyhigh": {
-                    "category": "malicious",
-                    "engine_name": "Skyhigh",
-                    "engine_version": "v2021.2.0+4045",
-                    "result": "BehavesLike.Win64.Injector.ch",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "McAfee": {
-                    "category": "malicious",
-                    "engine_name": "McAfee",
-                    "engine_version": "6.0.6.653",
-                    "result": "Ransom-Ryuk",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Malwarebytes": {
-                    "category": "malicious",
-                    "engine_name": "Malwarebytes",
-                    "engine_version": "4.5.5.54",
-                    "result": "Malware.AI.3885811442",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "VIPRE": {
-                    "category": "malicious",
-                    "engine_name": "VIPRE",
-                    "engine_version": "6.0.0.35",
-                    "result": "Trojan.Ransom.Ryuk.A",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Sangfor": {
-                    "category": "malicious",
-                    "engine_name": "Sangfor",
-                    "engine_version": "2.23.0.0",
-                    "result": "Trojan.Win32.Save.a",
-                    "method": "blacklist",
-                    "engine_update": "20231026"
-                },
-                "K7AntiVirus": {
-                    "category": "malicious",
-                    "engine_name": "K7AntiVirus",
-                    "engine_version": "12.125.50192",
-                    "result": "Ransomware ( 00553fc91 )",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "BitDefender": {
-                    "category": "malicious",
-                    "engine_name": "BitDefender",
-                    "engine_version": "7.2",
-                    "result": "Trojan.Ransom.Ryuk.A",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "K7GW": {
-                    "category": "malicious",
-                    "engine_name": "K7GW",
-                    "engine_version": "12.125.50194",
-                    "result": "Ransomware ( 00553fc91 )",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Cybereason": {
-                    "category": "undetected",
-                    "engine_name": "Cybereason",
-                    "engine_version": "1.2.449",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231102"
-                },
-                "Baidu": {
-                    "category": "undetected",
-                    "engine_name": "Baidu",
-                    "engine_version": "1.0.0.2",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20190318"
-                },
-                "VirIT": {
-                    "category": "undetected",
-                    "engine_name": "VirIT",
-                    "engine_version": "9.5.577",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "SymantecMobileInsight": {
-                    "category": "type-unsupported",
-                    "engine_name": "SymantecMobileInsight",
-                    "engine_version": "2.0",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20230119"
-                },
-                "Symantec": {
-                    "category": "malicious",
-                    "engine_name": "Symantec",
-                    "engine_version": "1.21.0.0",
-                    "result": "Ransom.Hermes!gen2",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Elastic": {
-                    "category": "malicious",
-                    "engine_name": "Elastic",
-                    "engine_version": "4.0.116",
-                    "result": "Windows.Ransomware.Ryuk",
-                    "method": "blacklist",
-                    "engine_update": "20231106"
-                },
-                "ESET-NOD32": {
-                    "category": "malicious",
-                    "engine_name": "ESET-NOD32",
-                    "engine_version": "28234",
-                    "result": "a variant of Win64/Filecoder.T",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Cynet": {
-                    "category": "malicious",
-                    "engine_name": "Cynet",
-                    "engine_version": "4.0.0.28",
-                    "result": "Malicious (score: 100)",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "APEX": {
-                    "category": "malicious",
-                    "engine_name": "APEX",
-                    "engine_version": "6.475",
-                    "result": "Malicious",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Paloalto": {
-                    "category": "undetected",
-                    "engine_name": "Paloalto",
-                    "engine_version": "0.9.0.1003",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "ClamAV": {
-                    "category": "malicious",
-                    "engine_name": "ClamAV",
-                    "engine_version": "1.2.1.0",
-                    "result": "Win.Ransomware.Ryuk-6688842-0",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Kaspersky": {
-                    "category": "malicious",
-                    "engine_name": "Kaspersky",
-                    "engine_version": "22.0.1.28",
-                    "result": "Trojan-Ransom.Win32.Hermez.bn",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Alibaba": {
-                    "category": "malicious",
-                    "engine_name": "Alibaba",
-                    "engine_version": "0.3.0.5",
-                    "result": "Ransom:Win32/Genasom.ali1000102",
-                    "method": "blacklist",
-                    "engine_update": "20190527"
-                },
-                "NANO-Antivirus": {
-                    "category": "malicious",
-                    "engine_name": "NANO-Antivirus",
-                    "engine_version": "1.0.146.25796",
-                    "result": "Trojan.Win64.Hermez.fhsufy",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "ViRobot": {
-                    "category": "malicious",
-                    "engine_name": "ViRobot",
-                    "engine_version": "2014.3.20.0",
-                    "result": "Trojan.Win64.S.Ryuk.176640",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Rising": {
-                    "category": "malicious",
-                    "engine_name": "Rising",
-                    "engine_version": "25.0.0.27",
-                    "result": "Ransom.Jabaxsta!1.B3AA (CLASSIC)",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Trustlook": {
-                    "category": "type-unsupported",
-                    "engine_name": "Trustlook",
-                    "engine_version": "1.0",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Sophos": {
-                    "category": "malicious",
-                    "engine_name": "Sophos",
-                    "engine_version": "2.3.1.0",
-                    "result": "Troj/Ransom-FAF",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "F-Secure": {
-                    "category": "undetected",
-                    "engine_name": "F-Secure",
-                    "engine_version": "18.10.1547.307",
-                    "result": null,
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "DrWeb": {
-                    "category": "malicious",
-                    "engine_name": "DrWeb",
-                    "engine_version": "7.0.61.8090",
-                    "result": "Trojan.Inject3.32874",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Zillya": {
-                    "category": "malicious",
-                    "engine_name": "Zillya",
-                    "engine_version": "2.0.0.4993",
-                    "result": "Trojan.GenericKD.Win32.192611",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "TrendMicro": {
-                    "category": "malicious",
-                    "engine_name": "TrendMicro",
-                    "engine_version": "11.0.0.1006",
-                    "result": "Ransom_RYUK.THHBAAH",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
-                "Trapmine": {
-                    "category": "malicious",
-                    "engine_name": "Trapmine",
-                    "engine_version": "4.0.14.97",
-                    "result": "malicious.moderate.ml.score",
-                    "method": "blacklist",
-                    "engine_update": "20231106"
-                },
-                "FireEye": {
-                    "category": "malicious",
-                    "engine_name": "FireEye",
-                    "engine_version": "35.24.1.0",
-                    "result": "Generic.mg.c0202cf6aeab8437",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
-                },
                 "Emsisoft": {
                     "category": "malicious",
                     "engine_name": "Emsisoft",
                     "engine_version": "2022.6.0.32461",
-                    "result": "Trojan.Ransom.Ryuk.A (B)",
+                    "result": "EICAR-Test-File (A)",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "SentinelOne": {
                     "category": "malicious",
                     "engine_name": "SentinelOne",
-                    "engine_version": "23.4.0.1",
-                    "result": "Static AI - Suspicious PE",
+                    "engine_version": "23.4.2.3",
+                    "result": "Static AI - Malicious COM",
                     "method": "blacklist",
-                    "engine_update": "20231018"
+                    "engine_update": "20231119"
                 },
                 "Avast-Mobile": {
-                    "category": "type-unsupported",
+                    "category": "malicious",
                     "engine_name": "Avast-Mobile",
-                    "engine_version": "231114-04",
-                    "result": null,
+                    "engine_version": "231124-06",
+                    "result": "Eicar",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Jiangmin": {
                     "category": "malicious",
                     "engine_name": "Jiangmin",
                     "engine_version": "16.0.100",
-                    "result": "Trojan.Hermez.p",
+                    "result": "EICAR-Test-File",
                     "method": "blacklist",
-                    "engine_update": "20231113"
+                    "engine_update": "20231123"
                 },
                 "Webroot": {
                     "category": "malicious",
                     "engine_name": "Webroot",
                     "engine_version": "1.0.0.403",
-                    "result": "W32.Trojan.GenKD",
+                    "result": "W32.Eicar.Testvirus.Gen",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "Google": {
-                    "category": "failure",
-                    "engine_name": "Google",
-                    "engine_version": null,
-                    "result": null,
+                "Varist": {
+                    "category": "malicious",
+                    "engine_name": "Varist",
+                    "engine_version": "6.5.1.2",
+                    "result": "EICAR_Test_File",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Avira": {
-                    "category": "undetected",
+                    "category": "malicious",
                     "engine_name": "Avira",
                     "engine_version": "8.3.3.16",
-                    "result": null,
+                    "result": "Eicar-Test-Signature",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "MAX": {
                     "category": "malicious",
@@ -834,87 +656,87 @@
                     "engine_version": "2023.1.4.1",
                     "result": "malware (ai score=100)",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Antiy-AVL": {
                     "category": "malicious",
                     "engine_name": "Antiy-AVL",
                     "engine_version": "3.0",
-                    "result": "Trojan[Ransom]/Win64.Lazarus",
+                    "result": "TestFile/Win32.EICAR",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Kingsoft": {
                     "category": "malicious",
                     "engine_name": "Kingsoft",
                     "engine_version": "None",
-                    "result": "malware.kb.a.787",
+                    "result": "Test.eicar.aa",
                     "method": "blacklist",
                     "engine_update": "20230906"
                 },
                 "Microsoft": {
-                    "category": "malicious",
+                    "category": "timeout",
                     "engine_name": "Microsoft",
                     "engine_version": "1.1.23100.2009",
-                    "result": "Ransom:MacOS/FileCoder",
+                    "result": null,
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Gridinsoft": {
                     "category": "malicious",
                     "engine_name": "Gridinsoft",
-                    "engine_version": "1.0.147.174",
-                    "result": "Ransom.Win64.AI.oa!s1",
+                    "engine_version": "1.0.148.174",
+                    "result": "Trojan.U.EICAR_Test_File.dd",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Xcitium": {
                     "category": "malicious",
                     "engine_name": "Xcitium",
-                    "engine_version": "36174",
-                    "result": "Malware@#7oq4rntpxd6f",
+                    "engine_version": "36202",
+                    "result": "Malware@#2975xfk8s2pq1",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Arcabit": {
                     "category": "malicious",
                     "engine_name": "Arcabit",
                     "engine_version": "2022.0.0.18",
-                    "result": "Trojan.Ransom.Ryuk.A",
+                    "result": "EICAR-Test-File (not a virus)",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "SUPERAntiSpyware": {
-                    "category": "undetected",
-                    "engine_name": "SUPERAntiSpyware",
-                    "engine_version": "5.6.0.1032",
-                    "result": null,
+                "ViRobot": {
+                    "category": "malicious",
+                    "engine_name": "ViRobot",
+                    "engine_version": "2014.3.20.0",
+                    "result": "EICAR-test",
                     "method": "blacklist",
-                    "engine_update": "20231113"
+                    "engine_update": "20231124"
                 },
                 "ZoneAlarm": {
                     "category": "malicious",
                     "engine_name": "ZoneAlarm",
                     "engine_version": "1.0",
-                    "result": "Trojan-Ransom.Win32.Hermez.bn",
+                    "result": "EICAR-Test-File",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "GData": {
                     "category": "malicious",
                     "engine_name": "GData",
-                    "engine_version": "A:25.36816B:27.33854",
-                    "result": "Win64.Trojan-Ransom.Ryuk.A",
+                    "engine_version": "A:25.36862B:27.33974",
+                    "result": "EICAR_TEST_FILE",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "Varist": {
+                "Google": {
                     "category": "malicious",
-                    "engine_name": "Varist",
-                    "engine_version": "6.5.1.2",
-                    "result": "W64/Ransom.Ryuk.A.gen!Eldorado",
+                    "engine_name": "Google",
+                    "engine_version": "1700731866",
+                    "result": "Detected",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "BitDefenderFalx": {
                     "category": "type-unsupported",
@@ -922,15 +744,15 @@
                     "engine_version": "2.0.936",
                     "result": null,
                     "method": "blacklist",
-                    "engine_update": "20230921"
+                    "engine_update": "20231121"
                 },
                 "AhnLab-V3": {
                     "category": "malicious",
                     "engine_name": "AhnLab-V3",
                     "engine_version": "3.24.0.10447",
-                    "result": "Trojan/Win64.Ryukran.R234901",
+                    "result": "Virus/EICAR_Test_File",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Acronis": {
                     "category": "undetected",
@@ -940,115 +762,107 @@
                     "method": "blacklist",
                     "engine_update": "20230828"
                 },
-                "VBA32": {
+                "McAfee": {
                     "category": "malicious",
-                    "engine_name": "VBA32",
-                    "engine_version": "5.0.0",
-                    "result": "TrojanRansom.Hermez",
+                    "engine_name": "McAfee",
+                    "engine_version": "6.0.6.653",
+                    "result": "EICAR test file",
                     "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "ALYac": {
-                    "category": "malicious",
-                    "engine_name": "ALYac",
-                    "engine_version": "1.1.3.1",
-                    "result": "Trojan.Ransom.Ryuk",
-                    "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "TACHYON": {
                     "category": "malicious",
                     "engine_name": "TACHYON",
-                    "engine_version": "2023-11-14.02",
-                    "result": "Ransom/W64.Ryuk.176640",
+                    "engine_version": "2023-11-24.02",
+                    "result": "EICAR-Test-File",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "DeepInstinct": {
-                    "category": "malicious",
+                    "category": "type-unsupported",
                     "engine_name": "DeepInstinct",
                     "engine_version": "3.1.0.15",
-                    "result": "MALICIOUS",
-                    "method": "blacklist",
-                    "engine_update": "20231108"
-                },
-                "Cylance": {
-                    "category": "malicious",
-                    "engine_name": "Cylance",
-                    "engine_version": "2.0.0.0",
-                    "result": "unsafe",
-                    "method": "blacklist",
-                    "engine_update": "20231108"
-                },
-                "Panda": {
-                    "category": "malicious",
-                    "engine_name": "Panda",
-                    "engine_version": "4.6.4.2",
-                    "result": "Trj/CI.A",
-                    "method": "blacklist",
-                    "engine_update": "20231113"
-                },
-                "Zoner": {
-                    "category": "undetected",
-                    "engine_name": "Zoner",
-                    "engine_version": "2.2.2.0",
                     "result": null,
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231123"
+                },
+                "VBA32": {
+                    "category": "malicious",
+                    "engine_name": "VBA32",
+                    "engine_version": "5.0.0",
+                    "result": "EICAR-Test-File",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
+                },
+                "Cylance": {
+                    "category": "type-unsupported",
+                    "engine_name": "Cylance",
+                    "engine_version": "2.0.0.0",
+                    "result": null,
+                    "method": "blacklist",
+                    "engine_update": "20231108"
+                },
+                "Zoner": {
+                    "category": "malicious",
+                    "engine_name": "Zoner",
+                    "engine_version": "2.2.2.0",
+                    "result": "EICAR.Test.File-NoVirus.250",
+                    "method": "blacklist",
+                    "engine_update": "20231124"
                 },
                 "TrendMicro-HouseCall": {
                     "category": "malicious",
                     "engine_name": "TrendMicro-HouseCall",
                     "engine_version": "10.0.0.1040",
-                    "result": "Ransom_RYUK.THHBAAH",
+                    "result": "Eicar_test_file",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "Tencent": {
+                "Rising": {
                     "category": "malicious",
-                    "engine_name": "Tencent",
-                    "engine_version": "1.0.0.1",
-                    "result": "Malware.Win32.Gencirc.10bdc22a",
+                    "engine_name": "Rising",
+                    "engine_version": "25.0.0.27",
+                    "result": "EICAR-Test-File (CLASSIC)",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "Yandex": {
-                    "category": "malicious",
+                    "category": "undetected",
                     "engine_name": "Yandex",
                     "engine_version": "5.5.2.24",
-                    "result": "Trojan.GenAsa!IN2Q8puX4gM",
+                    "result": null,
                     "method": "blacklist",
-                    "engine_update": "20231113"
+                    "engine_update": "20231124"
                 },
                 "Ikarus": {
                     "category": "malicious",
                     "engine_name": "Ikarus",
                     "engine_version": "6.2.4.0",
-                    "result": "Trojan-Ransom.Ryuk",
+                    "result": "EICAR-Test-File",
                     "method": "blacklist",
-                    "engine_update": "20231113"
+                    "engine_update": "20231124"
                 },
                 "MaxSecure": {
-                    "category": "malicious",
+                    "category": "undetected",
                     "engine_name": "MaxSecure",
                     "engine_version": "1.0.0.1",
-                    "result": "Trojan.Malware.300983.susgen",
+                    "result": null,
                     "method": "blacklist",
-                    "engine_update": "20231110"
+                    "engine_update": "20231124"
                 },
                 "Fortinet": {
                     "category": "malicious",
                     "engine_name": "Fortinet",
                     "engine_version": "None",
-                    "result": "Malicious_Behavior.SB",
+                    "result": "EICAR_TEST_FILE",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
                 "BitDefenderTheta": {
-                    "category": "undetected",
+                    "category": "malicious",
                     "engine_name": "BitDefenderTheta",
                     "engine_version": "7.2.37796.0",
-                    "result": null,
+                    "result": "EICAR-Test-File (not a virus)",
                     "method": "blacklist",
                     "engine_update": "20231023"
                 },
@@ -1056,33 +870,40 @@
                     "category": "malicious",
                     "engine_name": "AVG",
                     "engine_version": "23.9.8494.0",
-                    "result": "Win64:RansomX-gen [Ransom]",
+                    "result": "EICAR Test-NOT virus!!!",
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231124"
                 },
-                "Avast": {
-                    "category": "malicious",
-                    "engine_name": "Avast",
-                    "engine_version": "23.9.8494.0",
-                    "result": "Win64:RansomX-gen [Ransom]",
+                "Cybereason": {
+                    "category": "type-unsupported",
+                    "engine_name": "Cybereason",
+                    "engine_version": "1.2.449",
+                    "result": null,
                     "method": "blacklist",
-                    "engine_update": "20231114"
+                    "engine_update": "20231102"
                 },
-                "CrowdStrike": {
+                "Panda": {
                     "category": "malicious",
-                    "engine_name": "CrowdStrike",
-                    "engine_version": "1.0",
-                    "result": "win/malicious_confidence_100% (W)",
+                    "engine_name": "Panda",
+                    "engine_version": "4.6.4.2",
+                    "result": "EICAR-AV-TEST-FILE",
                     "method": "blacklist",
-                    "engine_update": "20220812"
+                    "engine_update": "20231124"
                 }
             },
-            "reputation": -210
+            "reputation": 3631,
+            "first_seen_itw_date": 1129586628,
+            "sigma_analysis_stats": {
+                "high": 0,
+                "medium": 0,
+                "critical": 0,
+                "low": 1
+            }
         },
         "type": "file",
-        "id": "8d3f68b16f0710f858d8c1d2c699260e6f43161a5510abb0e7ba567bd72c965b",
+        "id": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
         "links": {
-            "self": "https://www.virustotal.com/api/v3/files/8d3f68b16f0710f858d8c1d2c699260e6f43161a5510abb0e7ba567bd72c965b"
+            "self": "https://www.virustotal.com/api/v3/files/275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f"
         }
     }
 }

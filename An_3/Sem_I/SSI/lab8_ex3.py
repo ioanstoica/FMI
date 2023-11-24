@@ -8,7 +8,7 @@ import os
 
 dotenv.load_dotenv()
 
-file = "lab1.txt"
+file = "eicar.com"
 hash = hashlib.sha256()
 with open(file, "rb") as f:
     for chunk in iter(lambda: f.read(4096), b""):
@@ -17,7 +17,7 @@ with open(file, "rb") as f:
 print(hash.hexdigest())
 
 # Realizați un request către VirusTotal folosind VirusTotal API v3 [6]
-url = "https://www.virustotal.com/api/v3/files/c0202cf6aeab8437c638533d14563d35"
+url = "https://www.virustotal.com/api/v3/files/" + hash.hexdigest()
 
 headers = {
     "accept": "application/json",
