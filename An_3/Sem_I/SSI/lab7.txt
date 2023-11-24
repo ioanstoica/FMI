@@ -1,0 +1,27 @@
+Ex1:
+a) a
+b) f
+c) a
+d) a http://www.sha1-online.com/
+e) f
+f) f
+g) f https://crackstation.net/ -> parola123
+
+Ex2:
+
+Ex3:
+  ex: - cod inutil, functii in primejdie, 
+ex2: ofera informatii in plus
+fiecare imagine are cate o problema
+
+1 ->  Este folosita aceasi parola - secretKey (salt) pentru toti utilizatorii. Parolele sunt salvate intr-o lista, fara sa fie conectate cu numele urilizatorului, deci nu stii cui ii apatine o parola.
+
+2 -> Numele nu trebuie stocate hash-uite. Datorită faptului că numele de utilizator sunt stocate sub formă de hash-uri, există posibilitatea apariției unor coliziuni între nume distincte. De exemplu, în cazul în care Alin și Andrei generează același hash, Andrei nu va putea să-și înregistreze un cont.
+In plus, programul ofera detalii suplimentare, de exemplu, nu spune cand un userName a fost deja folosit.
+
+3 -> Nu este folosit salt.
+
+4 -> Salt-ul ar trebui creat aleatoriu pentru fiecare parolă în parte, în loc să fie stocat global într-un fișier. Dacă toate parolele ar folosi același salt, securitatea lor ar putea fi vulnerabilă la atacuri de tip rainbow table.
+
+5 -> Această funcție utilizează algoritmul MD5 pentru stocarea parolelor, un algoritm care nu este recomandat pentru criptarea parolelor din cauza numeroaselor vulnerabilități identificate în structura sa.
+

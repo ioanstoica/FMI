@@ -7,6 +7,8 @@ Ex 1.
 Citesc despre LFSR pe wikipedia
 https://en.wikipedia.org/wiki/Linear-feedback_shift_register
 
+Am rezulvat ex 1 in lab6_ex1.py
+
 
 
 
