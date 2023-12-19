@@ -1,6 +1,9 @@
+Link upload teme curs si laborator:
+https://forms.gle/2TqATpDymmgwiSPh6
+
 enunturi_teme_2512.txt
 
-27.11.23 (S9) 0.125p
+27.11.23 (S8) 0.125p
 DEADLINE 4.11.23, ora 14
 
 Exercitiul E7 (partial, doar exemplul 4) din fisierul Laborator4_PLSQL.pdf. - Rezolvat, am trimis pe Teams, astept raspunsul, am incarcat in formular
@@ -15,4 +18,12 @@ DEADLINE 11.11.23, ora 14
 
 Exercitiul E2 din fisierul Laborator5_PLSQL.pdf. - Rezolvat, am trimis pe Teams, astept raspunsul, am incarcat in formular
 
+11.12.23 (S11) 0.25p
+DEADLINE 18.11.23, ora 14
 
+Exercitiul E7 din fisierul Laborator6_PLSQL.pdf. - am incarcat in formular, astept raspunsul
+
+18.12.23 (S12) 0.25p
+DEADLINE 8.01.24, ora 14
+
+Exercitiul E7 din fisierul Laborator7_PLSQL.pdf.
