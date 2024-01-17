@@ -1,0 +1,20 @@
+RL
+
+5 minute de persoane
+de prezentat parcursul temei
+
+
+
+Putem folosii/compara 
+AlfaZero -  deep neural network, generic reinforcement learning algorithm
+StockFish - Monte-Carlo-Tree-Search + retea neuronala pt evaluarea statica a pozitiilor
+
+https://labinatorsolutions.github.io/stockfish-chess-web-gui/
+
+
+
+Papers:
+https://www.researchgate.net/publication/228573088_Using_reinforcement_learning_in_chess_engines
+https://page.mi.fu-berlin.de/block/concibe2008.pdf
+https://arxiv.org/pdf/1712.01815.pdf
+
