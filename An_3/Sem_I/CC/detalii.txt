@@ -1,0 +1,92 @@
+poza 2.  - E algoritmul prin scaderi repetate
+Pentru cmmdc
+
+joi ora 16:00 alte exercitii - WhatsApp
+
+A -> B   <==>  (!A v B) 
+
+
+H0 nu era nedecidabil?
+ba da
+E nedecidabil dar semi-decidabil
+
+
+Pai poti sa o vezi asa: daca te uiti la masinile turing care opresc pe banda goala, astea genereaza un limbaj cu cel putin un cuvant. Daca ai Mw masina despre care vorbim si e aplicata pe banda goala, ea va opri pe cuvantul w sau un cuvant ce indeplineste regulile w, ca pana la urma asta descrie masina. Si poti sa gasesti o gramatica care genereaza exact un limbaj de genul
+cred:))
+
+Cred ca daca h0 e semi decidabil atunci poti sa gasesti niste exemple dar nu poti sa generalizezi
+Si asa si aici, ti se cere un exemplu de gramatica
+
+
+ E semi-decidabila, deci e recursiv-enumerabila
+Deci exista
+
+
+H0 este semidecidabila => este recursiv enumerabila => este de tip 0
+Eu asa o sa scriu la orice exercitiu cu gramatici ne dă :))
+
+
+
+calculabil nu ai radical. Ai doar div si mod
+
+
+primitiv recursiva <==> LOOP
+calculabila <==> WHILE
+
+
+
+
+2. 
+Care este tipul maximal t al gramaticii G de la exercitiul 1? Justificati de ce G poate fi de tipul t dar nu poate fi de tipul t+1. 
+
+Exercitiul 1: 
+Fie alfabetul Sigma = {0,1,2,3,4,5,6,7,8,9,+,=}. Limbajul L inclus in Sigma* este format din toate egalitatiile corecte de forma **m** + **n** = **m+n** unde m,n apartin lui N, iar **x** este scrierea lui x in baza 10 si singurul numar a carui scriere poate incepe cu 0 este 0. Astfel 14+120 = 134 este un cuvant din L pe cand 14+20=35, 14++20=31, 1+1+1=3 sau 014+20=34 nu sunt cuvinte din L. Sa se arate ca exista o gramatica G cu alfabet terminal Sigma, care produce limbjaul L. 
+
+
+3. 
+Folosind cursul de mai sus rezolva urmatorul exercitiu:
+Sa se arate ca exista o functie primitiv recursiva f:N^3 -> N astfel incat pentru orice n,b,i apartin lui N, daca b>=2, atunci 0<=f(n,b,i)<b este cifra de ordinul i a scrierii lui n in baza b. Cifra unitatiilor se considera a fi cifra de ordinul 0. Daca i este mai mare sau egal decat numarul de cifre ale lui n in baza b, se considera ca cifra de ordinul i a lui n in baza b este 0.  
+Rezolvati aceasta problema aratand ca ea poate fi scrisa ca un algoritm in pseudocode folosind operatii de baza, div, mod si LOOP cu sintaxa din curs
+
+
+5. 
+Cate solutii (x1,x2, .. , x9) apartin {0,1} ^9 are urmatoarea instanta a problemei SAT?
+(x1 ∨ ¬ x2 ∨ ¬x3 ) ∧ (¬x4 ∨ x5 ∨ ¬x6)∧(¬x7 ∨ ¬x8 ∨ x9)
+
+
+6. Fie An multimea cuvintelor w apartine {0,1}* astfel incat masina Turing Mw face cel putin n miscari daca este pornita cu banda goala. Fie A = Intersectie dupa n apartine lui N din An.
+
+(a) Aratati ca fiecare multime An este decidabila
+(b) Aratati ca multimea A nu este semidecidabila ( nu este recursiv enumerabila)
+
+
+Pentru a răspunde la întrebările dvs.:
+
+(a) **Demonstrarea că fiecare mulțime \( A_n \) este decidabilă:**
+
+O mulțime \( A_n \) este formată din cuvintele \( w \) din \( \{0,1\}^* \) pentru care mașina Turing \( M_w \) face cel puțin \( n \) mișcări când este pornită cu banda goală. Pentru a decide dacă un cuvânt \( w \) aparține \( A_n \), trebuie doar să simulăm mașina Turing \( M_w \) pentru \( n \) pași și să vedem dacă încă rulează sau nu după aceste mișcări.
+
+Pasul 1: Construim o mașină Turing \( M' \) care ia un cuvânt \( w \) ca intrare.
+Pasul 2: \( M' \) simulează \( M_w \) pentru \( n \) pași.
+Pasul 3: Dacă \( M_w \) nu se oprește în \( n \) pași, \( M' \) acceptă \( w \); altfel, îl respinge.
+
+Deoarece \( M' \) are un număr finit și specific de pași de simulare înainte de a lua o decizie, \( M' \) se oprește întotdeauna. Acest lucru înseamnă că \( M' \) este o mașină Turing care decide \( A_n \), demonstrând astfel că \( A_n \) este o mulțime decidabilă.
+
+(b) **Demonstrarea că mulțimea \( A \) nu este semidecidabilă (nu este recursiv enumerabilă):**
+
+Mulțimea \( A \) este intersecția tuturor mulțimilor \( A_n \) pentru \( n \in \mathbb{N} \), adică este mulțimea cuvintelor \( w \) pentru care mașina Turing \( M_w \) nu se oprește niciodată când este pornită cu banda goală. Aceasta este echivalentă cu problema opirii, care este cunoscută a fi nesemidecidabilă.
+
+Pentru a arăta că \( A \) nu este semidecidabilă, presupunem contrariul, că există o mașină Turing \( M_A \) care enumeră \( A \). Atunci, am putea utiliza \( M_A \) pentru a decide problema opirii: pentru un cuvânt \( w \) dat și o mașină Turing \( M_w \) corespunzătoare, am putea rula \( M_A \) și vedea dacă \( w \) este enumerat. Dacă \( w \) este enumerat, atunci știm că \( M_w \) nu se oprește niciodată. Dacă \( M_w \) se oprește, atunci \( w \) nu va fi niciodată enumerat de \( M_A \).
+
+Cu toate acestea, problema opirii este cunoscută a fi nesemidecidabilă, ceea ce înseamnă că nu există o mașină Turing care să o poată decide. Prin urmare, presupunerea noastră că \( A \) este semidecidabilă trebuie să fie falsă. Așadar, \( A \) nu este semidecidabilă, adică nu este recursiv enumerabilă.
+
+Aceste demonstrații sunt bazate pe conceptele fundamentale ale teoriei calculabilității și proprietăților mașinilor Turing, așa cum sunt ele prezentate în cursurile de teoria calculatoarelor și teoria limbajelor formale.
+
+
+
+
+
+
+
+
+
