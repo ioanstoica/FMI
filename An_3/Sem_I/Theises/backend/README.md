@@ -3,3 +3,6 @@ Activare mediu virtual python:
 
 Activare server django:
  - python manage.py runserver
+
+Creare aplicatie:
+ - python manage.py startapp <app_name>
