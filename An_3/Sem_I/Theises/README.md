@@ -1,6 +1,6 @@
 Nume licenta: "Comparator de prețuri dedicat arbitrajului pe piața online românească."
 
-Funcționalități aplicatie:
+Funcționalități de implementat pentru aplicatie:
 
 1. Sing-up
 2. Login
@@ -19,3 +19,7 @@ Tehnologie:
 Backend: Python, Django
 Frontend: HTML, CSS, JavaScript, React
 Base de date: Oracle Database
+
+Functionalitati implementate:
+1. Sing-up
+2. Login
