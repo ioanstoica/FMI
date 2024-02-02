@@ -6,3 +6,6 @@ Activare server django:
 
 Creare aplicatie:
  - python manage.py startapp <app_name>
+
+ python manage.py makemigrations products
+ python manage.py sqlmigrate products 0001
