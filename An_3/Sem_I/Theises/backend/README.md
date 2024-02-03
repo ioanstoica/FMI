@@ -17,4 +17,4 @@ Creare aplicatie:
 Task-uri realizate:
  - Doar utilizatorii logati au acces la detaliile produselor
  - Am adugat mai multe detalii pentru un produs
- - 
+ - Am adaugat cautarea de produse noi
