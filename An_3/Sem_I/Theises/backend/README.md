@@ -9,3 +9,12 @@ Creare aplicatie:
 
  python manage.py makemigrations products
  python manage.py sqlmigrate products 0001
+ python manage.py migrate
+
+
+
+
+Task-uri realizate:
+ - Doar utilizatorii logati au acces la detaliile produselor
+ - Am adugat mai multe detalii pentru un produs
+ - 
