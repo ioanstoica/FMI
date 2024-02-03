@@ -1,1 +1,16 @@
-{{ product.name}}, {{ product.description }}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ product.name }}</title>
+</head>
+
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Price: {{ product.price }} RON</p>
+    <p><a href="{{ product.url }}">Product URL</a></p>
+    <p>Views: {{ product.view_count }}</p>
+</body>
+
+</html>
