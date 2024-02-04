@@ -19,8 +19,7 @@ from django.urls import include, path
 from signup.views import SignUpView
 
 urlpatterns = [
-    path("login/", include("login.urls"), name="login"),
-    path("signup/", SignUpView.as_view(), name="signup"),
+    path("account/", include("account.urls")),
     path("products/", include("products.urls")),
     path("admin/", admin.site.urls),
     path("chat/", include("chat.urls")),

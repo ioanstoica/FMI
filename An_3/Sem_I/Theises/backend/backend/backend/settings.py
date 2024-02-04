@@ -42,9 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "products.apps.ProductsConfig",
-    "login.apps.LoginConfig",
-    "signup.apps.SignupConfig",
     "chat.apps.ChatConfig",
+    "account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
@@ -132,7 +131,8 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/account/login'
+LOGOUT_REDIRECT_URL = '/account/login'
 
 CHANNEL_LAYERS = {
     "default": {
