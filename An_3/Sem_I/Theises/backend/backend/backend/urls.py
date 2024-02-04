@@ -23,4 +23,5 @@ urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
     path("products/", include("products.urls")),
     path("admin/", admin.site.urls),
+    path("chat/", include("chat.urls")),
 ]
