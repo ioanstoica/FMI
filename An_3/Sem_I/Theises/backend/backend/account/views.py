@@ -25,7 +25,7 @@ def loginView(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect("/products/")
+            return redirect("/")
         else:
             # Mesaj de eroare în caz că autentificarea eșuează
             return HttpResponse("Autentificare eșuată")

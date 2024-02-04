@@ -1,0 +1,42 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Compari{% endblock %}</title>
+</head>
+
+<body>
+
+    <header>
+        <!-- Aici va fi meniul -->
+        <nav>
+            <ul>
+                <!-- Adaugă alte linkuri aici -->
+                <li><a href="{% url 'home' %}">Acasă</a></li>
+                <li><a href="{% url 'products' %}">Produse</a></li>
+                <li><a href="{% url 'chat' %}">Chat</a></li>
+                <li><a href="{% url 'login' %}">Log in</a></li>
+                <li><a href="{% url 'signup' %}">Sign up</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li>User: {{request.user}}</li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Conținutul specific fiecărei pagini va merge aici -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Footer dacă este necesar -->
+    </footer>
+
+</body>
+
+</html>

@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends 'home/base.html' %}
 
-<head>
-    <title>{{ product.name }}</title>
-</head>
+{% block title %}{{ product.name }}{% endblock %}
 
-<body>
+{% block content %}
+<div>
     <h1>{{ product.name }}</h1>
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }} RON</p>
     <p><a href="{{ product.url }}">Product URL</a></p>
     <p>Views: {{ product.view_count }}</p>
-</body>
-
-</html>
+</div>
+{% endblock %}

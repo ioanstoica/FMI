@@ -17,7 +17,7 @@ Task-uri realizate:
  - Am adaugat cautarea de produse noi
  - chat global si temporar https://www.geeksforgeeks.org/realtime-chat-app-using-django/
  - coprimarea login, logout, register intr-un modul separat
-
+ - crearea unui meniu pentru navigare
 
 De realizat:
-
+ 

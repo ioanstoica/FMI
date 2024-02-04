@@ -6,7 +6,7 @@ from .scrap.olx import Olx
 
 from .models import Product
 
-def index(request):
+def products(request):
     # If request type is post
     if request.method == "POST":
         # Get the form data

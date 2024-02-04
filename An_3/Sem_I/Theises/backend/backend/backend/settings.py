@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "home.apps.HomeConfig",
+
     "daphne",
     "channels",
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     "products.apps.ProductsConfig",
     "chat.apps.ChatConfig",
     "account.apps.AccountConfig",
+    
 ]
 
 MIDDLEWARE = [
