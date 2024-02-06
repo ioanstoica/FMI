@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     "daphne",
     "channels",
+    "bootstrap5",
 
     "django.contrib.admin",
     "django.contrib.auth",

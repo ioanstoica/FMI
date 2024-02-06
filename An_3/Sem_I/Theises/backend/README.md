@@ -18,6 +18,7 @@ Task-uri realizate:
  - chat global si temporar https://www.geeksforgeeks.org/realtime-chat-app-using-django/
  - coprimarea login, logout, register intr-un modul separat
  - crearea unui meniu pentru navigare
+ - adaugarea de elemente statice + style bootstrap
 
 De realizat:
  
