@@ -1,17 +1,42 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
-<center>
-    <h1>Hello , Welcome to my chat site, {{request.user}}!</h1>
-</center>
-<br>
-<div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
-    <br />
-    <input type="text" id="id_message_send_input" />
-    <button type="submit" id="id_message_send_button">Send Message</button>
-    <br />
-    <br />
-</div>
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+        <div class="row d-flex justify-content-center">   
+            <div class="col-md-8 col-lg-6 col-xl-4">
+
+                <div class="card" id="chat1" style="border-radius: 15px;">
+
+                    <div
+                        class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                        style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <i class="fas fa-angle-left"></i>
+                        <p class="mb-0 fw-bold">Live chat</p>
+                        <i class="fas fa-times"></i>
+                    </div>
+
+                    <div  id = "id_chat_item_container">
+                        
+                    </div>
+                
+                    <div class="card-body">
+
+                        <div class="form-outline">
+                            <textarea class="form-control" id="id_message_send_input" rows="4"></textarea>
+                            <label class="form-label" for="textAreaExample">Type your message</label>
+                            <button type="submit" id="id_message_send_button" class="btn btn-primary">Send</button>
+                        </div>
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+   
+</section>
+
 <script>
     const chatSocket = new WebSocket("ws://" + window.location.host + "/");
     chatSocket.onopen = function (e) {
@@ -34,10 +59,32 @@
     };
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        var div = document.createElement("div");
-        div.innerHTML = data.username + " : " + data.message;
+
+
+        // Creăm elementul div
+        var newDiv = document.createElement("div");
+        newDiv.classList.add("d-flex", "flex-row", "justify-content-start", "mb-4");
+
+        // Creăm elementul intern pentru conținut
+        var innerDiv = document.createElement("div");
+        innerDiv.classList.add("p-3", "ms-3");
+        innerDiv.style.borderRadius = "15px";
+        innerDiv.style.backgroundColor = "rgba(57, 192, 237, .2)";
+
+        // Creăm elementul p pentru textul conținutului
+        var paragraph = document.createElement("p");
+        paragraph.classList.add("small", "mb-0");
+        paragraph.textContent = data.username + " : " + data.message;
+
+        // Adăugăm elementul p în interiorul div-ului intern
+        innerDiv.appendChild(paragraph);
+
+        // Adăugăm div-ul intern în div-ul extern
+        newDiv.appendChild(innerDiv);
+        
         document.querySelector("#id_message_send_input").value = "";
-        document.querySelector("#id_chat_item_container").appendChild(div);
+        document.querySelector("#id_chat_item_container").appendChild(newDiv);
     };
 </script>
+
 {% endblock %}

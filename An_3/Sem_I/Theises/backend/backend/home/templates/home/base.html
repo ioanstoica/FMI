@@ -9,9 +9,13 @@
 
     {% load static %}
 
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+
+
 
 </head>
 
@@ -29,7 +33,6 @@
                 <li "nav-item"><a class="nav-link link-light" href="{% url 'signup' %}">Sign up</a></li>
                 <li "nav-item"><a class="nav-link link-light" href="{% url 'logout' %}">Logout</a></li>
                 <li "nav-item"><div class="nav-link link-light"> User: {{request.user}} </div></li>
-
             </ul>
         </nav>
     </header>

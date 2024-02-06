@@ -19,6 +19,7 @@ Task-uri realizate:
  - coprimarea login, logout, register intr-un modul separat
  - crearea unui meniu pentru navigare
  - adaugarea de elemente statice + style bootstrap
+ - css pentru chat https://mdbootstrap.com/docs/standard/extended/chat/
 
 De realizat:
- 
+ - 
