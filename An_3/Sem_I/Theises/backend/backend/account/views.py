@@ -34,4 +34,4 @@ def loginView(request):
 
 def LogOutView(request):
     logout(request)
-    return redirect("/account/login")
+    return render(request, "account/logout.html")
