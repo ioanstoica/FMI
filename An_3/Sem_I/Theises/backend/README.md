@@ -24,4 +24,7 @@ Task-uri realizate:
  - de afisat dreapta stanga in chat
 
 De realizat:
- - 
+ - Eroare: cand sunt pe pagina de produse, nu pot sa dau click pe toate linkurile din meniu 
+ - pagina de produse sa afisze linkuril prouduselor, in dreptul fiecarui link, sa afiseze un buton de procesare
+ - in urma procesarii, sa iti afiseze inca un link, care sa te duca la noul produs
+ - si sa mai afiseze 2 label-uri, cu profitabilitatea produsului, si cu nivelul de similitudine cu produsul original

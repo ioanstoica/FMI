@@ -23,3 +23,5 @@ Base de date: Oracle Database
 Functionalitati implementate:
 1. Sing-up
 2. Login
+3. Logout
+4. Funcția de căutare produs
