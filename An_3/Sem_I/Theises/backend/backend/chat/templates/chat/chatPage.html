@@ -81,10 +81,17 @@
         // Creăm elementul p pentru textul conținutului
         var paragraph = document.createElement("p");
         paragraph.classList.add("small", "mb-0");
-        paragraph.textContent = data.username + " : " + data.message;
+        paragraph.textContent = data.username ;
+        paragraph.style.fontWeight = "bold";
+        paragraph.style.color = "black";
+
+        var paragraph2 = document.createElement("p");
+        paragraph.classList.add("small", "mb-0");
+        paragraph2.textContent = data.message;
 
         // Adăugăm elementul p în interiorul div-ului intern
         innerDiv.appendChild(paragraph);
+        innerDiv.appendChild(paragraph2);
 
         // Adăugăm div-ul intern în div-ul extern
         newDiv.appendChild(innerDiv);
