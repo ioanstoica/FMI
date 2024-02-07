@@ -1,6 +1,11 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'chat/style.css' %}">
+
 <section style="background-color: white; height: 90vh; display: flex; justify-content: center; align-items: center;">
     <div class="container py-5">
 
@@ -70,7 +75,14 @@
 
         // Creăm elementul div
         var newDiv = document.createElement("div");
-        newDiv.classList.add("d-flex", "flex-row", "justify-content-start", "mb-4");
+        newDiv.classList.add("d-flex", "flex-row", "mb-4");
+
+        if (data.username == "{{request.user.username}}"){
+            newDiv.classList.add("justify-content-end");
+        }
+        else {
+            newDiv.classList.add("justify-content-start");
+        }
 
         // Creăm elementul intern pentru conținut
         var innerDiv = document.createElement("div");

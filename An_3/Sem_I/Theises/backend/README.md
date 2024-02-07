@@ -20,6 +20,8 @@ Task-uri realizate:
  - crearea unui meniu pentru navigare
  - adaugarea de elemente statice + style bootstrap
  - css pentru chat https://mdbootstrap.com/docs/standard/extended/chat/
+ - de mutat styleurile pt chat
+ - de afisat dreapta stanga in chat
 
 De realizat:
  - 
