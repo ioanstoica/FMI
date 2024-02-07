@@ -2,10 +2,6 @@ a {
     color: green;
 }
 
-body {
-    background: white url("images/background.jpeg");
-}
-
 /* Style chat */
 #chat1 .form-outline .form-control~.form-notch div {
     pointer-events: none;
