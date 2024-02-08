@@ -32,8 +32,8 @@ class OlxOferta(Oferta):
    
    # Gaseste numarul de vizualizari al ofertei curente
    def find_views(self):
-      # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Chrome)
-      driver = webdriver.Chrome()
+      # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Edge)
+      driver = webdriver.Edge()
 
       # Deschideți pagina web
       driver.get(self.url)
@@ -81,7 +81,10 @@ class OlxOferta(Oferta):
    # Completeaza campurile ofertei curente
    def complete_fields(self):
       self.find_id()
-      self.find_views()
+      try:
+        self.find_views()
+      except:
+         self.views = "0"
       self.find_photo_urls()
 
 class Olx:

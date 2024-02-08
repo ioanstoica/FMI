@@ -11,8 +11,8 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 # Obtine codul sursa al paginii dupa ce a fost incarcat un anumit element, folosind Selenium
 def get_page_source(url, element_css_selector):
-    # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Chrome)
-    driver = webdriver.Chrome()
+    # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Edge)
+    driver = webdriver.Edge()
 
     # Deschideți pagina web
     driver.get(url)

@@ -123,8 +123,8 @@ def get_oferte(url, limit=5):
 
 # Returneaza numarul de vizualizari al produsului de la url-ul dat ca parametru
 def get_views(url):
-    # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Chrome)
-    driver = webdriver.Chrome()
+    # Inițializați un driver Selenium (asigurați-vă că aveți instalat Selenium și un driver de browser, de exemplu, pentru Edge)
+    driver = webdriver.Edge()
 
     # Deschideți pagina web
     driver.get(url)
