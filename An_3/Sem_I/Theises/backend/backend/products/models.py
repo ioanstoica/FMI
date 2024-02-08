@@ -10,5 +10,7 @@ class Product(models.Model):
     url = models.URLField(max_length=255, null = True)
     view_count = models.IntegerField(default=0)
 
+    similar_products = models.ManyToManyField('self', blank=True)
+
     def __str__(self):
         return self.name
