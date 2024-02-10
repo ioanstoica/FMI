@@ -7,6 +7,10 @@ Go to the project directory:
 Activare server django:
  - python manage.py runserver
 
+Acces proiect:
+ -  http://127.0.0.1:8000/
+
+
 Creare aplicatie:
  - python manage.py startapp <app_name>
 
@@ -33,3 +37,12 @@ De realizat:
  - si sa mai afiseze 2 label-uri, cu profitabilitatea produsului, si cu nivelul de similitudine cu produsul original
  - camp in modelul de produs: Magazin, status (procesat, neprocesat), data la care a fost adaugat
  - de mutat proiectul inapoi, in propriul repository
+ - link pentru procesare produse(  complete_fields)
+
+
+
+Partea de scraping are 4 pasi:
+1. Plecand de la denumirea unui produs, sau "", se cauta primele produse de pe Olx, si se salveaza link-urile
+2. Se proceseaza link-urile, si se salveaza datele produselor (Completare campuri)
+3. Se cauta produse similare, si se salveaza link-urile
+4. Se proceseaza link-urile, si se salveaza datele produselor (Completare campuri)

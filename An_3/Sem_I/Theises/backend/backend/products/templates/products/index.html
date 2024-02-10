@@ -11,11 +11,6 @@
         <a href="/products/{{ product.id }}/">{{ product.url }}</a>
     </li>
     {% endfor %}
-    {% for similar in similars %}
-    <li>
-        <a href="/products/{{ similar.id }}/">{{ similar.url }}</a>
-    </li>
-    {% endfor %}
 </ul>
 {% else %}
 <p>No products are available.</p>

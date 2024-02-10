@@ -11,6 +11,9 @@ class Product(models.Model):
     view_count = models.IntegerField(default=0)
 
     similar_products = models.ManyToManyField('self', blank=True)
+    # status = {None, "error", "complete"} - None = not yet scraped, "error" = error while scraping, "complete" = scraped
+    status = models.CharField(max_length=255, null = True)
+    store = models.CharField(max_length=255, null = True)
 
     def __str__(self):
         return self.name

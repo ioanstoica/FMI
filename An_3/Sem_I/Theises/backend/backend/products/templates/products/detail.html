@@ -9,5 +9,10 @@
     <p>Price: {{ product.price }} RON</p>
     <p><a href="{{ product.url }}">Product URL</a></p>
     <p>Views: {{ product.view_count }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Completare campuri">
+    </form>
 </div>
 {% endblock %}
