@@ -1,6 +1,9 @@
 Activare mediu virtual python:
  - .\venv\Scripts\activate
 
+Go to the project directory:
+ - cd .\backend\
+
 Activare server django:
  - python manage.py runserver
 
@@ -28,3 +31,5 @@ De realizat:
  - pagina de produse sa afisze linkuril prouduselor, in dreptul fiecarui link, sa afiseze un buton de procesare
  - in urma procesarii, sa iti afiseze inca un link, care sa te duca la noul produs
  - si sa mai afiseze 2 label-uri, cu profitabilitatea produsului, si cu nivelul de similitudine cu produsul original
+ - camp in modelul de produs: Magazin, status (procesat, neprocesat), data la care a fost adaugat
+ - de mutat proiectul inapoi, in propriul repository

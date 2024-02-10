@@ -1,7 +1,7 @@
 Nume licenta: "Comparator de prețuri dedicat arbitrajului pe piața online românească."
 
-Funcționalități de implementat pentru aplicatie:
-
+Funcționalități de implementat pentru aplicatie (requirements):
+Functional requirements:
 1. Sing-up
 2. Login
 3. Logout
@@ -25,3 +25,17 @@ Functionalitati implementate:
 2. Login
 3. Logout
 4. Funcția de căutare produs
+
+
+Produsul dezvoltat: 
+ - Aplicatie de arbitraj pe piata online din Romania
+
+Proiectul:
+ - Crearea aplicatiei web functionala.
+
+Stakeholderi:
+ - Utilizatorii aplicatiei
+ - Dezvoltatorii aplicatiei
+ - Administratorii aplicatiei
+ - Profesorul de la licenta
+ - Comisia de licenta
