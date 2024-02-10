@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from .scrap.olx import Olx, OlxOferta
+from .scrap.aliexpress import Aliexpress
 from .scrap.main import from_olx_get_aliexpress
 
 from .models import Product, Photo
@@ -80,3 +81,27 @@ def detail(request, product_id):
 
     product = get_object_or_404(Product, pk=product_id)
     return render(request, "products/detail.html", {"product": product, "photos": product.photos.all()})
+
+url_aliseeks = "https://www.aliseeks.com/search/image?aref=ff-sbi&imageurl="
+
+def similar(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == "POST":
+        try:
+            photo_url = product.photos.all()[0].url
+            oferta_aliexpress = Aliexpress.get_oferte(url_aliseeks + photo_url, limit=1)[0]
+
+            p_ali = Product(
+                name="",
+                url=oferta_aliexpress.url,
+                view_count=0,
+                store = "Aliexpress",
+            )
+            p_ali.save()
+            product.similar_products.add(p_ali)
+        
+        except:
+            print("Cautarea de produse similare pe Aliexpress, a dat eroare.")
+
+    return render(request, "products/similar.html", {"product": product, "similar_products": product.similar_products.all()})
+
