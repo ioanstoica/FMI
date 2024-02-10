@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .scrap.olx import Olx, OlxOferta
 from .scrap.main import from_olx_get_aliexpress
 
-from .models import Product
+from .models import Product, Photo
 
 def products(request):
     # If request type is post
@@ -66,10 +66,17 @@ def detail(request, product_id):
             p.complete_fields()
             product.name = p.titlu
             product.store = "Olx"
+
+            # photos
+            for photo_url in p.photo_urls:
+                photo = Photo(url=photo_url)
+                photo.save()
+                product.photos.add(photo)
+
             product.status = "complete"
         except:
             product.status = "error"
         product.save()
 
     product = get_object_or_404(Product, pk=product_id)
-    return render(request, "products/detail.html", {"product": product})
+    return render(request, "products/detail.html", {"product": product, "photos": product.photos.all()})

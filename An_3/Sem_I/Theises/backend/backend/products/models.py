@@ -2,6 +2,11 @@ from django.db import models
 
 # Create your models here.
 
+class Photo(models.Model):
+    url = models.URLField(max_length=255, null = True)
+
+    def __str__(self):
+        return self.url
 
 class Product(models.Model):
     name = models.CharField(max_length=255, null = True)
@@ -14,6 +19,11 @@ class Product(models.Model):
     # status = {None, "error", "complete"} - None = not yet scraped, "error" = error while scraping, "complete" = scraped
     status = models.CharField(max_length=255, null = True)
     store = models.CharField(max_length=255, null = True)
+    
+    photos = models.ManyToManyField(Photo)
 
     def __str__(self):
         return self.name
+    
+
+
