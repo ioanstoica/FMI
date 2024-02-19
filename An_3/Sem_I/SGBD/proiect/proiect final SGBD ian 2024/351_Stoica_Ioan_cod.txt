@@ -1,0 +1,555 @@
+-- Drops tables
+DROP TABLE Actiuni;
+
+DROP TABLE Active;
+
+DROP TABLE Blockchain;
+
+DROP TABLE Brokeri;
+
+DROP TABLE Criptomonede;
+
+DROP TABLE Detineri;
+
+DROP TABLE ETFuri;
+
+DROP TABLE Obligatiuni;
+
+DROP TABLE Tranzactii;
+
+-- Create tables
+-- Table: Actiuni
+CREATE TABLE Actiuni (
+    ID_actiune int NOT NULL,
+    Companie char(20) NOT NULL,
+    Bursa char(20) NOT NULL,
+    Nr_total int NOT NULL,
+    CONSTRAINT Actiuni_pk PRIMARY KEY (ID_actiune)
+);
+
+-- Table: Active
+CREATE TABLE Active (
+    ID_activ int NOT NULL,
+    Nume char(20) NOT NULL,
+    Tip char(20) NOT NULL,
+    Pret number(10,4) NOT NULL,
+    CONSTRAINT Active_pk PRIMARY KEY (ID_activ)
+);
+
+-- Table: Blockchain
+CREATE TABLE Blockchain (
+    ID_blockchain int NOT NULL,
+    Nume char(20) NOT NULL,
+    Tip_of_proof char(20) NOT NULL,
+    Moneda char(20) NOT NULL,
+    CONSTRAINT Blockchain_pk PRIMARY KEY (ID_blockchain)
+);
+
+-- Table: Brokeri
+CREATE TABLE Brokeri (
+    ID_broker int NOT NULL,
+    Nume char(20) NOT NULL,
+    Sediu char(40) NOT NULL,
+    Autorizat number(1) NOT NULL,
+    Comision_retragere number(2,2) NOT NULL CHECK (Comision_retragere<=0.05),
+    Comision_tranzactie number(2,2) NOT NULL CHECK (Comision_tranzactie<=0.02),
+    Nr_active int NOT NULL CHECK (Nr_active>=100),
+    CONSTRAINT Brokeri_pk PRIMARY KEY (ID_broker)
+);
+
+-- Table: Criptomonede
+CREATE TABLE Criptomonede (
+    ID_criptomoneda int NOT NULL,
+    Cheie int NOT NULL,
+    Nr_maxim int NOT NULL,
+    Blockchain int NOT NULL,
+    CONSTRAINT Criptomonede_pk PRIMARY KEY (ID_criptomoneda)
+);
+
+-- Table: Detineri
+CREATE TABLE Detineri (
+    ID_detinere int NOT NULL,
+    Cant int NOT NULL,
+    Ult_actualizare date NOT NULL,
+    CONSTRAINT Detineri_pk PRIMARY KEY (ID_detinere)
+);
+
+-- Table: ETFuri
+CREATE TABLE ETFuri (
+    ID_ETF int NOT NULL,
+    Emitent char(20) NOT NULL,
+    Numar_active int NOT NULL CHECK (Numar_active>=10),
+    Piata_acoperita char(20) NOT NULL,
+    CONSTRAINT ETFuri_pk PRIMARY KEY (ID_ETF)
+);
+
+-- Table: Obligatiuni
+CREATE TABLE Obligatiuni (
+    ID_obligatiune int NOT NULL,
+    Emitent char(20) NOT NULL,
+    Scandenta date NOT NULL,
+    Cupon number(10,2) NOT NULL,
+    CONSTRAINT Obligatiuni_pk PRIMARY KEY (ID_obligatiune)
+);
+
+-- Table: Tranzactii
+CREATE TABLE Tranzactii (
+    ID_tranzactie int NOT NULL,
+    Data date NOT NULL,
+    Sell int NOT NULL,
+    Buy int NOT NULL,
+    Pret number(10,4) NOT NULL,
+    Volum number(10,4) NOT NULL,
+    Broker int NOT NULL,
+    Brokeri_ID_broker int NOT NULL,
+    CONSTRAINT ID_tranzactie PRIMARY KEY (ID_tranzactie)
+);
+
+-- Reference: Criptomonede_Blockchain (table: Criptomonede)
+ALTER TABLE Criptomonede ADD CONSTRAINT Criptomonede_Blockchain FOREIGN KEY (Blockchain)
+    REFERENCES Blockchain (ID_blockchain);
+
+-- Reference: Tranzactii_Active_Buy (table: Tranzactii)
+ALTER TABLE Tranzactii ADD CONSTRAINT Tranzactii_Active_Buy FOREIGN KEY (Buy)
+    REFERENCES Active (ID_activ);
+
+-- Reference: Tranzactii_Active_Sell (table: Tranzactii)
+ALTER TABLE Tranzactii ADD CONSTRAINT Tranzactii_Active_Sell FOREIGN KEY (Sell)
+    REFERENCES Active (ID_activ);
+
+-- Reference: Tranzactii_Brokeri (table: Tranzactii)
+ALTER TABLE Tranzactii ADD CONSTRAINT Tranzactii_Brokeri FOREIGN KEY (ID_tranzactie)
+    REFERENCES Brokeri (ID_broker);
+
+
+
+
+-- Insert into Actiuni
+INSERT INTO Actiuni VALUES (1, 'Apple', 'NASDAQ', 100000);
+INSERT INTO Actiuni VALUES (2, 'Microsoft', 'NASDAQ', 50000);
+INSERT INTO Actiuni VALUES (3, 'Google', 'NASDAQ', 75000);
+INSERT INTO Actiuni VALUES (4, 'Amazon', 'NASDAQ', 50000);
+INSERT INTO Actiuni VALUES (5, 'Tesla', 'NASDAQ', 60000);
+INSERT INTO Actiuni VALUES (6, 'Netflix', 'NASDAQ', 30000);
+INSERT INTO Actiuni VALUES (7, 'Facebook', 'NASDAQ', 40000);
+INSERT INTO Actiuni VALUES (8, 'Oracle', 'NASDAQ', 35000);
+INSERT INTO Actiuni VALUES (9, 'IBM', 'NASDAQ', 50000);
+INSERT INTO Actiuni VALUES (10, 'Intel', 'NASDAQ', 45000);
+
+-- Insert into Obligatiuni
+-- Datele de "Scadenta" sunt folosite ca exemplu
+INSERT INTO Obligatiuni VALUES (1, 'Romania', TO_DATE('2028-01-01','YYYY-MM-DD'), 3.5);
+INSERT INTO Obligatiuni VALUES (2, 'SUA', TO_DATE('2030-01-01','YYYY-MM-DD'), 2.1);
+INSERT INTO Obligatiuni VALUES (3, 'Germania', TO_DATE('2027-01-01','YYYY-MM-DD'), 0.5);
+INSERT INTO Obligatiuni VALUES (4, 'Franta', TO_DATE('2032-01-01','YYYY-MM-DD'), 1.0);
+INSERT INTO Obligatiuni VALUES (5, 'Marea Britanie', TO_DATE('2029-01-01','YYYY-MM-DD'), 1.5);
+INSERT INTO Obligatiuni VALUES (6, 'Japonia', TO_DATE('2031-01-01','YYYY-MM-DD'), 0.1);
+INSERT INTO Obligatiuni VALUES (7, 'Australia', TO_DATE('2033-01-01','YYYY-MM-DD'), 2.0);
+INSERT INTO Obligatiuni VALUES (8, 'Canada', TO_DATE('2026-01-01','YYYY-MM-DD'), 2.2);
+INSERT INTO Obligatiuni VALUES (9, 'China', TO_DATE('2034-01-01','YYYY-MM-DD'), 3.0);
+INSERT INTO Obligatiuni VALUES (10, 'Brazilia', TO_DATE('2027-01-01','YYYY-MM-DD'), 4.5);
+
+-- Insert into ETFuri
+INSERT INTO ETFuri VALUES (1, 'Vanguard', 500, 'Global');
+INSERT INTO ETFuri VALUES (2, 'BlackRock', 350, 'SUA');
+INSERT INTO ETFuri VALUES (3, 'State Street', 300, 'Europe');
+INSERT INTO ETFuri VALUES (4, 'Fidelity', 400, 'Asia');
+INSERT INTO ETFuri VALUES (5, 'Invesco', 450, 'SUA');
+INSERT INTO ETFuri VALUES (6, 'Charles Schwab', 400, 'Global');
+INSERT INTO ETFuri VALUES (7, 'Northern Trust', 350, 'Europe');
+INSERT INTO ETFuri VALUES (8, 'Goldman Sachs', 300, 'Asia');
+INSERT INTO ETFuri VALUES (9, 'UBS Group', 500, 'SUA');
+INSERT INTO ETFuri VALUES (10, 'BNP Paribas', 450, 'Global');
+
+-- Insert into Blockchain
+INSERT INTO Blockchain VALUES (1, 'Bitcoin', 'Proof-of-Work', 'BTC');
+INSERT INTO Blockchain VALUES (2, 'Ethereum', 'Proof-of-Stake', 'ETH');
+INSERT INTO Blockchain VALUES (3, 'Cardano', 'Proof-of-Stake', 'ADA');
+INSERT INTO Blockchain VALUES (4, 'Polkadot', 'Proof-of-Stake', 'DOT');
+INSERT INTO Blockchain VALUES (5, 'Litecoin', 'Proof-of-Work', 'LTC');
+INSERT INTO Blockchain VALUES (6, 'Chainlink', 'Proof-of-Stake', 'LINK');
+INSERT INTO Blockchain VALUES (7, 'Ripple', 'Consensus', 'XRP');
+INSERT INTO Blockchain VALUES (8, 'Stellar', 'Consensus', 'XLM');
+INSERT INTO Blockchain VALUES (9, 'Dogecoin', 'Proof-of-Work', 'DOGE');
+INSERT INTO Blockchain VALUES (10, 'Tron', 'Proof-of-Stake', 'TRX');
+
+-- Insert into Criptomonede
+INSERT INTO Criptomonede VALUES (1, 123456, 21000000, 1);
+INSERT INTO Criptomonede VALUES (2, 234567, 105000000, 2);
+INSERT INTO Criptomonede VALUES (3, 345678, 45000000000, 3);
+INSERT INTO Criptomonede VALUES (4, 456789, 1050000000, 4);
+INSERT INTO Criptomonede VALUES (5, 567890, 84000000, 5);
+INSERT INTO Criptomonede VALUES (6, 678901, 1000000000, 6);
+INSERT INTO Criptomonede VALUES (7, 789012, 100000000000, 7);
+INSERT INTO Criptomonede VALUES (8, 890123, 50000000000, 8);
+INSERT INTO Criptomonede VALUES (9, 901234, 130000000000, 9);
+INSERT INTO Criptomonede VALUES (10, 123450, 99000000000, 10);
+
+-- Insert into Brokeri
+INSERT INTO Brokeri VALUES (1, 'eToro', 'New York', 1, 0.02, 0.01, 200);
+INSERT INTO Brokeri VALUES (2, 'Interactive Brokers', 'Connecticut', 1, 0.02, 0.01, 250);
+INSERT INTO Brokeri VALUES (3, 'Robinhood', 'California', 1, 0.01, 0.005, 300);
+INSERT INTO Brokeri VALUES (4, 'Coinbase', 'California', 1, 0.03, 0.02, 150);
+INSERT INTO Brokeri VALUES (5, 'Binance', 'Malta', 1, 0.01, 0.005, 500);
+INSERT INTO Brokeri VALUES (6, 'Kraken', 'California', 1, 0.02, 0.01, 350);
+INSERT INTO Brokeri VALUES (7, 'Bitstamp', 'Luxembourg', 1, 0.03, 0.02, 200);
+INSERT INTO Brokeri VALUES (8, 'Gemini', 'New York', 1, 0.02, 0.01, 300);
+INSERT INTO Brokeri VALUES (9, 'Revolut', 'London', 1, 0.01, 0.005, 250);
+INSERT INTO Brokeri VALUES (10, 'TradeStation', 'Florida', 1, 0.03, 0.02, 200);
+
+
+-- Insert into Detineri
+-- Datele de "Ult_actualizare" sunt folosite ca exemplu
+INSERT INTO Detineri VALUES (1, 50, TO_DATE('2023-01-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (2, 100, TO_DATE('2023-02-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (3, 200, TO_DATE('2023-03-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (4, 150, TO_DATE('2023-04-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (5, 250, TO_DATE('2023-05-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (6, 300, TO_DATE('2023-06-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (7, 350, TO_DATE('2023-07-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (8, 400, TO_DATE('2023-08-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (9, 450, TO_DATE('2023-09-01','YYYY-MM-DD'));
+INSERT INTO Detineri VALUES (10, 500, TO_DATE('2023-10-01','YYYY-MM-DD'));
+
+-- Insert into Active
+INSERT INTO Active VALUES (1, 'Apple Actiuni', 'Actiuni', 150.25);
+INSERT INTO Active VALUES (2, 'Microsoft Actiuni', 'Actiuni', 210.35);
+INSERT INTO Active VALUES (3, 'Google Actiuni', 'Actiuni', 1520.20);
+INSERT INTO Active VALUES (4, 'Amazon Actiuni', 'Actiuni', 2000.10);
+INSERT INTO Active VALUES (5, 'Tesla Actiuni', 'Actiuni', 180.50);
+INSERT INTO Active VALUES (6, 'Netflix Actiuni', 'Actiuni', 550.00);
+INSERT INTO Active VALUES (7, 'Facebook Actiuni', 'Actiuni', 300.00);
+INSERT INTO Active VALUES (8, 'Oracle Actiuni', 'Actiuni', 70.00);
+INSERT INTO Active VALUES (9, 'IBM Actiuni', 'Actiuni', 140.00);
+INSERT INTO Active VALUES (10, 'Intel Actiuni', 'Actiuni', 60.00);
+
+
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (1, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 5, 10, 100.50, 10.25, 1, 1);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (2, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 8, 6, 95.25, 8.75, 2, 1);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (3, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 4, 9, 110.75, 12.50, 1, 2);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (4, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 7, 2, 80.60, 6.20, 3, 2);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (5, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 3, 1, 95.80, 9.80, 2, 3);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (6, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 10, 8, 120.40, 15.00, 3, 4);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (7,TO_DATE('2023-06-01', 'YYYY-MM-DD'), 6, 3, 85.90, 7.50, 1, 4);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (8, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 2, 5, 100.00, 11.80, 2, 5);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (9, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 9, 4, 115.25, 13.75, 3, 5);
+INSERT INTO Tranzactii (ID_tranzactie, Data, Sell, Buy, Pret, Volum, Broker, Brokeri_ID_broker)
+VALUES (10, TO_DATE('2023-06-01', 'YYYY-MM-DD'), 1, 7, 90.75, 8.90, 1, 6);
+
+
+
+-- 6. Scrie un subprogram care extrage intr-o colectie activele cumparate din lista de tranzactii, in alta colectie activele vandute, iar in alta colectie activele comune primelor 2 colectii. foloseste un subprogram stocat independent care să utilizeze toate cele 3 tipuri de colecții studiate  tablouri indexate (index-by tables), tablouri imbriate ( nested table) si vectori cu dimensiuni variabile (varrays). . Apelați subprogramul.
+
+CREATE OR REPLACE PROCEDURE extrage_active AS
+    TYPE t_indexby_table IS TABLE OF INT INDEX BY PLS_INTEGER;
+    TYPE t_nested_table IS TABLE OF INT;
+    TYPE t_varray IS VARRAY(100) OF INT;
+
+    -- Definirea colecțiilor
+    cumparate t_indexby_table;
+    vandute t_nested_table := t_nested_table(); -- Inițializare aici
+
+    comune t_varray := t_varray();
+
+    cursor tranzactii_cursor IS
+        SELECT Buy, Sell FROM Tranzactii;
+
+    tranzactie tranzactii_cursor%ROWTYPE;
+
+BEGIN
+    -- Deschidem cursorul și procesăm fiecare tranzacție
+    OPEN tranzactii_cursor;
+    LOOP
+        FETCH tranzactii_cursor INTO tranzactie;
+        EXIT WHEN tranzactii_cursor%NOTFOUND;
+
+        -- Adăugăm activele în colecții
+        cumparate(tranzactie.Buy) := tranzactie.Buy;
+        -- Pentru tablourile îmbrișate, utilizăm metoda EXTEND pentru a adăuga un element
+        vandute.EXTEND;
+        vandute(vandute.COUNT) := tranzactie.Sell;
+
+    END LOOP;
+    CLOSE tranzactii_cursor;
+
+    -- pentru fiecare activ cumparat verificam daca a fost vandut
+    FOR i IN 1..cumparate.COUNT LOOP
+        FOR j IN 1..vandute.COUNT LOOP
+            IF cumparate(i) = vandute(j) THEN
+                comune.EXTEND;
+                comune(comune.COUNT) := cumparate(i);
+            END IF;
+        END LOOP;
+    END LOOP;
+
+    -- afiseaza colectia cumparate
+    DBMS_OUTPUT.PUT_LINE('Activele cumparate sunt: ');
+    FOR i IN 1..cumparate.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(cumparate(i));
+    END LOOP;
+
+    -- afiseaza colectia vandute
+    DBMS_OUTPUT.PUT_LINE('Activele vandute sunt: ');
+    FOR i IN 1..vandute.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(vandute(i));
+    END LOOP;
+
+    -- afiseaza colectia comune
+    DBMS_OUTPUT.PUT_LINE('Activele care au fost si cumparate si vandute sunt: ');
+    FOR i IN 1..comune.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(comune(i));
+    END LOOP;
+
+END extrage_active;
+
+/
+set serveroutput on
+
+/
+execute extrage_active();
+/
+
+
+
+-- 7. scrie un cursor parametrizat care returneaza cate tranzactii au un anumit volum si un alt cursor care returneaza volumul maxim al unei tranzactii. Apoi afiseaza tranzactiile cu volumul egal cu volumul maxim al unei tranzactii.
+
+create or replace procedure volum_maxim as
+  cursor c1(v_volum number) is
+    select count(*) as nr_tranzactii
+    from tranzactii
+    where volum = v_volum;
+  cursor c2 is
+    select max(volum) as max_volum
+    from tranzactii;
+  v_max_volum number;
+  v_nr_tranzactii number;
+begin
+    open c2;
+    fetch c2 into v_max_volum;
+    close c2;
+    open c1(v_max_volum);
+    fetch c1 into v_nr_tranzactii;
+    close c1;
+    dbms_output.put_line('Tranzactiile cu volumul egal cu volumul maxim al unei tranzactii sunt: ' || v_nr_tranzactii);
+    end;
+/
+
+begin
+  volum_maxim;
+end;
+/
+
+
+-- 8. Enunt afiseaza Blockchain-ul pe care este listata criptomoneda cu cel mai mare pret in tabela Active.
+CREATE OR REPLACE FUNCTION afiseaza_blockchain_criptomoneda_max
+RETURN VARCHAR2 IS
+    -- Definirea excepțiilor
+    crypto_neexistent EXCEPTION;
+    blockchain_neexistent EXCEPTION;
+
+    -- Variabile
+    id_criptomoneda_max INT;
+    id_blockchain_max INT;
+    nume_blockchain VARCHAR2(20);
+
+BEGIN
+    BEGIN
+        -- Căutăm criptomoneda de tip 'Crypto' cu cel mai mare preț
+        SELECT ID_activ INTO id_criptomoneda_max FROM Active
+        WHERE Tip = 'Crypto'
+        ORDER BY Pret DESC
+        FETCH FIRST ROW ONLY;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE crypto_neexistent;
+    END;
+    
+    dbms_output.put_line('criptomoneda gasita: ' || id_criptomoneda_max);
+
+    BEGIN 
+        -- Căutăm blockchain-ul pe care este listată criptomoneda
+        SELECT b.id_blockchain INTO id_blockchain_max
+        FROM Criptomonede c
+        JOIN Blockchain b ON c.blockchain = b.id_Blockchain
+        WHERE c.id_criptomoneda = id_criptomoneda_max;
+    
+        EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE blockchain_neexistent;
+    END;
+
+    select a.nume into nume_blockchain
+    from Blockchain a
+    where a.id_blockchain = id_blockchain_max;
+    -- Returnăm numele blockchain-ului
+    RETURN nume_blockchain;
+
+EXCEPTION
+    WHEN crypto_neexistent THEN
+        RETURN 'Nu există Active de tipul Crypto.';
+    WHEN blockchain_neexistent THEN
+        RETURN 'Criptomoneda găsită nu este listată pe niciun blockchain.';
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'NO_DATA_FOUND';
+    WHEN Others THEN
+        RETURN 'A apărut o eroare neașteptată.';
+END afiseaza_blockchain_criptomoneda_max;
+/
+
+SELECT afiseaza_blockchain_criptomoneda_max() FROM DUAL;
+
+/
+
+update active 
+set nume =  'BTC', Tip = 'Crypto', Pret =  60000.00
+where id_activ = 10;
+/
+
+SELECT afiseaza_blockchain_criptomoneda_max() FROM DUAL;
+/
+
+
+
+-- 9. Se da numele unei Actiuni, Emitentul unei obligatiuni, Key pentru o criptomoneda si Emitentul unui ETF. aflati id-urile lor, si aflati care are pretul mai mare in tabela de active.  
+create or replace procedure most_expensive_investment(
+    actiune char,
+    obligatiune char,
+    criptomoneda int,
+    etf char
+) is
+    actiune_id int;
+    obligatiune_id number;
+    criptomoneda_id number;
+    etf_id number;
+    pret_actiune number;
+    pret_obligatiune number;
+    pret_criptomoneda number;
+    pret_etf number;
+begin
+    select id_actiune into actiune_id from actiuni where companie = actiune;
+    select id_obligatiune into obligatiune_id from obligatiuni where emitent = obligatiune;
+    select id_criptomoneda into criptomoneda_id from criptomonede where Cheie = criptomoneda;
+    select id_etf into etf_id from etfuri where emitent = etf;
+    select pret into pret_actiune from active where id_activ = actiune_id;
+    select pret into pret_obligatiune from active where id_activ = obligatiune_id;
+    select pret into pret_criptomoneda from active where id_activ = criptomoneda_id;
+    select pret into pret_etf from active where id_activ = etf_id;
+    if pret_actiune > pret_obligatiune and pret_actiune > pret_criptomoneda and pret_actiune > pret_etf then
+        dbms_output.put_line('Actiunea are pretul cel mai mare');
+    elsif pret_obligatiune > pret_actiune and pret_obligatiune > pret_criptomoneda and pret_obligatiune > pret_etf then
+        dbms_output.put_line('Obligatiunea are pretul cel mai mare');
+    elsif pret_criptomoneda > pret_actiune and pret_criptomoneda > pret_obligatiune and pret_criptomoneda > pret_etf then
+        dbms_output.put_line('Criptomoneda are pretul cel mai mare');
+    elsif pret_etf > pret_actiune and pret_etf > pret_obligatiune and pret_etf > pret_criptomoneda then
+        dbms_output.put_line('ETF-ul are pretul cel mai mare');
+    else
+        dbms_output.put_line('Exista mai multe active cu pretul cel mai mare');
+    end if;
+exception
+    when no_data_found then
+        dbms_output.put_line('Nu exista active pentru cautarea facuta');
+    when too_many_rows then
+        dbms_output.put_line('Exista mai multe active cu numele dat');
+end;
+/
+
+begin
+    most_expensive_investment('Appdle', 'SUA', 345678, 'Fidelity');  
+end;
+/
+
+begin
+    most_expensive_investment('Apple', 'SUA', 345678, 'Fidelity');  
+end;
+/
+
+update actiuni
+set companie = 'Apple'
+where id_actiune = 2;
+
+
+
+-- 10. Definiți un declanșator care va actualiza automat câmpul valoare atunci când se introduce un nou activ, respectiv se șterge un activ.
+
+CREATE OR REPLACE TRIGGER TRG_VALOARE_ACTIVE
+AFTER INSERT OR DELETE ON ACTIVE
+FOR EACH ROW
+BEGIN
+    IF INSERTING THEN
+        UPDATE VALOARE_ACTIVE
+        SET Valoare = Valoare + :NEW.Pret
+        WHERE Tip_Activ = :NEW.Tip;
+        dbms_output.put_line('Valoare activ: ' || :OLD.Tip || ' a fost actualizata');
+    ELSIF DELETING THEN
+        UPDATE VALOARE_ACTIVE
+        SET Valoare = Valoare - :OLD.Pret
+        WHERE Tip_Activ = :OLD.Tip;
+        dbms_output.put_line('Valoare activ: ' || :OLD.Tip || ' a fost actualizata');
+    END IF;
+END;
+/
+
+-- declansare trigger insert
+insert into active (id_activ, nume, tip, pret)
+values (11, 'Rusia Bonds', 'Obligatiuni', 400);
+
+-- declansare trigger delete
+delete from active where id_activ = 11;
+
+select * from VALOARE_ACTIVE;
+
+
+
+-- 11. Pentru a defini un trigger de tip LMD (Last Modified Date) la nivel de linie pentru tabela Detineri, vom crea un trigger care actualizează automat coloana Ult_actualizare la data și ora curentă de fiecare dată când o linie din tabel este modificată (de exemplu, atunci când este actualizată cantitatea).
+
+
+CREATE OR REPLACE TRIGGER Detineri_LMD_Trigger
+BEFORE UPDATE ON Detineri
+FOR EACH ROW
+BEGIN
+    :NEW.Ult_actualizare := SYSDATE;
+    dbms_output.put_line('Detineri_LMD_Trigger activat');
+END;
+/
+
+UPDATE Detineri
+SET Cant = 100
+WHERE ID_detinere = 1;
+/
+
+select * from detineri;
+
+
+-- 12.
+CREATE OR REPLACE TRIGGER trg_schema_change
+AFTER CREATE ON SCHEMA
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Un nou obiect a fost creat in schema.');
+END;
+/
+CREATE TABLE Exemplu2 (
+    ID int
+);
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
