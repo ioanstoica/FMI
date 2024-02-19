@@ -254,11 +254,15 @@ set serveroutput on
 
 /
 
--- ex 7
 execute my_package.extrage_active();
 
 /
+-- ex 7
+begin
+  my_package.volum_maxim;
+end;
 
+/
 -- ex 8
 UPDATE ACTIVE
 SET
