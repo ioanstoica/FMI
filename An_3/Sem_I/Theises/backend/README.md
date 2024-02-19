@@ -6,6 +6,7 @@ Go to the project directory:
 
 Activare server django:
  - python manage.py runserver
+ - python manage.py runserver 0.0.0.0:80    //pentru rulare publica
 
 Acces proiect:
  -  http://127.0.0.1:8000/
