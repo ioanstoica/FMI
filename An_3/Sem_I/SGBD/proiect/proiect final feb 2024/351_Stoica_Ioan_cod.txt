@@ -478,36 +478,24 @@ where id_actiune = 2;
 
 
 
--- 10. Definiți un declanșator care va actualiza automat câmpul valoare atunci când se introduce un nou activ, respectiv se șterge un activ.
+-- 10. Definiti un triger care sa nu permita modificarile in Detineri, intr-un interval orar
 
-CREATE OR REPLACE TRIGGER TRG_VALOARE_ACTIVE
-AFTER INSERT OR DELETE ON ACTIVE
-FOR EACH ROW
+CREATE OR REPLACE TRIGGER trig_program
+	BEFORE INSERT OR DELETE OR UPDATE ON Detineri
 BEGIN
-    IF INSERTING THEN
-        UPDATE VALOARE_ACTIVE
-        SET Valoare = Valoare + :NEW.Pret
-        WHERE Tip_Activ = :NEW.Tip;
-        dbms_output.put_line('Valoare activ: ' || :OLD.Tip || ' a fost actualizata');
-    ELSIF DELETING THEN
-        UPDATE VALOARE_ACTIVE
-        SET Valoare = Valoare - :OLD.Pret
-        WHERE Tip_Activ = :OLD.Tip;
-        dbms_output.put_line('Valoare activ: ' || :OLD.Tip || ' a fost actualizata');
-    END IF;
+	IF (TO_CHAR(SYSDATE,'D') = 1)
+		OR (TO_CHAR(SYSDATE,'HH24') NOT BETWEEN 8 AND 12)
+	THEN RAISE_APPLICATION_ERROR(-20001,'Operatiile asupra tabelului sunt permise
+		doar in programul de lucru!');
+	END IF;
 END;
 /
 
--- declansare trigger insert
-insert into active (id_activ, nume, tip, pret)
-values (11, 'Rusia Bonds', 'Obligatiuni', 400);
+INSERT INTO Detineri VALUES (11, 500, TO_DATE('2024-02-19','YYYY-MM-DD'));
 
--- declansare trigger delete
-delete from active where id_activ = 11;
-
-select * from VALOARE_ACTIVE;
-
-
+/
+select * from Detineri;
+/
 
 -- 11. Pentru a defini un trigger de tip LMD (Last Modified Date) la nivel de linie pentru tabela Detineri, vom crea un trigger care actualizează automat coloana Ult_actualizare la data și ora curentă de fiecare dată când o linie din tabel este modificată (de exemplu, atunci când este actualizată cantitatea).
 
