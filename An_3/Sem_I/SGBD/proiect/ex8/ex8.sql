@@ -56,6 +56,15 @@ EXCEPTION
 END afiseaza_blockchain_criptomoneda_max;
 /
 
+UPDATE ACTIVE
+SET
+    NUME = 'BTC',
+    TIP = 'Crypto2',
+    PRET = 60000.00
+WHERE
+    ID_ACTIV = 10;
+/
+
 SELECT afiseaza_blockchain_criptomoneda_max() FROM DUAL;
 
 /

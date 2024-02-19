@@ -8,6 +8,13 @@ CREATE OR REPLACE PACKAGE MY_PACKAGE AS
     PROCEDURE VOLUM_MAXIM;
  -- ex 8
     FUNCTION AFISEAZA_BLOCKCHAIN_CRIPTOMONEDA_MAX RETURN VARCHAR2;
+ -- ex 9
+    PROCEDURE MOST_EXPENSIVE_INVESTMENT(
+        ACTIUNE CHAR,
+        OBLIGATIUNE CHAR,
+        CRIPTOMONEDA INT,
+        ETF CHAR
+    );
 END MY_PACKAGE;
 /
 
@@ -158,6 +165,87 @@ CREATE OR REPLACE PACKAGE BODY MY_PACKAGE AS
         WHEN OTHERS THEN
             RETURN 'A apărut o eroare neașteptată.';
     END AFISEAZA_BLOCKCHAIN_CRIPTOMONEDA_MAX;
+ -- ex 9
+    PROCEDURE MOST_EXPENSIVE_INVESTMENT(
+        ACTIUNE CHAR,
+        OBLIGATIUNE CHAR,
+        CRIPTOMONEDA INT,
+        ETF CHAR
+    ) IS
+        ACTIUNE_ID        INT;
+        OBLIGATIUNE_ID    NUMBER;
+        CRIPTOMONEDA_ID   NUMBER;
+        ETF_ID            NUMBER;
+        PRET_ACTIUNE      NUMBER;
+        PRET_OBLIGATIUNE  NUMBER;
+        PRET_CRIPTOMONEDA NUMBER;
+        PRET_ETF          NUMBER;
+    BEGIN
+        SELECT
+            ID_ACTIUNE INTO ACTIUNE_ID
+        FROM
+            ACTIUNI
+        WHERE
+            COMPANIE = ACTIUNE;
+        SELECT
+            ID_OBLIGATIUNE INTO OBLIGATIUNE_ID
+        FROM
+            OBLIGATIUNI
+        WHERE
+            EMITENT = OBLIGATIUNE;
+        SELECT
+            ID_CRIPTOMONEDA INTO CRIPTOMONEDA_ID
+        FROM
+            CRIPTOMONEDE
+        WHERE
+            CHEIE = CRIPTOMONEDA;
+        SELECT
+            ID_ETF INTO ETF_ID
+        FROM
+            ETFURI
+        WHERE
+            EMITENT = ETF;
+        SELECT
+            PRET INTO PRET_ACTIUNE
+        FROM
+            ACTIVE
+        WHERE
+            ID_ACTIV = ACTIUNE_ID;
+        SELECT
+            PRET INTO PRET_OBLIGATIUNE
+        FROM
+            ACTIVE
+        WHERE
+            ID_ACTIV = OBLIGATIUNE_ID;
+        SELECT
+            PRET INTO PRET_CRIPTOMONEDA
+        FROM
+            ACTIVE
+        WHERE
+            ID_ACTIV = CRIPTOMONEDA_ID;
+        SELECT
+            PRET INTO PRET_ETF
+        FROM
+            ACTIVE
+        WHERE
+            ID_ACTIV = ETF_ID;
+        IF PRET_ACTIUNE > PRET_OBLIGATIUNE AND PRET_ACTIUNE > PRET_CRIPTOMONEDA AND PRET_ACTIUNE > PRET_ETF THEN
+            DBMS_OUTPUT.PUT_LINE('Actiunea are pretul cel mai mare');
+        ELSIF PRET_OBLIGATIUNE > PRET_ACTIUNE AND PRET_OBLIGATIUNE > PRET_CRIPTOMONEDA AND PRET_OBLIGATIUNE > PRET_ETF THEN
+            DBMS_OUTPUT.PUT_LINE('Obligatiunea are pretul cel mai mare');
+        ELSIF PRET_CRIPTOMONEDA > PRET_ACTIUNE AND PRET_CRIPTOMONEDA > PRET_OBLIGATIUNE AND PRET_CRIPTOMONEDA > PRET_ETF THEN
+            DBMS_OUTPUT.PUT_LINE('Criptomoneda are pretul cel mai mare');
+        ELSIF PRET_ETF > PRET_ACTIUNE AND PRET_ETF > PRET_OBLIGATIUNE AND PRET_ETF > PRET_CRIPTOMONEDA THEN
+            DBMS_OUTPUT.PUT_LINE('ETF-ul are pretul cel mai mare');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Exista mai multe active cu pretul cel mai mare');
+        END IF;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('Nu exista active pentru cautarea facuta');
+        WHEN TOO_MANY_ROWS THEN
+            DBMS_OUTPUT.PUT_LINE('Exista mai multe active cu numele dat');
+    END;
 END MY_PACKAGE;
 /
 
@@ -204,4 +292,33 @@ SELECT
 FROM
     DUAL;
 
+/
+
+-- ex 9
+UPDATE ACTIUNI
+SET
+    COMPANIE = 'Tesla'
+WHERE
+    ID_ACTIUNE = 2;
+/
+
+BEGIN
+    MY_PACKAGE.MOST_EXPENSIVE_INVESTMENT('Appdle', 'SUA', 345678, 'Fidelity');
+END;
+/
+
+BEGIN
+    MY_PACKAGE.MOST_EXPENSIVE_INVESTMENT('Apple', 'SUA', 345678, 'Fidelity');
+END;
+/
+
+UPDATE ACTIUNI
+SET
+    COMPANIE = 'Apple'
+WHERE
+    ID_ACTIUNE = 2;
+/
+BEGIN
+    MY_PACKAGE.MOST_EXPENSIVE_INVESTMENT('Apple', 'SUA', 345678, 'Fidelity');
+END;
 /

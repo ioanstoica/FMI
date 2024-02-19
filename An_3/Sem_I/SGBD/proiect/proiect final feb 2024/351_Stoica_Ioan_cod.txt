@@ -405,6 +405,15 @@ EXCEPTION
 END afiseaza_blockchain_criptomoneda_max;
 /
 
+UPDATE ACTIVE
+SET
+    NUME = 'BTC',
+    TIP = 'Crypto2',
+    PRET = 60000.00
+WHERE
+    ID_ACTIV = 10;
+/
+
 SELECT afiseaza_blockchain_criptomoneda_max() FROM DUAL;
 
 /
@@ -460,6 +469,13 @@ exception
     when too_many_rows then
         dbms_output.put_line('Exista mai multe active cu numele dat');
 end;
+/
+
+UPDATE ACTIUNI
+SET
+    COMPANIE = 'Tesla'
+WHERE
+    ID_ACTIUNE = 2;
 /
 
 begin

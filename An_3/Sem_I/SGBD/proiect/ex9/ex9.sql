@@ -44,6 +44,13 @@ exception
 end;
 /
 
+UPDATE ACTIUNI
+SET
+    COMPANIE = 'Tesla'
+WHERE
+    ID_ACTIUNE = 2;
+/
+
 begin
     most_expensive_investment('Appdle', 'SUA', 345678, 'Fidelity');  
 end;
