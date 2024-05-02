@@ -1,0 +1,82 @@
+Rezolva urmaotorul exercitiu printr-un cod de python:
+Pentru o colecție dată de obstacole (definite de centrele lor) și o destinație, construiți și ilustrați câmpul potențial definit în (4); 
+
+Avem urmatorul curs:
+Discutăm despre arhitectura “leader-followers” ce permite să controlăm comportamentul
+unei echipe de agenți. Traiectoria liderului este obținută prin aplicarea
+noțiunii de câmp potențial iar urmăritorii sunt menținuți în formație printr-o
+comandă de tipul “formation control” ce penalizează devieri față de pozițiile și
+vitezele de echilibru.
+1 Noțiuni teoretice
+Problema planificării pentru o echipă de agenți este complexă deoarece:
+• complexitatea de calcul crește cu numărul de agenți implicați;
+• apar dificultăți specifice (alocare de sarcini, evitare de coliziuni între agenți);
+• apar constrângeri structurale (de comunicație, de rază de observație).
+O soluție populară este implementarea unei metode de tipul leader-followers:
+lider este agentul ce are ca sarcină generarea/urmărirea unei traiectorii ce permite
+atingerea destinației;
+urmăritori au legi de comandă simple ce permit urmărirea liderului și menținerea
+unei formații (de obicei, cu structură predefinită).
+Până acum, traiectoria liderului a rezultat din proceduri precum cele descrise în
+Laboratorul 3 (traiectoria este generată offline iar apoi este urmărită online) sau
+în Laboratorul 5 (traiectoria este calculată online pe baza informației curente).
+Considerăm un sistem1 ”integrator”, caracterizat de poziție (p 2 Rn) și viteză
+(v 2 Rn), acestea fiind starea, respectiv comanda sistemului:
+p_ = v: (1)
+Definim un câmp potențial ce conține:
+componente repulsive Pentru o colecție de obstacole cu centre ci aplicăm o lege
+proporțională cu distanța față de acestea (repulsie radială):
+(2)
+fi(distanta(p-ci)) = a1/(a2+distanta(p-ci)), 
+fi(distanta(p-ci)) = a1/a2 daca p = ci, sau 0 daca distanta(p-ci) tinde la infinit
+
+componentă atractivă Pentru a direcționa agentul către destinație, penalizăm
+distanța față de acesta (liniar, exponențial, etc.):
+(3)
+psi(distanta(p-pd))= distanta(p-pd)
+Câmpul potențial total este format din suma acestor componente:
+(4)
+P(x) = psi(distanta(p-pd)) + suma dupa i din fi(distanta(p-ci))
+
+Avem dat si un exemplu de cod in python, de plecare, pentru campul potential:
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 22 09:23:46 2022
+
+@author: florin stoican, code adapted from https://matplotlib.org/stable/gallery/mplot3d/surface3d.html
+"""
+
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import numpy as np
+
+obstacle=np.array([-1,-1])
+a1=1
+a2=0.5
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+
+# Make data.
+X = np.arange(-2.5, 2.5, 0.1)
+Y = np.arange(-2.5, 2.5, 0.1)
+X, Y = np.meshgrid(X, Y)
+Z = a1/(a2+np.sqrt((X-obstacle[0])**2 + (Y-obstacle[1])**2))
+
+obstacle=np.array([0,2])
+Z = Z+a1/(a2+np.sqrt((X-obstacle[0])**2 + (Y-obstacle[1])**2))
+
+# Plot the surface.
+surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+
+plt.show()
+
+#%%
+v,u=np.gradient(Z)
+
+plt.figure()
+
+plt.quiver(X,Y,-u,-v)
+plt.show()
+
+
+

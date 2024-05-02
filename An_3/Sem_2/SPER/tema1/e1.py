@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Definirea punctelor de control
-P = np.array([[0, 0], [1, 2], [3, 1], [4, 3]])
+P = np.array([[0., 0.], [1., 4.], [2., 3.], [3., 1.]])
 
 # Numărul de puncte de control
 n = len(P) - 1

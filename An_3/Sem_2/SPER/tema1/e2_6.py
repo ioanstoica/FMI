@@ -20,7 +20,7 @@ n_control_points = 4  # Numărul de puncte de control
 P = ca.SX.sym('P', n_control_points, 2)  # Punctele de control ca variabile de optimizare
 
 # Definirea punctelor intermediare și a momentelor de timp asociate
-w = np.array([[0, 0], [1, 4], [2,3], [3, 4]])  # Punctele intermediare
+w = np.array([[0.4, 0.6], [1.3, 4.7], [2.4,3.6], [3.4, 4.7]])  # Punctele intermediare
 t_j = np.linspace(0, 1, n_control_points)  # Momentul de timp pentru fiecare punct intermediar
 
 # Construirea expresiei pentru obiectivul de optimizare și constrângeri
